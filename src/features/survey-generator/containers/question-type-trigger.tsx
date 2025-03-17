@@ -23,16 +23,38 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useState } from "react";
+import { useQuestionStore } from "@/store/questions.store";
 
 export const QuestionTypeTrigger = () => {
+  const [open, setOpen] = useState(false);
+  const { addQuestion } = useQuestionStore();
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="w-full h-12 border mt-3 hover:cursor-pointer">
         Click here to create a question
       </DialogTrigger>
       <DialogContent className="max-h-[600px] py-5 overflow-y-scroll">
         <DialogHeader>Text Inputs</DialogHeader>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          className="hover:cursor-pointer"
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "text_short",
+              orderNumber: 1,
+              questionText: "",
+              required: false,
+              surveyId: "",
+              options: {
+                placeholder: "Enter your text",
+                minLength: 1,
+                maxLength: 255,
+              },
+            });
+          }}
+        >
           <Type className="mr-2 h-4 w-4" />
           Short answer (single line text)
         </Button>

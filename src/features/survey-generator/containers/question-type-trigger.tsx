@@ -42,7 +42,7 @@ export const QuestionTypeTrigger = () => {
           onClick={() => {
             setOpen(false);
             addQuestion({
-              questionType: "text_short",
+              questionType: "text",
               orderNumber: questions ? questions.length + 1 : 1,
               questionText:
                 "Lorem ipsum dolor sit amet consectetur adipisicing elit.",

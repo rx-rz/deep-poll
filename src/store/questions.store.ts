@@ -2,8 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 export type QuestionType =
-  | "text_short"
-  | "text_paragraph"
+  | "text"
   | "email"
   | "number"
   | "phone"
@@ -21,12 +20,7 @@ export type QuestionType =
 
 /** Type-safe mapping of options based on question type */
 export type QuestionOptionsMap = {
-  text_short: {
-    placeholder: string;
-    maxLength: number;
-    minLength: number;
-  };
-  text_paragraph: {
+  text: {
     placeholder: string;
     maxLength: number;
     minLength: number;

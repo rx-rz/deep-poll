@@ -4,24 +4,25 @@ import {
   QuestionType,
   useQuestionStore,
 } from "@/store/questions.store";
-import { ShortText } from "./short_text";
+import { TextInput } from "./text-input";
 
 const renderQuestionComponent = <T extends QuestionType>(
   question: Question<T>
 ) => {
-  const { questionText, questionType, required, orderNumber, options } =
+  const { questionText, questionType, required, questionId, orderNumber, options } =
     question;
 
   switch (questionType) {
-    case "text_short": {
-      const typedOptions = options as QuestionOptionsMap["text_short"];
+    case "text": {
+      const typedOptions = options as QuestionOptionsMap["text"];
       return (
-        <ShortText
+        <TextInput
           maxLength={typedOptions?.maxLength ?? 255}
           minLength={typedOptions.minLength ?? 1}
           placeholder={typedOptions.placeholder}
           required={required}
           questionText={questionText}
+          questionId={questionId}
           orderNumber={orderNumber}
         />
       );

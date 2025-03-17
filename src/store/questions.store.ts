@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 export type QuestionType =
   | "text_short"
@@ -101,33 +102,41 @@ type QuestionStore = {
   removeQuestion: (id: string) => void;
 };
 
-export const useQuestionStore = create<QuestionStore>((set) => ({
-  questions: [],
+export const useQuestionStore = create<QuestionStore>()(
+  persist(
+    (set) => ({
+      questions: [],
 
-  /** Add a new question */
-  addQuestion: (data) =>
-    set((state) => ({
-      questions: [
-        ...state.questions,
-        {
-          questionId: crypto.randomUUID(),
-          createdAt: new Date().toISOString(),
-          ...data,
-        },
-      ],
-    })),
+      /** Add a new question */
+      addQuestion: (data) =>
+        set((state) => ({
+          questions: [
+            ...state.questions,
+            {
+              questionId: crypto.randomUUID(),
+              createdAt: new Date().toISOString(),
+              ...data,
+            },
+          ],
+        })),
 
-  /** Update a question */
-  updateQuestion: (id, updates) =>
-    set((state) => ({
-      questions: state.questions.map((q) =>
-        q.questionId === id ? { ...q, ...updates } : q
-      ),
-    })),
+      /** Update a question */
+      updateQuestion: (id, updates) =>
+        set((state) => ({
+          questions: state.questions.map((q) =>
+            q.questionId === id ? { ...q, ...updates } : q
+          ),
+        })),
 
-  /** Remove a question */
-  removeQuestion: (id) =>
-    set((state) => ({
-      questions: state.questions.filter((q) => q.questionId !== id),
-    })),
-}));
+      /** Remove a question */
+      removeQuestion: (id) =>
+        set((state) => ({
+          questions: state.questions.filter((q) => q.questionId !== id),
+        })),
+    }),
+    {
+      name: "question-store", // unique name for the storage
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);

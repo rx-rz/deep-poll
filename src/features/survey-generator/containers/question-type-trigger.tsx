@@ -28,7 +28,7 @@ import { useQuestionStore } from "@/store/questions.store";
 
 export const QuestionTypeTrigger = () => {
   const [open, setOpen] = useState(false);
-  const { addQuestion } = useQuestionStore();
+  const { questions, addQuestion } = useQuestionStore();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="w-full h-12 border mt-3 hover:cursor-pointer">
@@ -43,8 +43,9 @@ export const QuestionTypeTrigger = () => {
             setOpen(false);
             addQuestion({
               questionType: "text_short",
-              orderNumber: 1,
-              questionText: "",
+              orderNumber: questions ? questions.length + 1 : 1,
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
               required: false,
               surveyId: "",
               options: {

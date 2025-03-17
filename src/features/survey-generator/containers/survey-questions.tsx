@@ -9,7 +9,8 @@ import { ShortText } from "./short_text";
 const renderQuestionComponent = <T extends QuestionType>(
   question: Question<T>
 ) => {
-  const { questionText, questionType, required, options } = question;
+  const { questionText, questionType, required, orderNumber, options } =
+    question;
 
   switch (questionType) {
     case "text_short": {
@@ -21,6 +22,7 @@ const renderQuestionComponent = <T extends QuestionType>(
           placeholder={typedOptions.placeholder}
           required={required}
           questionText={questionText}
+          orderNumber={orderNumber}
         />
       );
     }
@@ -32,7 +34,10 @@ const renderQuestionComponent = <T extends QuestionType>(
 
 export const SurveyQuestions = () => {
   const { questions } = useQuestionStore();
+
   return (
-    <div>{questions.map((question) => renderQuestionComponent(question))}</div>
+    <div className="flex flex-col gap-4 mt-4">
+      {questions.map((question) => renderQuestionComponent(question))}
+    </div>
   );
 };

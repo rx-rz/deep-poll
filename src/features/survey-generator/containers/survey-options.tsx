@@ -27,18 +27,16 @@ export const SurveyOptions = () => {
   const { form } = useSurveyOptionsForm();
 
   return (
-    <div>
-      <div className="border-grid sticky top-0 z-50 justify-between flex h-8   w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <p>{form.getValues("title") ?? "Untitled"}</p>
-        <Dialog>
-          <DialogTrigger>
-            <Edit strokeWidth={0.9} />
-          </DialogTrigger>
-          <DialogContent>
-            <SurveyOptionsForm />
-          </DialogContent>
-        </Dialog>
-      </div>
+    <div className="border py-3 px-2 sticky top-0 z-50 justify-between flex    w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <p>{form.getValues("title") ?? "Untitled"}</p>
+      <Dialog>
+        <DialogTrigger>
+          <Edit strokeWidth={0.9} />
+        </DialogTrigger>
+        <DialogContent>
+          <SurveyOptionsForm />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
@@ -49,7 +47,9 @@ const SurveyOptionsForm = () => {
   return (
     <>
       <DialogHeader className="mb-4">
-        <DialogTitle className="font-medium text-lg">Survey Options</DialogTitle>
+        <DialogTitle className="font-medium text-lg">
+          Survey Options
+        </DialogTitle>
         <DialogDescription className="text-sm font-semibold opacity-90 -mt-2">
           Provide options for your survey i guess
         </DialogDescription>

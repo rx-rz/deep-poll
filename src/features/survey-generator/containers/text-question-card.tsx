@@ -59,6 +59,7 @@ const TextQuestionCardOptions = ({ questionId }: { questionId: string }) => {
         ...(currentQuestion?.options as QuestionOptionsMap["text"]),
         minLength,
         maxLength,
+        
       },
     });
   };

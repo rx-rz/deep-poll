@@ -25,17 +25,16 @@ export type QuestionOptionsMap = {
     maxLength: number;
     minLength: number;
   };
-  email: { placeholder: string; validation: "email"; required: boolean };
+  email: { placeholder: string };
   number: {
     placeholder: string;
+    allowDecimal: boolean;
     min: number;
     max: number;
     step: number;
   };
   phone: {
     placeholder: string;
-    validation: "phone";
-    pattern: string;
   };
   multiple_choice: {
     choices: string[];
@@ -46,16 +45,16 @@ export type QuestionOptionsMap = {
     minSelections: number;
     maxSelections: number;
   };
-  dropdown: { choices: string[]; required: boolean };
-  rating: { min: number; max: number; labels: string[]; required: boolean };
-  likert: { scale: number; labels: string[]; required: boolean };
+  dropdown: { choices: string[] };
+  rating: { min: number; max: number; labels: string[] };
+  likert: { scale: number; labels: string[] };
   linear_scale: {
     min: number;
     max: number;
     labels: { start: string; end: string };
   };
-  date: { format: string; minDate: string; maxDate: string; required: boolean };
-  time: { format: string; minTime: string; maxTime: string; required: boolean };
+  date: { format: string; minDate: string; maxDate: string };
+  time: { format: string; minTime: string; maxTime: string };
   datetime: {
     format: string;
     minDatetime: string;

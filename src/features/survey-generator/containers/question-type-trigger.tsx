@@ -57,13 +57,24 @@ export const QuestionTypeTrigger = () => {
           }}
         >
           <Type className="mr-2 h-4 w-4" />
-          Short answer (single line text)
+          Short answer
         </Button>
-        <Button variant={"outline"}>
-          <AlignLeft className="mr-2 h-4 w-4" />
-          Paragraph (multi-line text)
-        </Button>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "email",
+              orderNumber: questions ? questions.length + 1 : 1,
+              questionText: "Enter your email",
+              required: false,
+              surveyId: "",
+              options: {
+                placeholder: "Enter your text",
+              },
+            });
+          }}
+        >
           <Mail className="mr-2 h-4 w-4" />
           Email address
         </Button>

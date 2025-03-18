@@ -1,31 +1,22 @@
 import {
   Question,
-  QuestionOptionsMap,
   QuestionType,
   useQuestionStore,
 } from "@/store/questions.store";
-import { TextInput } from "./text-input";
+import { TextQuestionCard } from "./text-question-card";
+import { EmailQuestionCard } from "./email-question-card";
 
 const renderQuestionComponent = <T extends QuestionType>(
   question: Question<T>
 ) => {
-  const { questionText, questionType, required, questionId, orderNumber, options } =
-    question;
+  const { questionType, questionId } = question;
 
   switch (questionType) {
     case "text": {
-      const typedOptions = options as QuestionOptionsMap["text"];
-      return (
-        <TextInput
-          maxLength={typedOptions?.maxLength ?? 255}
-          minLength={typedOptions.minLength ?? 1}
-          placeholder={typedOptions.placeholder}
-          required={required}
-          questionText={questionText}
-          questionId={questionId}
-          orderNumber={orderNumber}
-        />
-      );
+      return <TextQuestionCard questionId={questionId} />;
+    }
+    case "email": {
+      return <EmailQuestionCard questionId={questionId} />;
     }
 
     default:

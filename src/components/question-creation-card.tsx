@@ -3,6 +3,7 @@ import { Stars, Trash } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { QuestionCreationOptionsTrigger } from "./question-creation-options-trigger";
 import { QuestionOptionsCard } from "./question-options-card";
+import { Label } from "./ui/label";
 
 type Props = {
   questionType: QuestionType;
@@ -23,7 +24,7 @@ export const QuestionCreationCard = ({
   return (
     <div className="border-2 focus-within:border-black  relative  p-5 shadow-none min-h-[100px] rounded-none">
       <div className="flex justify-between items-center">
-        <div className=" left-5 top-3 flex gap-2 items-center">
+        <div className=" left-5 top-3 flex gap-1 items-center">
           <p className="text-xs font-medium opacity-80">{questionType}</p>
           {icon}
         </div>
@@ -38,6 +39,7 @@ export const QuestionCreationCard = ({
         </p>
 
         <div className="w-full pb-12 relative">
+          <Label className="mb-2 mt-[3px]">Question</Label>
           <>{children}</>
           <>
             <QuestionCreationOptionsTrigger

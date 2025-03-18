@@ -1,17 +1,16 @@
 import { QuestionCreationCard } from "@/components/question-creation-card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { QuestionOptionsMap, useQuestionStore } from "@/store/questions.store";
 import { Label } from "@radix-ui/react-label";
-import { Edit, Hash, Stars, Trash } from "lucide-react";
-import { useCallback, useState } from "react";
+import { Hash } from "lucide-react";
+import { useState } from "react";
 
 type Props = {
   questionId: string;
 };
-export const NumberInput = ({ questionId }: Props) => {
+export const NumberQuestionCard = ({ questionId }: Props) => {
   const { questions, updateQuestion } = useQuestionStore();
   const currentQuestion = questions.find((q) => q.questionId === questionId);
   const currentQuestionOptions =
@@ -19,12 +18,11 @@ export const NumberInput = ({ questionId }: Props) => {
 
   return (
     <QuestionCreationCard
-      icon={<Hash />}
+      icon={<Hash size={18} strokeWidth={1.9}/>}
       orderNumber={currentQuestion?.orderNumber ?? 1}
-      questionType={"text"}
+      questionType={"number"}
       optionSettings={<NumberQuestionCardOptions questionId={questionId} />}
     >
-      <Label className="mb-2 mt-[3px]">Question</Label>
       <Input
         placeholder={currentQuestionOptions?.placeholder}
         defaultValue={currentQuestion?.questionText}

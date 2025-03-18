@@ -1,6 +1,5 @@
 import {
   Type,
-  AlignLeft,
   Mail,
   Hash,
   Phone,
@@ -78,7 +77,26 @@ export const QuestionTypeTrigger = () => {
           <Mail className="mr-2 h-4 w-4" />
           Email address
         </Button>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "number",
+              orderNumber: questions ? questions.length + 1 : 1,
+              questionText: "Enter a number",
+              required: false,
+              surveyId: "",
+              options: {
+                placeholder: "Enter a number",
+                allowDecimal: false,
+                max: Infinity,
+                min: -Infinity,
+                step: 1,
+              },
+            });
+          }}
+        >
           <Hash className="mr-2 h-4 w-4" />
           Number
         </Button>

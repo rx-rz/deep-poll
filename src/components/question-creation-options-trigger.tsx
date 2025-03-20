@@ -1,5 +1,4 @@
 import { ChevronDownCircle, ChevronUpCircle } from "lucide-react";
-import { Button } from "./ui/button";
 
 export const QuestionCreationOptionsTrigger = ({
   questionOptionsIsOpen,
@@ -9,9 +8,8 @@ export const QuestionCreationOptionsTrigger = ({
   setQuestionOptionsIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
-    <Button
-      variant={"ghost"}
-      className="absolute right-0 bottom-0"
+    <button
+      className="absolute right-5 bottom-5 hover:cursor-pointer"
       onClick={() => setQuestionOptionsIsOpen(!questionOptionsIsOpen)}
     >
       {questionOptionsIsOpen ? (
@@ -19,6 +17,6 @@ export const QuestionCreationOptionsTrigger = ({
       ) : (
         <ChevronDownCircle strokeWidth={1.9} size={18} />
       )}
-    </Button>
+    </button>
   );
 };

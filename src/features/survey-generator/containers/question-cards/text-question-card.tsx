@@ -3,38 +3,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { QuestionOptionsMap, useQuestionStore } from "@/store/questions.store";
 import { Text } from "lucide-react";
 import { useCallback, useState } from "react";
+import { QuestionInput } from "../question-input";
 
 type Props = {
   questionId: string;
 };
 
 export const TextQuestionCard = ({ questionId }: Props) => {
-  const { questions, updateQuestion } = useQuestionStore();
+  const { questions } = useQuestionStore();
   const currentQuestion = questions.find((q) => q.questionId === questionId);
-  const currentQuestionOptions =
-    currentQuestion?.options as QuestionOptionsMap["text"];
+
   return (
     <QuestionCreationCard
-      icon={<Text size={18} strokeWidth={1.9}/>}
+      icon={<Text size={18} strokeWidth={1.9} />}
+      questionId={questionId}
+      questionText={currentQuestion?.questionText ?? ""}
       orderNumber={currentQuestion?.orderNumber ?? 1}
       questionType={"text"}
       optionSettings={<TextQuestionCardOptions questionId={questionId} />}
-    >
-      <Input
-        placeholder={currentQuestionOptions?.placeholder}
-        maxLength={currentQuestionOptions?.maxLength}
-        minLength={currentQuestionOptions?.minLength}
-        defaultValue={currentQuestion?.questionText}
-        onChange={(e) => {
-          updateQuestion(questionId ?? "", {
-            questionText: e.target.value,
-          });
-        }}
-      />
-    </QuestionCreationCard>
+    ></QuestionCreationCard>
   );
 };
 
@@ -58,17 +49,23 @@ const TextQuestionCardOptions = ({ questionId }: { questionId: string }) => {
         ...(currentQuestion?.options as QuestionOptionsMap["text"]),
         minLength,
         maxLength,
-        
       },
     });
   };
   return (
     <>
+      <div>
+        <QuestionInput
+          placeholder="Enter question"
+          questionId={questionId}
+          questionText=""
+        />
+      </div>
       <div className="grid grid-cols-2 gap-2">
         <div>
           <Label className=" text-xs">Minimum Question Length</Label>
           <Input
-            type="text"
+            type="number"
             defaultValue={currentQuestionOptions?.minLength ?? 1}
             onChange={(e) => {
               setMinLength(Number(e.target.value));
@@ -79,6 +76,7 @@ const TextQuestionCardOptions = ({ questionId }: { questionId: string }) => {
           <Label className=" text-xs">Maximum Question Length</Label>
           <Input
             defaultValue={currentQuestionOptions?.maxLength ?? 255}
+            type="number"
             onChange={(e) => {
               setMaxLength(Number(e.target.value));
             }}
@@ -95,7 +93,9 @@ const TextQuestionCardOptions = ({ questionId }: { questionId: string }) => {
           </div>
         </div>
       </div>
+
       <Button
+        className="w-full"
         onClick={() => {
           updateQuestionOptions();
         }}

@@ -74,7 +74,7 @@ export type QuestionOptionsMap = {
 export type Question<T extends QuestionType = QuestionType> = {
   questionId: string;
   surveyId: string | null;
-  questionText: string;
+  questionText?: string;
   questionType: T;
   options?: QuestionOptionsMap[T];
   required: boolean;

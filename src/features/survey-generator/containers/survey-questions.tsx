@@ -14,13 +14,13 @@ const renderQuestionComponent = <T extends QuestionType>(
 
   switch (questionType) {
     case "text": {
-      return <TextQuestionCard questionId={questionId} />;
+      return <TextQuestionCard questionId={questionId} key={questionId} />;
     }
     case "email": {
-      return <EmailQuestionCard questionId={questionId} />;
+      return <EmailQuestionCard questionId={questionId} key={questionId} />;
     }
     case "number": {
-      return <NumberQuestionCard questionId={questionId} />;
+      return <NumberQuestionCard questionId={questionId} key={questionId} />;
     }
     default:
       return null;
@@ -31,7 +31,7 @@ export const SurveyQuestions = () => {
   const { questions } = useQuestionStore();
 
   return (
-    <div className="flex flex-col gap-4 mt-4">
+    <div className="flex flex-col gap-4 mt-4 w-full">
       {questions.map((question) => renderQuestionComponent(question))}
     </div>
   );

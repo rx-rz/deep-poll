@@ -2,37 +2,29 @@ import { QuestionCreationCard } from "@/components/question-creation-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { QuestionOptionsMap, useQuestionStore } from "@/store/questions.store";
 import { Label } from "@radix-ui/react-label";
 import { Hash } from "lucide-react";
 import { useState } from "react";
+import { QuestionInput } from "../question-input";
 
 type Props = {
   questionId: string;
 };
 export const NumberQuestionCard = ({ questionId }: Props) => {
-  const { questions, updateQuestion } = useQuestionStore();
+  const { questions } = useQuestionStore();
   const currentQuestion = questions.find((q) => q.questionId === questionId);
-  const currentQuestionOptions =
-    currentQuestion?.options as QuestionOptionsMap["number"];
 
   return (
     <QuestionCreationCard
-      icon={<Hash size={18} strokeWidth={1.9}/>}
+      icon={<Hash size={18} strokeWidth={1.9} />}
       orderNumber={currentQuestion?.orderNumber ?? 1}
+      questionId={questionId}
       questionType={"number"}
+      questionText={currentQuestion?.questionText ?? ""}
       optionSettings={<NumberQuestionCardOptions questionId={questionId} />}
-    >
-      <Input
-        placeholder={currentQuestionOptions?.placeholder}
-        defaultValue={currentQuestion?.questionText}
-        onChange={(e) => {
-          updateQuestion(questionId ?? "", {
-            questionText: e.target.value,
-          });
-        }}
-      />
-    </QuestionCreationCard>
+    />
   );
 };
 
@@ -59,45 +51,55 @@ const NumberQuestionCardOptions = ({ questionId }: { questionId: string }) => {
   };
 
   return (
-    <div className="flex flex-col gap-5 mt-10">
-      <div>
-        <Label className="mb-2">Minimum Question Length</Label>
-        <Input
-          type="text"
-          defaultValue={currentQuestionOptions?.min ?? 1}
-          onChange={(e) => {
-            setMinLength(Number(e.target.value));
-          }}
+    <>
+      <div className="max-w-full">
+        <QuestionInput
+          placeholder="Enter question"
+          questionId={questionId}
+          questionText=""
         />
       </div>
-      <div>
-        <Label className="mb-2">Maximum Question Length</Label>
-        <Input
-          defaultValue={currentQuestionOptions?.max ?? 255}
-          onChange={(e) => {
-            setMaxLength(Number(e.target.value));
-          }}
-        />
-      </div>
-      <div>
-        <Label className="mb-2">Allow Decimal Places</Label>
-        <Switch
-          className="w-8 h-4 hover:cursor-pointer"
-          checked={currentQuestionOptions.allowDecimal}
-          onCheckedChange={(checked) => {
-            setAllowDecimal(checked);
-          }}
-        />
-      </div>
-      <div>
-        <Label className="mb-2">Required</Label>
-        <Switch
-          className="w-8 h-4 hover:cursor-pointer"
-          checked={currentQuestion?.required}
-          onCheckedChange={(checked) => {
-            setRequired(checked);
-          }}
-        />
+      <div className="grid grid-cols-2 gap-2 gap-y-5 font-medium text-left">
+        <div>
+          <Label className="text-xs">Minimum Number</Label>
+          <Input
+            type="number"
+            defaultValue={currentQuestionOptions?.min ?? 1}
+            onChange={(e) => {
+              setMinLength(Number(e.target.value));
+            }}
+          />
+        </div>
+        <div>
+          <Label className="text-xs">Maximum Number</Label>
+          <Input
+            type="number"
+            defaultValue={currentQuestionOptions?.max ?? 255}
+            onChange={(e) => {
+              setMaxLength(Number(e.target.value));
+            }}
+          />
+        </div>
+        <div className="flex gap-2 items-center">
+          <Label className="text-xs">Allow Decimal Places</Label>
+          <Switch
+            className="w-8 h-4 hover:cursor-pointer"
+            checked={allowDecimal}
+            onCheckedChange={(checked) => {
+              setAllowDecimal(checked);
+            }}
+          />
+        </div>
+        <div className="flex gap-2 items-center">
+          <Label className="font-medium text-xs">Required</Label>
+          <Switch
+            className="w-8 h-4 hover:cursor-pointer"
+            checked={required}
+            onCheckedChange={(checked) => {
+              setRequired(checked);
+            }}
+          />
+        </div>
       </div>
       <Button
         onClick={() => {
@@ -106,6 +108,6 @@ const NumberQuestionCardOptions = ({ questionId }: { questionId: string }) => {
       >
         Save
       </Button>
-    </div>
+    </>
   );
 };

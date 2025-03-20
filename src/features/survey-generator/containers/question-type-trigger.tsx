@@ -65,7 +65,8 @@ export const QuestionTypeTrigger = () => {
             addQuestion({
               questionType: "email",
               orderNumber: questions ? questions.length + 1 : 1,
-              questionText: "Enter your email",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
               required: false,
               surveyId: "",
               options: {
@@ -84,7 +85,8 @@ export const QuestionTypeTrigger = () => {
             addQuestion({
               questionType: "number",
               orderNumber: questions ? questions.length + 1 : 1,
-              questionText: "Enter a number",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
               required: false,
               surveyId: "",
               options: {

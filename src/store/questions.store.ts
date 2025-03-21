@@ -39,7 +39,6 @@ export type QuestionOptionsMap = {
     allowDecimal: boolean;
     min: number;
     max: number;
-    step: number;
   };
   phone: {
     placeholder: string;

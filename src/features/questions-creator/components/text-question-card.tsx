@@ -14,6 +14,7 @@ type LocalQuestionOptions = {
   minLength: number;
   maxLength: number;
   required: boolean;
+  placeholder: string;
 };
 
 export const TextQuestionCard = ({ questionId }: Props) => {
@@ -29,6 +30,7 @@ export const TextQuestionCard = ({ questionId }: Props) => {
   const [localQuestionOptions, setLocalQuestionOptions] =
     useState<LocalQuestionOptions>({
       minLength: 1,
+      placeholder: "",
       maxLength: currentQuestionOptions?.maxLength ?? 255,
       required: currentQuestion?.required ?? false,
     });

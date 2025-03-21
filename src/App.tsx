@@ -1,13 +1,13 @@
 import { Route, Switch } from "wouter";
 import "./App.css";
-import { CreateSurvey } from "./features/survey-generator/pages/create-survey";
+import { CreateSurveyQuestions } from "./features/questions-creator/pages/create-survey-questions";
 
 function App() {
   return (
     <>
       <Switch>
         <Route path={"/"}>
-          <CreateSurvey />
+          <CreateSurveyQuestions />
         </Route>
       </Switch>
     </>

@@ -45,7 +45,7 @@ export const QuestionTypeTrigger = () => {
               orderNumber: questions ? questions.length + 1 : 1,
               questionText:
                 "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-              required: false,
+              required: true,
               surveyId: "",
               options: {
                 placeholder: "Enter your text",

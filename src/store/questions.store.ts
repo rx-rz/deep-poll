@@ -1,3 +1,4 @@
+import { createId } from "@paralleldrive/cuid2";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -106,7 +107,7 @@ export const useQuestionStore = create<QuestionStore>()(
           questions: [
             ...state.questions,
             {
-              questionId: crypto.randomUUID(),
+              questionId: createId(),
               createdAt: new Date().toISOString(),
               ...data,
             },

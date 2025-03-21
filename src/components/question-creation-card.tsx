@@ -1,66 +1,62 @@
-import { QuestionType, useQuestionStore } from "@/store/questions.store";
-import { Stars, Trash } from "lucide-react";
+import { useQuestionStore } from "@/store/questions.store";
+import { ChevronDownCircle, ChevronUpCircle, Trash2Icon } from "lucide-react";
 import { ReactNode, useState } from "react";
-import { QuestionCreationOptionsTrigger } from "./question-creation-options-trigger";
-import { QuestionOptionsCard } from "./question-options-card";
 
 type Props = {
-  questionType: QuestionType;
-  questionText: string;
-  questionId: string;
   icon: ReactNode;
+  questionType: string;
   orderNumber: number;
-  optionSettings: ReactNode;
+  questionText: string;
+  children: ReactNode;
+  questionId: string;
 };
 
 export const QuestionCreationCard = ({
   icon,
-  orderNumber,
   questionType,
-  optionSettings,
+  orderNumber,
   questionText,
+  children,
   questionId,
 }: Props) => {
-  const [questionOptionsIsOpen, setQuestionOptionsIsOpen] = useState(true);
+  const [questionOptionsIsOpen, setQuestionOptionsIsOpen] = useState(false);
   const { removeQuestion } = useQuestionStore();
+
   return (
-    <div className="border-2 w-full focus-within:border-black relative p-5 shadow-none h-full pb-14 rounded-none">
-      <div className="flex justify-between items-center">
-        <div className="left-5 top-3 flex gap-1 items-center">
-          <p className="text-xs font-medium opacity-80">{questionType}</p>
-          {icon}
-        </div>
-        <div className="flex gap-2 right-5 top-3">
-          <Stars strokeWidth={1.9} size={18} />
+    <>
+      <div className="border-2 focus-within:border-black py-4 px-5">
+        <div className="flex justify-between mb-4 text-sm font-medium">
+          <div className="flex items-center gap-1">
+            {icon}
+            <p>{questionType}</p>
+          </div>
           <button
             className="hover:cursor-pointer"
             onClick={() => {
               removeQuestion(questionId);
             }}
           >
-            <Trash strokeWidth={1.9} size={18} />
+            <Trash2Icon size={18} strokeWidth={1.9} />
+          </button>
+        </div>
+        <div className="text-lg font-medium gap-3 flex mb-1">
+          <p>{orderNumber}</p>
+          <p>{questionText}</p>
+        </div>
+        {questionOptionsIsOpen ? children : <></>}
+        <div className="w-full  flex justify-end items-end mt-4">
+          <button
+            className="w-fit self-end hover:cursor-pointer"
+            onClick={() => setQuestionOptionsIsOpen(!questionOptionsIsOpen)}
+          >
+            {questionOptionsIsOpen ? (
+              <ChevronUpCircle  size={18} strokeWidth={1.9}/>
+            ) : (
+              <ChevronDownCircle  size={18} strokeWidth={1.9}/>
+            )}
           </button>
         </div>
       </div>
-      <div className="flex justify-between items-start gap-5 mt-8">
-        <p className="text-lg font-bold justify-center items-center flex rounded-full">
-          {orderNumber}
-        </p>
-        <div className="w-full">
-          <div className="mb-2 text-lg">
-            <p className="text-left font-medium break-words">{questionText}</p>
-          </div>
-          <QuestionCreationOptionsTrigger
-            questionOptionsIsOpen={questionOptionsIsOpen}
-            setQuestionOptionsIsOpen={setQuestionOptionsIsOpen}
-          />
-          {questionOptionsIsOpen ? (
-            <QuestionOptionsCard>{optionSettings}</QuestionOptionsCard>
-          ) : (
-            <></>
-          )}
-        </div>
-      </div>
-    </div>
+    </>
   );
 };

@@ -1,10 +1,10 @@
-import { useQuestionStore } from "@/store/questions.store";
+import { QuestionType, useQuestionStore } from "@/store/questions.store";
 import { ChevronDownCircle, ChevronUpCircle, Trash2Icon } from "lucide-react";
 import { ReactNode, useState } from "react";
 
 type Props = {
   icon: ReactNode;
-  questionType: string;
+  questionType: QuestionType;
   orderNumber: number;
   questionText: string;
   children: ReactNode;

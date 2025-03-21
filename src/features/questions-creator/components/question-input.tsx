@@ -5,7 +5,7 @@ type Props = {
   setQuestionText: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export const TextQuestionInput = ({ questionText, setQuestionText }: Props) => {
+export const QuestionInput = ({ questionText, setQuestionText }: Props) => {
   return (
     <div className="mb-4">
       <Input

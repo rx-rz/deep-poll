@@ -2,7 +2,7 @@ import { QuestionOptionsMap, useQuestionStore } from "@/store/questions.store";
 import { QuestionInput } from "./question-input";
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
-import { Text } from "lucide-react";
+import { Mail, Text } from "lucide-react";
 import { QuestionCreationCard } from "@/components/question-creation-card";
 import { TextQuestionCardOptions } from "./text-question-card-options";
 
@@ -16,7 +16,7 @@ type LocalQuestionOptions = {
   required: boolean;
 };
 
-export const TextQuestionCard = ({ questionId }: Props) => {
+export const EmailQuestionCard = ({ questionId }: Props) => {
   const { questions, updateQuestion } = useQuestionStore();
   const currentQuestion = questions.find(
     (state) => state.questionId === questionId
@@ -52,11 +52,11 @@ export const TextQuestionCard = ({ questionId }: Props) => {
 
   return (
     <QuestionCreationCard
-      icon={<Text size={18} strokeWidth={1.9} />}
+      icon={<Mail size={18} strokeWidth={1.9} />}
       orderNumber={currentQuestion?.orderNumber ?? 1}
       questionId={questionId}
       questionText={currentQuestion?.questionText ?? ""}
-      questionType={"text"}
+      questionType={"email"}
     >
       <QuestionInput
         questionText={questionText}

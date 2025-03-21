@@ -8,6 +8,7 @@ type LocalQuestionOptions = {
   minLength: number;
   maxLength: number;
   required: boolean;
+  placeholder: string;
 };
 
 type OptionProps = {
@@ -23,6 +24,9 @@ export const TextQuestionCardOptions = memo(
     const [maxLength, setMaxLength] = useState(
       questionOptions?.maxLength ?? 255
     );
+    const [placeholder, setPlaceholder] = useState(
+      questionOptions?.placeholder ?? ""
+    );
     const [isRequired, setIsRequired] = useState(
       questionOptions?.required ?? true
     );
@@ -31,13 +35,14 @@ export const TextQuestionCardOptions = memo(
       minLength: questionOptions?.minLength ?? 1,
       maxLength: questionOptions?.maxLength ?? 255,
       required: questionOptions?.required ?? true,
+      placeholder: questionOptions?.placeholder ?? "",
     };
 
-    // Determine if any option has changed
     const isModified =
       minLength !== initialOptions.minLength ||
       maxLength !== initialOptions.maxLength ||
-      isRequired !== initialOptions.required;
+      isRequired !== initialOptions.required ||
+      placeholder !== initialOptions.placeholder;
 
     return (
       <>
@@ -55,15 +60,24 @@ export const TextQuestionCardOptions = memo(
           <div>
             <Label className=" text-xs">Maximum Question Length</Label>
             <Input
-              defaultValue={maxLength}
+              value={maxLength}
               type="number"
               onChange={(e) => {
                 setMaxLength(Number(e.target.value));
               }}
             />
           </div>
-          <div className="w-full  text-xs flex items-center gap-4 ">
-            <div className="flex justify-between gap-2">
+          <div>
+            <Label className=" text-xs">Question Placeholder</Label>
+            <Input
+              value={placeholder}
+              type="text"
+              max={300}
+              onChange={(e) => {
+                setPlaceholder(e.target.value);
+              }}
+            />
+            <div className="w-fit mt-4 flex text-xs gap-2">
               <p className="font-medium">Required</p>
               <Switch
                 className="w-8 h-4 hover:cursor-pointer"
@@ -83,6 +97,7 @@ export const TextQuestionCardOptions = memo(
             setQuestionOptions({
               minLength,
               maxLength,
+              placeholder,
               required: isRequired,
             });
           }}

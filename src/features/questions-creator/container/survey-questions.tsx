@@ -4,6 +4,7 @@ import {
   useQuestionStore,
 } from "@/store/questions.store";
 import { TextQuestionCard } from "@/features/questions-creator/components/text-question-card";
+import { EmailQuestionCard } from "../components/email-question-card";
 
 const renderQuestionComponent = <T extends QuestionType>(
   question: Question<T>
@@ -13,6 +14,9 @@ const renderQuestionComponent = <T extends QuestionType>(
   switch (questionType) {
     case "text": {
       return <TextQuestionCard questionId={questionId} key={questionId} />;
+    }
+    case "email": {
+      return <EmailQuestionCard questionId={questionId} key={questionId} />;
     }
     default:
       return null;

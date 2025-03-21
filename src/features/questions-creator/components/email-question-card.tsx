@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { Mail } from "lucide-react";
 import { QuestionCreationCard } from "@/components/question-creation-card";
-import { TextQuestionCardOptions } from "./text-question-card-options";
+import { EmailQuestionCardOptions } from "./email-question-card-options";
 
 type Props = {
   questionId: string;
@@ -14,6 +14,10 @@ type LocalQuestionOptions = {
   minLength: number;
   maxLength: number;
   required: boolean;
+  placeholder: string;
+  allowedDomains: string[];
+  disallowedDomains: string[];
+  allowDuplicates: boolean;
 };
 
 export const EmailQuestionCard = ({ questionId }: Props) => {
@@ -31,6 +35,10 @@ export const EmailQuestionCard = ({ questionId }: Props) => {
       minLength: 1,
       maxLength: currentQuestionOptions?.maxLength ?? 255,
       required: currentQuestion?.required ?? false,
+      placeholder: currentQuestionOptions?.placeholder ?? "",
+      allowedDomains: currentQuestionOptions?.allowedDomains ?? [],
+      disallowedDomains: currentQuestionOptions?.disallowedDomains ?? [],
+      allowDuplicates: currentQuestionOptions?.allowDuplicates ?? false,
     });
 
   const debouncedQuestionText = useDebounce<string>(questionText, 900);
@@ -45,6 +53,10 @@ export const EmailQuestionCard = ({ questionId }: Props) => {
         ...(currentQuestionOptions as QuestionOptionsMap["text"]),
         minLength: localQuestionOptions.minLength,
         maxLength: localQuestionOptions.maxLength,
+        placeholder: localQuestionOptions.placeholder,
+        allowedDomains: localQuestionOptions.allowedDomains,
+        disallowedDomains: localQuestionOptions.disallowedDomains,
+        allowDuplicates: localQuestionOptions.allowDuplicates,
       },
       required: localQuestionOptions.required,
     });
@@ -62,7 +74,7 @@ export const EmailQuestionCard = ({ questionId }: Props) => {
         questionText={questionText}
         setQuestionText={setQuestionText}
       />
-      <TextQuestionCardOptions
+      <EmailQuestionCardOptions
         questionOptions={localQuestionOptions}
         setQuestionOptions={setLocalQuestionOptions}
       />

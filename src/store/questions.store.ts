@@ -26,7 +26,14 @@ export type QuestionOptionsMap = {
     maxLength: number;
     minLength: number;
   };
-  email: { placeholder: string };
+  email: {
+    placeholder: string;
+    maxLength: number;
+    minLength: number;
+    allowedDomains: string[];
+    disallowedDomains: string[];
+    allowDuplicates: boolean;
+  };
   number: {
     placeholder: string;
     allowDecimal: boolean;

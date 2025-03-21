@@ -1,5 +1,5 @@
 import { QuestionType, useQuestionStore } from "@/store/questions.store";
-import { ChevronDownCircle, ChevronUpCircle, Trash2Icon } from "lucide-react";
+import { ChevronDownCircle, ChevronUpCircle, Stars, Trash2Icon } from "lucide-react";
 import { ReactNode, useState } from "react";
 
 type Props = {
@@ -30,14 +30,17 @@ export const QuestionCreationCard = ({
             {icon}
             <p>{questionType}</p>
           </div>
-          <button
-            className="hover:cursor-pointer"
-            onClick={() => {
-              removeQuestion(questionId);
-            }}
-          >
-            <Trash2Icon size={18} strokeWidth={1.9} />
-          </button>
+          <div className="flex gap-2 items-center">
+            <button
+              className="hover:cursor-pointer"
+              onClick={() => {
+                removeQuestion(questionId);
+              }}
+            >
+              <Trash2Icon size={18} strokeWidth={1.9} />
+            </button>
+            <Stars size={18} strokeWidth={1.9}/>
+          </div>
         </div>
         <div className="text-lg font-medium gap-3 flex mb-1">
           <p>{orderNumber}</p>
@@ -50,9 +53,9 @@ export const QuestionCreationCard = ({
             onClick={() => setQuestionOptionsIsOpen(!questionOptionsIsOpen)}
           >
             {questionOptionsIsOpen ? (
-              <ChevronUpCircle  size={18} strokeWidth={1.9}/>
+              <ChevronUpCircle size={18} strokeWidth={1.9} />
             ) : (
-              <ChevronDownCircle  size={18} strokeWidth={1.9}/>
+              <ChevronDownCircle size={18} strokeWidth={1.9} />
             )}
           </button>
         </div>

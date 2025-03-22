@@ -74,7 +74,7 @@ export const EmailQuestionOptions = memo(
             />
           </div>
           <div>
-            <Label className="text-xs">Allowed Domains (comma-separated)</Label>
+            <Label className="text-xs">Allowed Domains</Label>
             <Input
               type="text"
               placeholder="e.g., gmail.com, yahoo.com"
@@ -88,9 +88,7 @@ export const EmailQuestionOptions = memo(
             />
           </div>
           <div>
-            <Label className="text-xs">
-              Disallowed Domains (comma-separated)
-            </Label>
+            <Label className="text-xs">Disallowed Domains</Label>
             <Input
               type="text"
               placeholder="e.g., spam.com, example.com"
@@ -103,20 +101,18 @@ export const EmailQuestionOptions = memo(
               }}
             />
           </div>
-          <div className="text-xs">
-            <div className=" flex flex-col justify-between gap-2">
-              <p className="font-medium">Allow Duplicates</p>
-              <Switch
-                className="w-8 h-4 hover:cursor-pointer"
-                checked={localQuestionOptions.allowDuplicates}
-                onCheckedChange={(checked) => {
-                  updateQuestionConfig("allowDuplicates", checked);
-                }}
-              />
-            </div>
-          </div>
         </div>
 
+        <div className=" flex text-xs gap-2 mb-5">
+          <Switch
+            className="w-8 h-4 hover:cursor-pointer"
+            checked={localQuestionOptions.allowDuplicates}
+            onCheckedChange={(checked) => {
+              updateQuestionConfig("allowDuplicates", checked);
+            }}
+          />
+          <p className="font-medium">Allow Duplicates</p>
+        </div>
         <Button
           className="w-full"
           disabled={!isModified}

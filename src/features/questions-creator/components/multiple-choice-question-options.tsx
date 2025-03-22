@@ -69,13 +69,13 @@ export const MultipleChoiceQuestionOptions = memo(
                 <Button
                   variant="destructive"
                   onClick={() => removeChoice(index)}
-                  disabled={choices.length <= 1}
+                  disabled={choices.length == 0}
                 >
                   Remove
                 </Button>
               </div>
             ))}
-            <Button variant="outline" onClick={addChoice}>
+            <Button variant="outline" className="text-xs mt-1" onClick={addChoice}>
               Add Choice
             </Button>
           </div>

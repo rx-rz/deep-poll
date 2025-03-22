@@ -67,7 +67,9 @@ export const QuestionEditor = ({ questionId, questionType }: Props) => {
     case "multiple_choice":
       optionSettings = (
         <MultipleChoiceQuestionOptions
-          questionOptions={localOptions as QuestionOptionsMap["multiple_choice"]}
+          questionOptions={
+            localOptions as QuestionOptionsMap["multiple_choice"]
+          }
           setQuestionOptions={
             setLocalOptions as Dispatch<
               SetStateAction<QuestionOptionsMap["multiple_choice"]>
@@ -88,18 +90,20 @@ export const QuestionEditor = ({ questionId, questionType }: Props) => {
       questionText={currentQuestion?.questionText ?? ""}
       questionType={questionType}
     >
-      <QuestionInput
-        questionText={questionText}
-        setQuestionText={setQuestionText}
-      />
-      {optionSettings}
-      <div className="flex flex-col justify-between gap-2 mt-5">
-        <p className="font-medium text-xs">Required</p>
-        <Switch
-          className="w-8 h-4 hover:cursor-pointer"
-          checked={questionIsRequired}
-          onCheckedChange={(checked) => setQuestionIsRequired(checked)}
+      <div className="ml-6">
+        <QuestionInput
+          questionText={questionText}
+          setQuestionText={setQuestionText}
         />
+        {optionSettings}
+        <div className="flex gap-2 mt-5">
+          <Switch
+            className="w-8 h-4 hover:cursor-pointer"
+            checked={questionIsRequired}
+            onCheckedChange={(checked) => setQuestionIsRequired(checked)}
+          />
+          <p className="font-medium text-xs">Required</p>
+        </div>
       </div>
     </QuestionCreationCard>
   );

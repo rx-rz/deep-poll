@@ -89,7 +89,7 @@ export const QuestionTypeTrigger = () => {
               questionType: "number",
               questionText:
                 "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-              required: false,
+              required: true,
               surveyId: "",
               options: {
                 placeholder: "Enter a number",
@@ -117,7 +117,7 @@ export const QuestionTypeTrigger = () => {
               questionType: "multiple_choice",
               questionText:
                 "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-              required: false,
+              required: true,
               surveyId: "",
               options: {
                 allowOther: false,

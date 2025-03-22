@@ -47,7 +47,7 @@ export const QuestionCreationCard = ({
             <Stars size={18} strokeWidth={1.9} />
           </div>
         </div>
-        <div className="text-lg font-medium gap-3 flex mb-1">
+        <div className="md:text-lg font-medium gap-3 flex mb-1">
           <p>{orderNumber}</p>
           <p>{questionText}</p>
         </div>

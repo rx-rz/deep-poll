@@ -3,19 +3,9 @@ import {
   QuestionType,
   useQuestionStore,
 } from "@/store/questions.store";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebounce } from "./use-debounce";
-import { Text } from "lucide-react";
-import { createId } from "@paralleldrive/cuid2";
 
-type QuestionUIOptions = {
-  icon: ReactNode;
-  questionType: QuestionType;
-  // orderNumber: number;
-  questionText: string;
-  // children: ReactNode;
-  questionId: string;
-};
 const defaultOptionsMap: {
   [key in QuestionType]: Partial<QuestionOptionsMap[key]>;
 } = {
@@ -42,15 +32,6 @@ const defaultOptionsMap: {
   file_document: { acceptedFormats: [], maxSizeMB: 5 },
   file_image: { acceptedFormats: [], maxSizeMB: 5 },
 };
-
-// const questionCardOptions: { [key in QuestionType]: QuestionUIOptions } = {
-//   text: {
-//     icon: <Text size={18} strokeWidth={1.9} />,
-//     questionId: createId(),
-//     questionText: "",
-//     questionType: "text",
-//   },
-// };
 
 const initializeOptions = <T extends QuestionType>(
   type: T,

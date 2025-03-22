@@ -130,39 +130,184 @@ export const QuestionTypeTrigger = () => {
           <CircleDot className="mr-2 h-4 w-4" />
           Multiple choice (select one)
         </Button>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "checkbox",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+              required: true,
+              surveyId: "",
+              options: {
+                choices: [],
+                maxSelections: 1,
+                minSelections: 1,
+                randomizeOrder: false,
+              },
+            });
+          }}
+        >
           <CheckSquare className="mr-2 h-4 w-4" />
           Checkboxes (select multiple)
         </Button>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "dropdown",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+              required: true,
+              surveyId: "",
+              options: {
+                allowSearch: true,
+                choices: [],
+              },
+            });
+          }}
+        >
           <ChevronDown className="mr-2 h-4 w-4" />
           Dropdown menu
         </Button>
 
         <DialogHeader>Scale inputs</DialogHeader>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "linear_scale",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+              required: true,
+              surveyId: "",
+              options: {
+                labels: { start: "Poor", end: "Excellent" },
+                max: 5,
+                min: 2,
+              },
+            });
+          }}
+        >
           <BarChart className="mr-2 h-4 w-4" />
           Linear scale (rate from 1-5, 1-10, etc.)
         </Button>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "rating",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+              required: true,
+              surveyId: "",
+              options: {
+                labels: [],
+                max: 5,
+                min: 2,
+              },
+            });
+          }}
+        >
           <Star className="mr-2 h-4 w-4" />
           Rating (stars, thumbs up/down)
         </Button>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "likert",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+              required: true,
+              surveyId: "",
+              options: {
+                labels: [
+                  "Strongly disagree",
+                  "disagree",
+                  "Somewhat disagree",
+                  "Neither agree nor disagree",
+                  "Somewhat agree",
+                  "Agree",
+                  "Strongly agree",
+                ],
+                scale: 7,
+                statement: "",
+              },
+            });
+          }}
+        >
           <ThumbsUp className="mr-2 h-4 w-4" />
           Likert scale (agree/disagree scales)
         </Button>
 
         <DialogHeader>Date and time picker</DialogHeader>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "date",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+              required: true,
+              surveyId: "",
+              options: {
+                allowPastDates: true,
+                format: "YYYY-mm-dd",
+                maxDate: "",
+                minDate: "",
+              },
+            });
+          }}
+        >
           <Calendar className="mr-2 h-4 w-4" />
           Date picker
         </Button>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "time",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+              required: true,
+              surveyId: "",
+              options: {
+                format: "",
+                maxTime: "",
+                minTime: "",
+              },
+            });
+          }}
+        >
           <Clock className="mr-2 h-4 w-4" />
           Time picker
         </Button>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "datetime",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+              required: true,
+              surveyId: "",
+              options: {
+                format: "",
+                maxDatetime: "",
+                minDatetime: "",
+              },
+            });
+          }}
+        >
           <CalendarClock className="mr-2 h-4 w-4" />
           Date and time picker
         </Button>

@@ -42,7 +42,6 @@ export const QuestionTypeTrigger = () => {
             setOpen(false);
             addQuestion({
               questionType: "text",
-              orderNumber: questions ? questions.length + 1 : 1,
               questionText:
                 "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
               required: true,
@@ -64,7 +63,6 @@ export const QuestionTypeTrigger = () => {
             setOpen(false);
             addQuestion({
               questionType: "email",
-              orderNumber: questions ? questions.length + 1 : 1,
               questionText:
                 "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
               required: true,
@@ -89,7 +87,6 @@ export const QuestionTypeTrigger = () => {
             setOpen(false);
             addQuestion({
               questionType: "number",
-              orderNumber: questions ? questions.length + 1 : 1,
               questionText:
                 "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
               required: false,
@@ -99,7 +96,6 @@ export const QuestionTypeTrigger = () => {
                 allowDecimal: false,
                 max: Infinity,
                 min: -Infinity,
-                step: 1,
               },
             });
           }}
@@ -113,7 +109,24 @@ export const QuestionTypeTrigger = () => {
         </Button>
 
         <DialogHeader>Selection Inputs</DialogHeader>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "multiple_choice",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+              required: false,
+              surveyId: "",
+              options: {
+                allowOther: false,
+                choices: [],
+                randomizeOrder: false,
+              },
+            });
+          }}
+        >
           <CircleDot className="mr-2 h-4 w-4" />
           Multiple choice (select one)
         </Button>

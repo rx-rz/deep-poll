@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 type Props = {
   questionText: string;
@@ -7,7 +8,8 @@ type Props = {
 
 export const QuestionInput = ({ questionText, setQuestionText }: Props) => {
   return (
-    <div className="mb-4">
+    <div className="my-4">
+      <Label className="text-xs">Question Text</Label>
       <Input
         placeholder="Enter question text"
         defaultValue={questionText}

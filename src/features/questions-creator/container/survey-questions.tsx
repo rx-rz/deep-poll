@@ -1,34 +1,19 @@
-import {
-  Question,
-  QuestionType,
-  useQuestionStore,
-} from "@/store/questions.store";
-import { TextQuestionCard } from "@/features/questions-creator/components/text-question-card";
-import { EmailQuestionCard } from "../components/email-question-card";
+import { useQuestionStore } from "@/store/questions.store";
 
-const renderQuestionComponent = <T extends QuestionType>(
-  question: Question<T>
-) => {
-  const { questionType, questionId } = question;
-
-  switch (questionType) {
-    case "text": {
-      return <TextQuestionCard questionId={questionId} key={questionId} />;
-    }
-    case "email": {
-      return <EmailQuestionCard questionId={questionId} key={questionId} />;
-    }
-    default:
-      return null;
-  }
-};
+import { QuestionEditor } from "../components/question-editor";
 
 export const SurveyQuestions = () => {
   const { questions } = useQuestionStore();
 
   return (
     <div className="flex flex-col gap-4 mt-4 w-full">
-      {questions.map((question) => renderQuestionComponent(question))}
+      {questions.map((question) => (
+        <QuestionEditor
+          questionId={question.questionId}
+          questionType={question.questionType}
+          key={question.questionId}
+        />
+      ))}
     </div>
   );
 };

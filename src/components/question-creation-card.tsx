@@ -1,5 +1,10 @@
 import { QuestionType, useQuestionStore } from "@/store/questions.store";
-import { ChevronDownCircle, ChevronUpCircle, Stars, Trash2Icon } from "lucide-react";
+import {
+  ChevronDownCircle,
+  ChevronUpCircle,
+  Stars,
+  Trash2Icon,
+} from "lucide-react";
 import { ReactNode, useState } from "react";
 
 type Props = {
@@ -21,7 +26,7 @@ export const QuestionCreationCard = ({
 }: Props) => {
   const [questionOptionsIsOpen, setQuestionOptionsIsOpen] = useState(false);
   const { removeQuestion } = useQuestionStore();
-
+  
   return (
     <>
       <div className="border-2 focus-within:border-black py-4 px-5">
@@ -39,7 +44,7 @@ export const QuestionCreationCard = ({
             >
               <Trash2Icon size={18} strokeWidth={1.9} />
             </button>
-            <Stars size={18} strokeWidth={1.9}/>
+            <Stars size={18} strokeWidth={1.9} />
           </div>
         </div>
         <div className="text-lg font-medium gap-3 flex mb-1">

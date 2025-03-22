@@ -19,7 +19,6 @@ export type QuestionType =
   | "file_document"
   | "file_image";
 
-/** Type-safe mapping of options based on question type */
 export type QuestionOptionsMap = {
   text: {
     placeholder: string;
@@ -42,42 +41,89 @@ export type QuestionOptionsMap = {
   };
   phone: {
     placeholder: string;
+    allowedCountries: string[]; // ISO country codes (e.g., ['US', 'CA'])
+    format: string; // e.g., '(XXX) XXX-XXXX'
   };
   multiple_choice: {
     choices: string[];
-    allowOther: boolean;
+    allowOther: boolean; // Allow an "Other" option with text input
+    randomizeOrder: boolean; // Randomize the order of choices
   };
   checkbox: {
     choices: string[];
     minSelections: number;
     maxSelections: number;
+    randomizeOrder: boolean; // Randomize the order of choices
   };
-  dropdown: { choices: string[] };
-  rating: { min: number; max: number; labels: string[] };
-  likert: { scale: number; labels: string[] };
+  dropdown: {
+    choices: string[];
+    allowSearch: boolean; // Enable search functionality in the dropdown
+  };
+  rating: {
+    min: number; // Minimum rating (e.g., 1)
+    max: number; // Maximum rating (e.g., 5)
+    labels: string[]; // Labels for each rating (e.g., ["Poor", "Excellent"])
+  };
+  likert: {
+    scale: number; // Number of points on the scale (e.g., 5, 7)
+    labels: string[]; // Labels for each point on the scale
+    statement: string; // Statement being rated
+  };
   linear_scale: {
-    min: number;
-    max: number;
-    labels: { start: string; end: string };
+    min: number; // Starting value
+    max: number; // Ending value
+    labels: { start: string; end: string }; // Labels for start and end points
   };
-  date: { format: string; minDate: string; maxDate: string };
-  time: { format: string; minTime: string; maxTime: string };
+  date: {
+    format: string; // Date format (e.g., 'YYYY-MM-DD')
+    minDate: string; // Minimum selectable date
+    maxDate: string; // Maximum selectable date
+    allowPastDates: boolean; // Allow dates in the past
+  };
+  time: {
+    format: string; // Time format (e.g., 'HH:mm')
+    minTime: string; // Minimum time
+    maxTime: string; // Maximum time
+  };
   datetime: {
-    format: string;
-    minDatetime: string;
-    maxDatetime: string;
+    format: string; // Datetime format (e.g., 'YYYY-MM-DDTHH:mm')
+    minDatetime: string; // Minimum datetime
+    maxDatetime: string; // Maximum datetime
   };
   file_document: {
-    acceptedFormats: string[];
-    maxSizeMB: number;
+    acceptedFormats: string[]; // Allowed file extensions (e.g., ['pdf', 'docx'])
+    maxSizeMB: number; // Maximum file size in MB
+    maxFiles: number; // Maximum number of files that can be uploaded
   };
   file_image: {
-    acceptedFormats: string[];
-    maxSizeMB: number;
+    acceptedFormats: string[]; // Allowed image extensions (e.g., ['jpg', 'png'])
+    maxSizeMB: number; // Maximum file size in MB
+    maxFiles: number; // Maximum number of images that can be uploaded
+    allowMultiple: boolean; // Allow uploading multiple images
+  };
+  slider: {
+    min: number; // Minimum value
+    max: number; // Maximum value
+    step: number; // Step increment
+    labels: { start: string; end: string }; // Labels for start and end
+  };
+  signature: {
+    placeholder: string; // Placeholder text (e.g., "Sign here")
+    penColor: string; // Default pen color
+    backgroundColor: string; // Background color
+    clearButtonLabel: string; // Text for the clear button
+  };
+  matrix: {
+    rows: string[]; // Row labels (e.g., questions or categories)
+    columns: string[]; // Column labels (e.g., rating scale)
+    allowMultipleSelections: boolean; // Allow multiple selections per row
+  };
+  toggle: {
+    labels: { on: string; off: string }; // Labels for on/off states
+    defaultState: boolean; // Default toggle state
   };
 };
 
-/** Generic type for questions */
 export type Question<T extends QuestionType = QuestionType> = {
   questionId: string;
   surveyId: string | null;
@@ -93,7 +139,7 @@ export type Question<T extends QuestionType = QuestionType> = {
 type QuestionStore = {
   questions: Question[];
   addQuestion: <T extends QuestionType>(
-    data: Omit<Question<T>, "createdAt" | "questionId">
+    data: Omit<Question<T>, "createdAt" | "questionId" | "orderNumber">
   ) => void;
   updateQuestion: <T extends QuestionType>(
     id: string,
@@ -114,6 +160,7 @@ export const useQuestionStore = create<QuestionStore>()(
             ...state.questions,
             {
               questionId: createId(),
+              orderNumber: state.questions.length + 1,
               createdAt: new Date().toISOString(),
               ...data,
             },

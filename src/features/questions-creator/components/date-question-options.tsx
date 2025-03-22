@@ -15,11 +15,13 @@ type OptionProps = {
 
 export const DateQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const [localQuestionOptions, setLocalQuestionOptions] = useState({
-      format: questionOptions?.format ?? "yyyy-MM-dd",
-      minDate: questionOptions?.minDate ?? "",
-      maxDate: questionOptions?.maxDate ?? "",
-    });
+    const [localQuestionOptions, setLocalQuestionOptions] =
+      useState<LocalQuestionOptions>({
+        format: questionOptions?.format ?? "yyyy-MM-dd",
+        minDate: questionOptions?.minDate ?? "",
+        maxDate: questionOptions?.maxDate ?? "",
+        allowPastDates: questionOptions?.allowPastDates ?? "",
+      });
 
     const { format, minDate, maxDate } = localQuestionOptions;
 
@@ -30,7 +32,8 @@ export const DateQuestionOptions = memo(
       setLocalQuestionOptions((prev) => ({ ...prev, [key]: value }));
     };
 
-    const isModified = JSON.stringify(localQuestionOptions) !== JSON.stringify(questionOptions);
+    const isModified =
+      JSON.stringify(localQuestionOptions) !== JSON.stringify(questionOptions);
 
     return (
       <>

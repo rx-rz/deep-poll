@@ -27,7 +27,7 @@ import { useQuestionStore } from "@/store/questions.store";
 
 export const QuestionTypeTrigger = () => {
   const [open, setOpen] = useState(false);
-  const { questions, addQuestion } = useQuestionStore();
+  const { addQuestion } = useQuestionStore();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="w-full h-12 border mt-3 hover:cursor-pointer">

@@ -5,16 +5,19 @@ import { z } from "zod";
 
 export const sliderOptionsSchema = z
   .object({
-    min: z.number().default(0),
-    max: z.number().default(100),
-    step: z.number().default(1),
+    min: z.coerce.number().default(0),
+    max: z.coerce.number().default(100),
+    step: z.coerce.number().default(1),
     labels: z.object({
       start: z.string().default(""),
       end: z.string().default(""),
     }),
     range: z.boolean().default(false),
     defaultValue: z
-      .union([z.number(), z.tuple([z.number(), z.number()])])
+      .union([
+        z.coerce.number(),
+        z.tuple([z.coerce.number(), z.coerce.number()]),
+      ])
       .optional(),
   })
   .refine((data) => data.max > data.min, {

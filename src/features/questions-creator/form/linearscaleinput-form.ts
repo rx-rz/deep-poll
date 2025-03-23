@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 
 export const linearScaleQuestionOptionsSchema = z
   .object({
-    min: z.number().int().default(0),
-    max: z.number().int().default(100),
+    min: z.coerce.number().int().default(0),
+    max: z.coerce.number().int().default(100),
     labels: z.object({
       start: z.string().default(""),
       end: z.string().default(""),

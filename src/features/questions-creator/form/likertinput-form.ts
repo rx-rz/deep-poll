@@ -4,7 +4,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export const likertQuestionOptionsSchema = z.object({
-  scale: z.number().int().min(2).default(5),
+  scale: z.coerce.number().int().min(2).default(5),
   labels: z
     .string()
     .array()

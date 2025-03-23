@@ -17,6 +17,8 @@ import { LinearScaleQuestionOptions } from "./linear-scale-question-options";
 import { DateQuestionOptions } from "./date-question-options";
 import { TimeQuestionOptions } from "./time-question-options";
 import { DateTimeQuestionOptions } from "./datetime-question-options";
+import { SliderQuestionOptions } from "./slider-question-options";
+import { FileUploadQuestionOptions } from "./file-upload-question-options";
 
 type Props = {
   questionId: string;
@@ -177,6 +179,30 @@ export const QuestionEditor = ({ questionId, questionType }: Props) => {
           setQuestionOptions={
             setLocalOptions as Dispatch<
               SetStateAction<QuestionOptionsMap["datetime"]>
+            >
+          }
+        />
+      );
+      break;
+    case "slider":
+      optionSettings = (
+        <SliderQuestionOptions
+          questionOptions={localOptions as QuestionOptionsMap["slider"]}
+          setQuestionOptions={
+            setLocalOptions as Dispatch<
+              SetStateAction<QuestionOptionsMap["slider"]>
+            >
+          }
+        />
+      );
+      break;
+    case "file":
+      optionSettings = (
+        <FileUploadQuestionOptions
+          questionOptions={localOptions as QuestionOptionsMap["file"]}
+          setQuestionOptions={
+            setLocalOptions as Dispatch<
+              SetStateAction<QuestionOptionsMap["file"]>
             >
           }
         />

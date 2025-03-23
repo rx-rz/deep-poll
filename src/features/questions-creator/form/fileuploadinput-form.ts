@@ -8,8 +8,8 @@ export const fileUploadOptionsSchema = z.object({
     .string()
     .array()
     .min(1, "At least one accepted format is required"),
-  maxSizeMB: z.number().positive("Max size must be positive").default(5),
-  maxFiles: z
+  maxSizeMB: z.coerce.number().positive("Max size must be positive").default(5),
+  maxFiles: z.coerce
     .number()
     .positive("Max files must be positive")
     .int("Max files must be an integer")

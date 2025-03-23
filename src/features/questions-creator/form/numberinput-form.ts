@@ -7,8 +7,8 @@ export const numberQuestionOptionsSchema = z
   .object({
     placeholder: z.string().optional(),
     allowDecimal: z.boolean().default(false),
-    min: z.number().int().default(0),
-    max: z.number().int().default(Infinity),
+    min: z.coerce.number().int().default(0),
+    max: z.coerce.number().int().default(Infinity),
   })
   .refine((data) => data.max >= data.min, {
     message: "Maximum value must be greater than or equal to minimum value",

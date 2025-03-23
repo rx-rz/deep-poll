@@ -5,11 +5,11 @@ import { useForm } from "react-hook-form";
 export const checkboxQuestionOptionsSchema = z
   .object({
     choices: z.array(z.string()).default([]),
-    minSelections: z
+    minSelections: z.coerce
       .number()
       .min(0, "Minimum selections must be at least 0")
       .default(0),
-    maxSelections: z
+    maxSelections: z.coerce
       .number()
       .min(1, "Maximum selections must be at least 1")
       .default(1),

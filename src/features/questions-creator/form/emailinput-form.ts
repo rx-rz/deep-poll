@@ -5,12 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 export const emailQuestionOptionsSchema = z
   .object({
-    minEmailLength: z
+    minEmailLength: z.coerce
       .number()
       .int()
       .min(1, "Minimum length must be at least 1")
       .default(1),
-    maxEmailLength: z
+    maxEmailLength: z.coerce
       .number()
       .int()
       .min(1, "Maximum length must be at least 1")

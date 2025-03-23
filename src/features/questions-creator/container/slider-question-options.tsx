@@ -23,7 +23,7 @@ type OptionProps = {
   >;
 };
 
-export const SliderOptions = memo(
+export const SliderQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
     const defaultValues = {
       min: questionOptions?.min ?? 0,
@@ -49,7 +49,7 @@ export const SliderOptions = memo(
       <Form {...form}>
         <form onSubmit={onSubmit}>
           <div className="grid gap-4 mb-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4">
               <FormField
                 control={control}
                 name="min"
@@ -57,7 +57,11 @@ export const SliderOptions = memo(
                   <FormItem>
                     <Label className="text-xs">Minimum Value</Label>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input
+                        type="number"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -70,7 +74,11 @@ export const SliderOptions = memo(
                   <FormItem>
                     <Label className="text-xs">Maximum Value</Label>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input
+                        type="number"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -83,7 +91,11 @@ export const SliderOptions = memo(
                   <FormItem>
                     <Label className="text-xs">Step</Label>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input
+                        type="number"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

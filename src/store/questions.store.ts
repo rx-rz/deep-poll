@@ -76,14 +76,15 @@ export type QuestionOptionsMap = {
   };
   date: {
     format: string; // Date format (e.g., 'YYYY-MM-DD')
-    minDate: string; // Minimum selectable date
-    maxDate: string; // Maximum selectable date
+    minDate?: string; // Minimum selectable date
+    maxDate?: string; // Maximum selectable date
     allowPastDates: boolean; // Allow dates in the past
   };
   time: {
     format: string; // Time format (e.g., 'HH:mm')
-    minTime: string; // Minimum time
-    maxTime: string; // Maximum time
+    minTime?: string; // Minimum time
+    maxTime?: string; // Maximum time
+    allowElapsedTime: boolean; // Allow elapsed time (e.g., 1 hour from now)
   };
   datetime: {
     format: string; // Datetime format (e.g., 'YYYY-MM-DDTHH:mm')

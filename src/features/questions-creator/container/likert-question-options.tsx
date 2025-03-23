@@ -1,8 +1,18 @@
-import { memo, useState } from "react";
+// LikertQuestionOptions.tsx
+import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { QuestionOptionsMap } from "@/store/questions.store";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { useLikertQuestionOptionsForm } from "../form/likertinput-form";
+import { Trash2Icon } from "lucide-react";
 
 type LocalQuestionOptions = QuestionOptionsMap["likert"];
 
@@ -15,126 +25,116 @@ type OptionProps = {
 
 export const LikertQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const [localQuestionOptions, setLocalQuestionOptions] = useState({
+    const defaultValues = {
       scale: questionOptions?.scale ?? 5,
       labels: questionOptions?.labels ?? [
         "Strongly Disagree",
         "Strongly Agree",
       ],
       statement: questionOptions?.statement ?? "",
+    };
+
+    const { form, onSubmit } = useLikertQuestionOptionsForm({
+      questionOptions: defaultValues,
+      setQuestionOptions,
     });
 
-    const { scale, labels, statement } = localQuestionOptions;
-
-    const updateQuestionConfig = (
-      key: keyof typeof localQuestionOptions,
-      value: any
-    ) => {
-      setLocalQuestionOptions((prev) => ({ ...prev, [key]: value }));
-    };
-
-    const updateLabel = (index: number, value: string) => {
-      const updatedLabels = [...labels];
-      updatedLabels[index] = value;
-      updateQuestionConfig("labels", updatedLabels);
-    };
+    const { control, formState, watch, setValue } = form;
+    const { isDirty } = formState;
+    const scaleValue = watch("scale");
+    const labelsValue = watch("labels");
 
     const addLabel = () => {
-      if (labels.length < scale) {
-        updateQuestionConfig("labels", [...labels, ""]);
+      if (labelsValue.length < scaleValue) {
+        setValue("labels", [...labelsValue, ""]);
       }
     };
 
     const removeLabel = (index: number) => {
-      const updatedLabels = labels.filter((_, i) => i !== index);
-      updateQuestionConfig("labels", updatedLabels);
+      const updatedLabels = labelsValue.filter((_, i) => i !== index);
+      setValue("labels", updatedLabels);
     };
 
-    const isModified = Object.keys(localQuestionOptions).some(
-      (key) =>
-        JSON.stringify(
-          localQuestionOptions[key as keyof LocalQuestionOptions]
-        ) !== JSON.stringify(questionOptions[key as keyof LocalQuestionOptions])
-    );
+    const updateLabel = (index: number, value: string) => {
+      const updatedLabels = [...labelsValue];
+      updatedLabels[index] = value;
+      setValue("labels", updatedLabels);
+    };
 
     return (
-      <>
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div>
-            <Label className="text-xs">Scale (Number of Points)</Label>
-            <Input
-              type="number"
-              value={scale}
-              onChange={(e) => {
-                const value = Number(e.target.value);
-                if (value >= 2) {
-                  updateQuestionConfig("scale", value);
-                  // Adjust labels array to match scale
-                  const adjustedLabels = [...labels];
-                  if (value > adjustedLabels.length) {
-                    while (adjustedLabels.length < value) {
-                      adjustedLabels.push("");
-                    }
-                  } else {
-                    adjustedLabels.length = value;
-                  }
-                  updateQuestionConfig("labels", adjustedLabels);
-                }
-              }}
+      <Form {...form}>
+        <form onSubmit={onSubmit}>
+          <div className=" gap-4 mb-4">
+            <div>
+              <Label className="text-xs">Scale (Number of Points)</Label>
+              <FormField
+                control={control}
+                name="scale"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input type="number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <Label className="text-xs">Statement</Label>
+            <FormField
+              control={control}
+              name="statement"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      {...field}
+                      placeholder="Enter the statement being rated"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
-        </div>
 
-        <div className="mb-4">
-          <Label className="text-xs">Statement</Label>
-          <Input
-            type="text"
-            value={statement}
-            onChange={(e) => {
-              updateQuestionConfig("statement", e.target.value);
-            }}
-            placeholder="Enter the statement being rated"
-          />
-        </div>
+          <div>
+            <Label className="text-xs">Labels for Each Point</Label>
+            {labelsValue.map((label, index) => (
+              <div key={index} className="flex items-center gap-2 mb-2">
+                <Input
+                  type="text"
+                  value={label}
+                  placeholder={`Label for Point ${index + 1}`}
+                  onChange={(e) => updateLabel(index, e.target.value)}
+                />
+                <Button
+                  variant="destructive"
+                  onClick={() => removeLabel(index)}
+                  disabled={labelsValue.length <= 2}
+                >
+                  <Trash2Icon stroke="#fff" />
+                </Button>
+              </div>
+            ))}
+            <Button
+              variant="outline"
+              onClick={addLabel}
+              disabled={labelsValue.length >= scaleValue}
+            >
+              Add Label
+            </Button>
+          </div>
 
-        <div>
-          <Label className="text-xs">Labels for Each Point</Label>
-          {labels.map((label, index) => (
-            <div key={index} className="flex items-center gap-2 mb-2">
-              <Input
-                type="text"
-                value={label}
-                placeholder={`Label for Point ${index + 1}`}
-                onChange={(e) => updateLabel(index, e.target.value)}
-              />
-              <Button
-                variant="destructive"
-                onClick={() => removeLabel(index)}
-                disabled={labels.length <= 2} // At least two labels are required
-              >
-                Remove
-              </Button>
-            </div>
-          ))}
-          <Button
-            variant="outline"
-            onClick={addLabel}
-            disabled={labels.length >= scale} // Prevent adding more labels than the scale
-          >
-            Add Label
+          <Button className="w-full mt-4" type="submit" disabled={!isDirty}>
+            Save
           </Button>
-        </div>
-
-        <Button
-          className="w-full mt-4"
-          disabled={!isModified}
-          onClick={() => {
-            setQuestionOptions({ ...localQuestionOptions });
-          }}
-        >
-          Save
-        </Button>
-      </>
+        </form>
+      </Form>
     );
   }
 );

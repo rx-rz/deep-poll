@@ -1,6 +1,6 @@
 import { useQuestionHandler } from "@/hooks/use-question-creation-handler";
 import { QuestionOptionsMap, QuestionType } from "@/store/questions.store";
-import { QuestionInput } from "./question-input";
+import { QuestionInput } from "../components/question-input";
 import { TextQuestionOptions } from "./text-question-options";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Switch } from "@/components/ui/switch";

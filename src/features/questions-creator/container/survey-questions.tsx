@@ -1,6 +1,6 @@
 import { useQuestionStore } from "@/store/questions.store";
 
-import { QuestionEditor } from "../components/question-editor";
+import { QuestionEditor } from "./question-editor";
 
 export const SurveyQuestions = () => {
   const { questions } = useQuestionStore();

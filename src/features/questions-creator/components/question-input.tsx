@@ -9,7 +9,7 @@ type Props = {
 export const QuestionInput = ({ questionText, setQuestionText }: Props) => {
   return (
     <div className="my-4">
-      <Label className="text-xs">Question Text</Label>
+      <Label className="text-xs mb-2">Question Text</Label>
       <Input
         placeholder="Enter question text"
         defaultValue={questionText}

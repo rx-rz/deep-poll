@@ -39,9 +39,9 @@ export const TextQuestionOptions = memo(
 
     return (
       <>
-        <div className="grid grid-cols-2 gap-4  mb-4">
+        <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <Label className=" text-xs">Minimum Question Length</Label>
+            <Label className="text-xs mb-2">Minimum Answer Length</Label>
             <Input
               type="number"
               defaultValue={minLength}
@@ -51,7 +51,7 @@ export const TextQuestionOptions = memo(
             />
           </div>
           <div>
-            <Label className=" text-xs">Maximum Question Length</Label>
+            <Label className=" text-xs mb-2">Maximum Answer Length</Label>
             <Input
               value={maxLength}
               type="number"
@@ -61,7 +61,7 @@ export const TextQuestionOptions = memo(
             />
           </div>
           <div>
-            <Label className=" text-xs">Question Placeholder</Label>
+            <Label className=" text-xs mb-2">Question Placeholder</Label>
             <Input
               value={placeholder}
               type="text"
@@ -74,13 +74,13 @@ export const TextQuestionOptions = memo(
         </div>
 
         <Button
-          className="w-full mt-4"
+          className="w-full mt-4 font-bold"
           disabled={!isModified}
           onClick={() => {
             setQuestionOptions({ ...localQuestionOptions });
           }}
         >
-          Save
+          SAVE
         </Button>
       </>
     );

@@ -24,7 +24,7 @@ type OptionProps = {
   >;
 };
 
-export const FileUploadOptions = memo(
+export const FileUploadQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
     const defaultValues = {
       acceptedFormats: questionOptions?.acceptedFormats ?? ["pdf"],

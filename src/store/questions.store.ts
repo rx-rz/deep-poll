@@ -102,6 +102,8 @@ export type QuestionOptionsMap = {
     max: number; // Maximum value
     step: number; // Step increment
     labels: { start: string; end: string }; // Labels for start and end
+    range: boolean;
+    defaultValue?: number | [number, number]; // Default value(s)
   };
   // signature: {
   //   placeholder: string; // Placeholder text (e.g., "Sign here")

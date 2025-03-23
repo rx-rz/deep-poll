@@ -1,8 +1,17 @@
-import { memo, useState } from "react";
+// DateTimeQuestionOptions.tsx
+import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { QuestionOptionsMap } from "@/store/questions.store";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { useDateTimeQuestionOptionsForm } from "../form/datetimeinput-form";
 
 type LocalQuestionOptions = QuestionOptionsMap["datetime"];
 
@@ -15,63 +24,82 @@ type OptionProps = {
 
 export const DateTimeQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const [localQuestionOptions, setLocalQuestionOptions] = useState({
+    const defaultValues = {
       format: questionOptions?.format ?? "yyyy-MM-dd HH:mm",
       minDatetime: questionOptions?.minDatetime ?? "",
       maxDatetime: questionOptions?.maxDatetime ?? "",
-    });
-
-    const { format, minDatetime, maxDatetime } = localQuestionOptions;
-
-    const updateQuestionConfig = (
-      key: keyof typeof localQuestionOptions,
-      value: string
-    ) => {
-      setLocalQuestionOptions((prev) => ({ ...prev, [key]: value }));
     };
 
-    const isModified = JSON.stringify(localQuestionOptions) !== JSON.stringify(questionOptions);
+    const { form, onSubmit } = useDateTimeQuestionOptionsForm({
+      questionOptions: defaultValues,
+      setQuestionOptions,
+    });
+
+    const { control, formState } = form;
+    const { isDirty } = formState;
 
     return (
-      <>
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div>
-            <Label className="text-xs">DateTime Format</Label>
-            <Input
-              type="text"
-              value={format}
-              placeholder="e.g., yyyy-MM-dd HH:mm"
-              onChange={(e) => updateQuestionConfig("format", e.target.value)}
-            />
+      <Form {...form}>
+        <form onSubmit={onSubmit}>
+          <div className="flex flex-col gap-4 mb-4">
+            <div>
+              <Label className="text-xs mb-2">DateTime Format</Label>
+              <FormField
+                control={control}
+                name="format"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        placeholder="e.g., yyyy-MM-dd HH:mm"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-xs mb-2">Minimum DateTime</Label>
+                <FormField
+                  control={control}
+                  name="minDatetime"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input type="datetime-local" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div>
+                <Label className="text-xs mb-2">Maximum DateTime</Label>
+                <FormField
+                  control={control}
+                  name="maxDatetime"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input type="datetime-local" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
           </div>
-          <div>
-            <Label className="text-xs">Minimum DateTime</Label>
-            <Input
-              type="datetime-local"
-              value={minDatetime}
-              onChange={(e) => updateQuestionConfig("minDatetime", e.target.value)}
-            />
-          </div>
-          <div>
-            <Label className="text-xs">Maximum DateTime</Label>
-            <Input
-              type="datetime-local"
-              value={maxDatetime}
-              onChange={(e) => updateQuestionConfig("maxDatetime", e.target.value)}
-            />
-          </div>
-        </div>
 
-        <Button
-          className="w-full mt-4"
-          disabled={!isModified}
-          onClick={() => {
-            setQuestionOptions({ ...localQuestionOptions });
-          }}
-        >
-          Save
-        </Button>
-      </>
+          <Button className="w-full mt-4" type="submit" disabled={!isDirty}>
+            Save
+          </Button>
+        </form>
+      </Form>
     );
   }
 );

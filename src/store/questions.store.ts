@@ -16,8 +16,7 @@ export type QuestionType =
   | "date"
   | "time"
   | "datetime"
-  | "file_document"
-  | "file_image";
+  | "file";
 
 export type QuestionOptionsMap = {
   text: {
@@ -88,20 +87,16 @@ export type QuestionOptionsMap = {
   };
   datetime: {
     format: string; // Datetime format (e.g., 'YYYY-MM-DDTHH:mm')
-    minDatetime: string; // Minimum datetime
-    maxDatetime: string; // Maximum datetime
+    minDatetime?: string; // Minimum datetime
+    maxDatetime?: string; // Maximum datetime
   };
-  file_document: {
+  file: {
+    allowMultiple: boolean;
     acceptedFormats: string[]; // Allowed file extensions (e.g., ['pdf', 'docx'])
     maxSizeMB: number; // Maximum file size in MB
     maxFiles: number; // Maximum number of files that can be uploaded
   };
-  file_image: {
-    acceptedFormats: string[]; // Allowed image extensions (e.g., ['jpg', 'png'])
-    maxSizeMB: number; // Maximum file size in MB
-    maxFiles: number; // Maximum number of images that can be uploaded
-    allowMultiple: boolean; // Allow uploading multiple images
-  };
+
   slider: {
     min: number; // Minimum value
     max: number; // Maximum value

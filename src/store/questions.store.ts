@@ -22,8 +22,8 @@ export type QuestionType =
 export type QuestionOptionsMap = {
   text: {
     placeholder: string;
-    maxLength: number;
-    minLength: number;
+    minAnswerLength: number;
+    maxAnswerLength: number;
   };
   email: {
     placeholder: string;

@@ -4,15 +4,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useMultipleChoiceQuestionOptionsForm } from "../form/multiplechoiceinput-form";
 import { QuestionOptionsMap } from "@/store/questions.store";
+import { Trash2Icon } from "lucide-react";
 
 type LocalQuestionOptions = QuestionOptionsMap["multiple_choice"];
 
@@ -70,7 +65,7 @@ export const MultipleChoiceQuestionOptions = memo(
                         }}
                         disabled={choices.length === 1}
                       >
-                        Remove
+                        <Trash2Icon stroke="#fff" />
                       </Button>
                     </div>
                   ))}

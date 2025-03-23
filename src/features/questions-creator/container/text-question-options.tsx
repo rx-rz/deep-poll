@@ -51,6 +51,7 @@ export const TextQuestionOptions = memo(
                   <FormControl>
                     <Input
                       type="number"
+                      min={1}
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -68,6 +69,7 @@ export const TextQuestionOptions = memo(
                   <Label className="text-xs mb-2">Maximum Answer Length</Label>
                   <FormControl>
                     <Input
+                      min={form.getValues("minAnswerLength")}
                       type="number"
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}

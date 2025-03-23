@@ -21,7 +21,7 @@ export type QuestionType =
 
 export type QuestionOptionsMap = {
   text: {
-    placeholder: string;
+    placeholder?: string;
     minAnswerLength: number;
     maxAnswerLength: number;
   };
@@ -57,7 +57,7 @@ export type QuestionOptionsMap = {
   };
   dropdown: {
     choices: string[];
-    allowSearch: boolean; 
+    allowSearch: boolean;
   };
   rating: {
     min: number; // Minimum rating (e.g., 1)

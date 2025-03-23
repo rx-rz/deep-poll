@@ -4,15 +4,17 @@ import { z } from "zod";
 
 export const textQuestionOptionsSchema = z
   .object({
-    placeholder: z.string().nonempty("Placeholder cannot be empty"),
+    placeholder: z.string().optional(),
     minAnswerLength: z
       .number()
       .int()
+      .min(1)
       .positive("Minimum length must be positive")
       .default(1),
     maxAnswerLength: z
       .number()
       .int()
+      .min(1)
       .positive("Maximum length must be positive")
       .default(255),
   })

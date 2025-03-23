@@ -9,13 +9,13 @@ import { useDebounce } from "./use-debounce";
 const defaultOptionsMap: {
   [key in QuestionType]: Partial<QuestionOptionsMap[key]>;
 } = {
-  text: { placeholder: "", minLength: 1, maxLength: 255 },
+  text: { placeholder: "", minAnswerLength: 1, maxAnswerLength: 255 },
   email: {
     placeholder: "",
-    minLength: 1,
-    maxLength: 255,
-    allowedDomains: [],
-    disallowedDomains: [],
+    minEmailLength: 1,
+    maxEmailLength: 255,
+    allowedDomains: "",
+    disallowedDomains: "",
     allowDuplicates: false,
   },
   number: { placeholder: "", allowDecimal: false, min: 0, max: 100 },
@@ -29,8 +29,19 @@ const defaultOptionsMap: {
   date: { format: "yyyy-MM-dd", minDate: "", maxDate: "" },
   time: { format: "HH:mm", minTime: "", maxTime: "" },
   datetime: { format: "yyyy-MM-dd HH:mm", minDatetime: "", maxDatetime: "" },
-  file_document: { acceptedFormats: [], maxSizeMB: 5 },
-  file_image: { acceptedFormats: [], maxSizeMB: 5 },
+  file: {
+    acceptedFormats: [],
+    maxSizeMB: 1,
+    maxFiles: 1,
+    allowMultiple: false,
+  },
+  slider: {
+    min: 0,
+    max: 100,
+    step: 1,
+    labels: { start: "", end: "" },
+    defaultValue: 0,
+  },
 };
 
 const initializeOptions = <T extends QuestionType>(

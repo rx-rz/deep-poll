@@ -7,13 +7,11 @@ import {
   CheckSquare,
   ChevronDown,
   BarChart,
-  Star,
   ThumbsUp,
   Calendar,
   Clock,
   CalendarClock,
   File,
-  Image,
   Sliders,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -71,8 +69,8 @@ export const QuestionTypeTrigger = () => {
               options: {
                 placeholder: "Enter your email",
                 allowDuplicates: false,
-                allowedDomains: [],
-                disallowedDomains: [],
+                allowedDomains: "",
+                disallowedDomains: "",
                 maxEmailLength: 255,
                 minEmailLength: 1,
               },

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const DesignSystem = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -361,7 +361,6 @@ const DesignSystem = () => {
                   value={textareaValue}
                   onChange={(e) => setTextareaValue(e.target.value)}
                   placeholder="Type your message..."
-                  rows="4"
                   className={`w-full px-4 py-3 rounded-lg resize-none transition-all duration-200 focus:outline-none ${
                     darkMode
                       ? "bg-gray-800 border border-gray-700 focus:border-[#4392F1] focus:ring-2 focus:ring-[#4392F1]/20"

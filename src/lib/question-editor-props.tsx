@@ -10,8 +10,6 @@ import {
   BarChart,
   Calendar,
   Clock,
-  FileText,
-  Image,
   Menu,
   ChartBarBig,
   File,

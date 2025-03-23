@@ -26,15 +26,15 @@ export type QuestionOptionsMap = {
     maxAnswerLength: number;
   };
   email: {
-    placeholder: string;
-    maxLength: number;
-    minLength: number;
+    placeholder?: string;
+    minEmailLength: number;
+    maxEmailLength: number;
     allowedDomains: string[];
     disallowedDomains: string[];
     allowDuplicates: boolean;
   };
   number: {
-    placeholder: string;
+    placeholder?: string;
     allowDecimal: boolean;
     min: number;
     max: number;

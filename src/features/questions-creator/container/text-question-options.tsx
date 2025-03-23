@@ -1,4 +1,3 @@
-// TextQuestionOptions.tsx
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -29,7 +28,6 @@ export const TextQuestionOptions = memo(
       maxAnswerLength: questionOptions?.maxAnswerLength ?? 255,
     };
 
-    // Use the separated form hook
     const { form, onSubmit } = useTextQuestionOptionsForm({
       questionOptions: defaultValues,
       setQuestionOptions,

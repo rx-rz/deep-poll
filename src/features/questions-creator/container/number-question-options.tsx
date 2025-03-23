@@ -1,8 +1,17 @@
-import { memo, useState } from "react";
+// NumberQuestionOptions.tsx
+import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { useNumberQuestionOptionsForm } from "../form/numberinput-form";
 import { QuestionOptionsMap } from "@/store/questions.store";
 
 type LocalQuestionOptions = QuestionOptionsMap["number"];
@@ -16,85 +25,93 @@ type OptionProps = {
 
 export const NumberQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const [localQuestionOptions, setLocalQuestionOptions] = useState({
-      placeholder: questionOptions?.placeholder ?? "",
-      allowDecimal: questionOptions?.allowDecimal ?? false,
-      min: questionOptions?.min ?? 0,
-      max: questionOptions?.max ?? Infinity,
+    const { form, onSubmit } = useNumberQuestionOptionsForm({
+      questionOptions,
+      setQuestionOptions,
     });
 
-    const { placeholder, allowDecimal, min, max } = localQuestionOptions;
-
-    const updateQuestionConfig = (
-      key: keyof typeof localQuestionOptions,
-      value: any
-    ) => {
-      setLocalQuestionOptions((prev) => ({ ...prev, [key]: value }));
-    };
-
-    const isModified = Object.keys(localQuestionOptions).some(
-      (key) =>
-        JSON.stringify(
-          localQuestionOptions[key as keyof LocalQuestionOptions]
-        ) !== JSON.stringify(questionOptions[key as keyof LocalQuestionOptions])
-    );
+    const { control, formState } = form;
+    const { isDirty } = formState;
 
     return (
-      <>
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div>
-            <Label className="text-xs">Minimum Value</Label>
-            <Input
-              type="number"
-              value={min}
-              onChange={(e) =>
-                updateQuestionConfig("min", Number(e.target.value))
-              }
+      <Form {...form}>
+        <form onSubmit={onSubmit}>
+          <div className="grid gap-4 mb-4">
+            <FormField
+              control={control}
+              name="min"
+              render={({ field }) => (
+                <FormItem>
+                  <Label className="text-xs">Minimum Value</Label>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div>
-            <Label className="text-xs">Maximum Value</Label>
-            <Input
-              type="number"
-              min={min}
-              value={max}
-              onChange={(e) =>
-                updateQuestionConfig("max", Number(e.target.value))
-              }
-            />
-          </div>
-          <div>
-            <Label className="text-xs">Placeholder</Label>
-            <Input
-              type="text"
-              value={placeholder}
-              onChange={(e) =>
-                updateQuestionConfig("placeholder", e.target.value)
-              }
-            />
-          </div>
-          <div>
-            <p className="font-medium text-xs mb-2">Allow Decimals</p>
-            <Switch
-              className="w-8 h-4 hover:cursor-pointer"
-              checked={allowDecimal}
-              onCheckedChange={(value) =>
-                updateQuestionConfig("allowDecimal", value)
-              }
-            />
-          </div>
-        </div>
 
-        <Button
-          className="w-full mt-4"
-          disabled={!isModified}
-          onClick={() => {
-            setQuestionOptions({ ...localQuestionOptions });
-          }}
-        >
-          Save
-        </Button>
-      </>
+            <FormField
+              control={control}
+              name="max"
+              render={({ field }) => (
+                <FormItem>
+                  <Label className="text-xs">Maximum Value</Label>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      min={form.getValues("min")}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={control}
+              name="placeholder"
+              render={({ field }) => (
+                <FormItem>
+                  <Label className="text-xs">Placeholder</Label>
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={control}
+              name="allowDecimal"
+              render={({ field }) => (
+                <FormItem>
+                  <p className="font-medium text-xs mb-2">Allow Decimals</p>
+                  <FormControl>
+                    <Switch
+                      className="w-8 h-4 hover:cursor-pointer"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <Button className="w-full mt-4" disabled={!isDirty} type="submit">
+            Save
+          </Button>
+        </form>
+      </Form>
     );
   }
 );

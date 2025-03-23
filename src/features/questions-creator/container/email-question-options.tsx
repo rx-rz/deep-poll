@@ -1,8 +1,17 @@
-import { memo, useState } from "react";
+// EmailQuestionOptions.tsx
+import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { useEmailQuestionOptionsForm } from "../form/emailinput-form";
 import { QuestionOptionsMap } from "@/store/questions.store";
 
 type LocalQuestionOptions = QuestionOptionsMap["email"];
@@ -13,116 +22,126 @@ type OptionProps = {
     React.SetStateAction<LocalQuestionOptions>
   >;
 };
+
 export const EmailQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const [localQuestionOptions, setLocalQuestionOptions] =
-      useState<LocalQuestionOptions>({
-        minLength: questionOptions?.minLength ?? 1,
-        maxLength: questionOptions?.maxLength ?? 255,
-        placeholder: questionOptions?.placeholder ?? "",
-        allowedDomains: questionOptions?.allowedDomains ?? [],
-        disallowedDomains: questionOptions?.disallowedDomains ?? [],
-        allowDuplicates: questionOptions?.allowDuplicates ?? true,
-      });
+    const { form, onSubmit } = useEmailQuestionOptionsForm({
+      questionOptions,
+      setQuestionOptions,
+    });
 
-    const isModified = Object.keys(localQuestionOptions).some(
-      (key) =>
-        JSON.stringify(
-          localQuestionOptions[key as keyof LocalQuestionOptions]
-        ) !== JSON.stringify(questionOptions[key as keyof LocalQuestionOptions])
-    );
-
-    const updateQuestionConfig = (
-      key: keyof typeof localQuestionOptions,
-      value: any
-    ) => {
-      setLocalQuestionOptions((prev) => ({ ...prev, [key]: value }));
-    };
+    const { control, formState } = form;
+    const { isDirty } = formState;
 
     return (
-      <>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-4 mb-4">
-          <div>
-            <Label className="text-xs">Minimum Question Length</Label>
-            <Input
-              type="number"
-              value={localQuestionOptions.minLength}
-              onChange={(e) =>
-                updateQuestionConfig("minLength", Number(e.target.value))
-              }
+      <Form {...form}>
+        <form onSubmit={onSubmit}>
+          <div className="grid gap-x-4 gap-y-4 mb-4">
+            <FormField
+              control={control}
+              name="minEmailLength"
+              render={({ field }) => (
+                <FormItem>
+                  <Label className="text-xs">Minimum Email Length</Label>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="maxEmailLength"
+              render={({ field }) => (
+                <FormItem>
+                  <Label className="text-xs">Maximum Email Length</Label>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="placeholder"
+              render={({ field }) => (
+                <FormItem>
+                  <Label className="text-xs">Question Placeholder</Label>
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="allowedDomains"
+              render={({ field }) => (
+                <FormItem>
+                  <Label className="text-xs">Allowed Domains</Label>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="comma separated domains e.g gmail.com, yahoo.com"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="disallowedDomains"
+              render={({ field }) => (
+                <FormItem>
+                  <Label className="text-xs">Disallowed Domains</Label>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="comma separated domains e.g gmail.com, yahoo.com"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
-          <div>
-            <Label className="text-xs">Maximum Question Length</Label>
-            <Input
-              type="number"
-              value={localQuestionOptions.maxLength}
-              onChange={(e) =>
-                updateQuestionConfig("maxLength", Number(e.target.value))
-              }
-            />
-          </div>
-          <div>
-            <Label className="text-xs">Question Placeholder</Label>
-            <Input
-              type="text"
-              max={300}
-              value={localQuestionOptions.placeholder}
-              onChange={(e) => {
-                updateQuestionConfig("placeholder", e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <Label className="text-xs">Allowed Domains</Label>
-            <Input
-              type="text"
-              placeholder="e.g., gmail.com, yahoo.com"
-              defaultValue={localQuestionOptions.allowedDomains.join(", ")}
-              onChange={(e) => {
-                updateQuestionConfig("allowedDomains", [
-                  ...questionOptions.allowedDomains,
-                  ...e.target.value.split(","),
-                ]);
-              }}
-            />
-          </div>
-          <div>
-            <Label className="text-xs">Disallowed Domains</Label>
-            <Input
-              type="text"
-              placeholder="e.g., spam.com, example.com"
-              defaultValue={localQuestionOptions.disallowedDomains.join(", ")}
-              onChange={(e) => {
-                updateQuestionConfig("disallowedDomains", [
-                  ...questionOptions.disallowedDomains,
-                  ...e.target.value.split(","),
-                ]);
-              }}
-            />
-          </div>
-        </div>
 
-        <div className=" flex text-xs gap-2 mb-5">
-          <Switch
-            className="w-8 h-4 hover:cursor-pointer"
-            checked={localQuestionOptions.allowDuplicates}
-            onCheckedChange={(checked) => {
-              updateQuestionConfig("allowDuplicates", checked);
-            }}
-          />
-          <p className="font-medium">Allow Duplicates</p>
-        </div>
-        <Button
-          className="w-full"
-          disabled={!isModified}
-          onClick={() => {
-            setQuestionOptions(localQuestionOptions);
-          }}
-        >
-          Save
-        </Button>
-      </>
+          <div className="flex text-xs gap-2 mb-5">
+            <FormField
+              control={control}
+              name="allowDuplicates"
+              render={({ field }) => (
+                <>
+                  <Switch
+                    className="w-8 h-4 hover:cursor-pointer"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                  <p className="font-medium">Allow Duplicates</p>
+                </>
+              )}
+            />
+          </div>
+
+          <Button type="submit" className="w-full" disabled={!isDirty}>
+            Save
+          </Button>
+        </form>
+      </Form>
     );
   }
 );

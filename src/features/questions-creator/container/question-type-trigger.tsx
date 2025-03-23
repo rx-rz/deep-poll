@@ -48,8 +48,8 @@ export const QuestionTypeTrigger = () => {
               surveyId: "",
               options: {
                 placeholder: "Enter your text",
-                minLength: 1,
-                maxLength: 255,
+                minAnswerLength: 1,
+                maxAnswerLength: 255,
               },
             });
           }}
@@ -68,12 +68,12 @@ export const QuestionTypeTrigger = () => {
               required: true,
               surveyId: "",
               options: {
-                placeholder: "Enter your text",
+                placeholder: "Enter your email",
                 allowDuplicates: false,
                 allowedDomains: [],
                 disallowedDomains: [],
-                maxLength: 255,
-                minLength: 1,
+                maxEmailLength: 255,
+                minEmailLength: 1,
               },
             });
           }}

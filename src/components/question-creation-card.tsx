@@ -33,7 +33,7 @@ export const QuestionCreationCard = ({
         <div className="flex justify-between mb-4 text-sm font-medium">
           <div className="flex items-center gap-1">
             {icon}
-            <p>{questionType}</p>
+            <p className="text-xs font-medium">{questionType}</p>
           </div>
           <div className="flex gap-2 items-center">
             <Stars size={18} strokeWidth={3} stroke="#4392F1" />

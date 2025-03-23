@@ -16,7 +16,8 @@ export type QuestionType =
   | "date"
   | "time"
   | "datetime"
-  | "file";
+  | "file"
+  | "slider";
 
 export type QuestionOptionsMap = {
   text: {

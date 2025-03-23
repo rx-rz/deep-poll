@@ -14,6 +14,7 @@ import {
   CalendarClock,
   File,
   Image,
+  Sliders,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -200,21 +201,24 @@ export const QuestionTypeTrigger = () => {
           onClick={() => {
             setOpen(false);
             addQuestion({
-              questionType: "rating",
+              questionType: "slider",
               questionText:
                 "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
               required: true,
               surveyId: "",
               options: {
-                labels: [],
-                max: 5,
-                min: 2,
+                labels: { start: "0", end: "100" },
+                max: 100,
+                min: 0,
+                range: false,
+                step: 1,
+                defaultValue: 50,
               },
             });
           }}
         >
-          <Star className="mr-2 h-4 w-4" />
-          Rating (stars, thumbs up/down)
+          <Sliders className="mr-2 h-4 w-4" />
+          Slider
         </Button>
         <Button
           variant={"outline"}
@@ -280,7 +284,8 @@ export const QuestionTypeTrigger = () => {
               required: true,
               surveyId: "",
               options: {
-                format: "",
+                allowElapsedTime: true,
+                format: "HH:mm",
                 maxTime: "",
                 minTime: "",
               },
@@ -313,13 +318,27 @@ export const QuestionTypeTrigger = () => {
         </Button>
 
         <DialogHeader>File uploads</DialogHeader>
-        <Button variant={"outline"}>
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            setOpen(false);
+            addQuestion({
+              questionType: "file",
+              questionText:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+              required: true,
+              surveyId: "",
+              options: {
+                acceptedFormats: ["pdf", "docx", "jpg", "png"],
+                allowMultiple: false,
+                maxSizeMB: 1,
+                maxFiles: 1,
+              },
+            });
+          }}
+        >
           <File className="mr-2 h-4 w-4" />
-          Document uploads
-        </Button>
-        <Button variant={"outline"}>
-          <Image className="mr-2 h-4 w-4" />
-          Image uploads
+          File uploads
         </Button>
       </DialogContent>
     </Dialog>

@@ -14,6 +14,8 @@ import {
   Image,
   Menu,
   ChartBarBig,
+  File,
+  Sliders,
 } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -31,6 +33,6 @@ export const QuestionIcon: { [key in QuestionType]: ReactNode } = {
   date: <Calendar size={10} strokeWidth={1.9} />,
   time: <Clock size={10} strokeWidth={1.9} />,
   datetime: <Calendar size={10} strokeWidth={1.9} />, // Reusing Calendar
-  file_document: <FileText size={10} strokeWidth={1.9} />,
-  file_image: <Image size={10} strokeWidth={1.9} />,
+  file: <File size={10} strokeWidth={1.9} />,
+  slider: <Sliders size={10} strokeWidth={1.9} />,
 };

@@ -22,6 +22,7 @@ export type QuestionType =
 export type QuestionOptionsMap = {
   text: {
     placeholder?: string;
+    isMultiline?: boolean;
     minAnswerLength: number;
     maxAnswerLength: number;
   };

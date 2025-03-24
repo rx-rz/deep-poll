@@ -22,14 +22,8 @@ type OptionProps = {
 
 export const TextQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const defaultValues = {
-      placeholder: questionOptions?.placeholder ?? "",
-      minAnswerLength: questionOptions?.minAnswerLength ?? 1,
-      maxAnswerLength: questionOptions?.maxAnswerLength ?? 255,
-    };
-
     const { form, onSubmit } = useTextQuestionOptionsForm({
-      questionOptions: defaultValues,
+      questionOptions,
       setQuestionOptions,
     });
 

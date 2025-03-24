@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useTextQuestionOptionsForm } from "../form/textinput-form";
+import { Switch } from "@/components/ui/switch";
 
 type LocalQuestionOptions = QuestionOptionsMap["text"];
 type OptionProps = {
@@ -33,7 +34,7 @@ export const TextQuestionOptions = memo(
     return (
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="grid  gap-4 mb-4">
+          <div className="grid mb-4">
             <FormField
               control={control}
               name="minAnswerLength"
@@ -85,11 +86,27 @@ export const TextQuestionOptions = memo(
                 </FormItem>
               )}
             />
+            <FormField
+              control={control}
+              name="isMultiline"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center gap-2 mt-4">
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                    <Label className="text-xs">Accept Multiline Answers</Label>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <Button
             type="submit"
-            className="w-full mt-4 font-bold"
+            className="w-full font-bold"
             disabled={!isDirty}
           >
             SAVE

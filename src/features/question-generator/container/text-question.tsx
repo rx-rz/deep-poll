@@ -18,7 +18,6 @@ interface TextQuestionProps {
   options: QuestionOptionsMap["text"];
   required: boolean;
   control: Control<any>;
-  errors: string | undefined;
 }
 
 const TextQuestion: React.FC<TextQuestionProps> = ({
@@ -27,7 +26,6 @@ const TextQuestion: React.FC<TextQuestionProps> = ({
   options,
   required,
   control,
-  errors,
 }) => {
   const setAnswer = useAnswerStore((state) => state.setAnswer);
   const { isMultiline, maxAnswerLength, minAnswerLength, placeholder } =
@@ -64,8 +62,7 @@ const TextQuestion: React.FC<TextQuestionProps> = ({
               }}
             />
           )}
-
-          {errors && <FormMessage>{errors}</FormMessage>}
+          <FormMessage />
         </FormItem>
       )}
     />

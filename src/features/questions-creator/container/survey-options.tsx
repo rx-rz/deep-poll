@@ -49,9 +49,6 @@ const SurveyOptionsForm = () => {
         <DialogTitle className="font-medium text-lg">
           Survey Options
         </DialogTitle>
-        <DialogDescription className="text-sm font-semibold opacity-90 -mt-2">
-          Provide options for your survey i guess
-        </DialogDescription>
       </DialogHeader>
       <Form {...form}>
         <form

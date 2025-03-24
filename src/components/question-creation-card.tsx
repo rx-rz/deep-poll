@@ -6,6 +6,17 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import { ReactNode, useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
 
 type Props = {
   icon: ReactNode;
@@ -25,8 +36,8 @@ export const QuestionCreationCard = ({
   questionId,
 }: Props) => {
   const [questionOptionsIsOpen, setQuestionOptionsIsOpen] = useState(false);
-  const { removeQuestion } = useQuestionStore();
 
+  const [open, setOpen] = useState(false);
   return (
     <>
       <div className=" bg-white border-black border-3 py-4 px-5">
@@ -37,14 +48,17 @@ export const QuestionCreationCard = ({
           </div>
           <div className="flex gap-2 items-center">
             <Stars size={18} strokeWidth={3} stroke="#4392F1" />
-            <button
-              className="hover:cursor-pointer"
-              onClick={() => {
-                removeQuestion(questionId);
-              }}
-            >
-              <Trash2Icon size={18} strokeWidth={1.9} />
-            </button>
+            <AlertDialog open={open} onOpenChange={setOpen}>
+              <AlertDialogTrigger className="hover:cursor-pointer">
+                <Trash2Icon size={18} strokeWidth={1.9} />
+              </AlertDialogTrigger>
+              <AlertDialogContent className="rounded-none">
+                <RemoveQuestionAlertCard
+                  questionId={questionId}
+                  setOpen={setOpen}
+                />
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
         <div className="md:text-lg font-medium gap-3 flex mb-1">
@@ -65,6 +79,41 @@ export const QuestionCreationCard = ({
           </button>
         </div>
       </div>
+    </>
+  );
+};
+
+const RemoveQuestionAlertCard = ({
+  questionId,
+  setOpen,
+}: {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  questionId: string;
+}) => {
+  const { removeQuestion } = useQuestionStore();
+  return (
+    <>
+      <AlertDialogHeader>
+        <AlertDialogTitle>
+          Are you sure you want to delete this question?
+        </AlertDialogTitle>
+        <AlertDialogDescription>
+          This action cannot be undone. This will permanently delete your
+          account and remove your data from our servers.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction
+          className="bg-red-500 hover:bg-red-500 text-white"
+          onClick={() => {
+            removeQuestion(questionId);
+            setOpen(false);
+          }}
+        >
+          Delete
+        </AlertDialogAction>
+      </AlertDialogFooter>
     </>
   );
 };

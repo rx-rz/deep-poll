@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { QuestionOptionsMap } from "@/store/questions.store";
+import { QuestionOptionsMap } from "@/types/questions";
 
 import { useFileUploadOptionsForm } from "../form/fileuploadinput-form";
 

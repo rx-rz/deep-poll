@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useMultipleChoiceQuestionOptionsForm } from "../form/multiplechoiceinput-form";
-import { QuestionOptionsMap } from "@/store/questions.store";
+import { QuestionOptionsMap } from "@/types/questions";
 import { Trash2Icon } from "lucide-react";
 
 type LocalQuestionOptions = QuestionOptionsMap["multiple_choice"];

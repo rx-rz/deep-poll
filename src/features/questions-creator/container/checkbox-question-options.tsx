@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useCheckboxQuestionOptionsForm } from "../form/checboxinput-form";
-import { QuestionOptionsMap } from "@/store/questions.store";
+import { QuestionOptionsMap } from "@/types/questions";
 
 type LocalQuestionOptions = QuestionOptionsMap["checkbox"];
 

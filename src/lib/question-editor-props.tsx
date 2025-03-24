@@ -1,4 +1,4 @@
-import { QuestionType } from "@/store/questions.store";
+import { QuestionType } from "@/types/questions";
 import {
   Text,
   Mail,

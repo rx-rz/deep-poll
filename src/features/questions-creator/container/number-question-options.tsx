@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useNumberQuestionOptionsForm } from "../form/numberinput-form";
-import { QuestionOptionsMap } from "@/store/questions.store";
+import { QuestionOptionsMap } from "@/types/questions";
 
 type LocalQuestionOptions = QuestionOptionsMap["number"];
 

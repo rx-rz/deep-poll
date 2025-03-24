@@ -3,7 +3,7 @@ import { QuestionType } from "@/types/questions";
 import { create } from "zustand";
 
 type AnswerStore = {
-  answers: { [questionId: string]: any }; // Using any for now, will be type-safe in setAnswer
+  answers: { [questionId: string]: any };
   setAnswer: <T extends QuestionType>(
     questionId: string,
     answer: Answer<T>

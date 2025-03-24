@@ -22,7 +22,6 @@ export const emailQuestionOptionsSchema = z
     allowedDomains: z
       .string()
       .optional()
-      .default("")
       .refine(
         (value) => {
           if (!value) return true;
@@ -36,7 +35,6 @@ export const emailQuestionOptionsSchema = z
     disallowedDomains: z
       .string()
       .optional()
-      .default("")
       .refine(
         (value) => {
           if (!value) return true;

@@ -1,4 +1,3 @@
-import React from "react";
 import { Control } from "react-hook-form";
 import { QuestionOptionsMap } from "@/types/questions";
 
@@ -12,7 +11,7 @@ import {
 import { useAnswerStore } from "@/store/answer.store";
 import { Textarea } from "@/components/ui/textarea";
 
-interface TextQuestionProps {
+type TextQuestionProps = {
   questionId: string;
   questionText: string;
   options: QuestionOptionsMap["text"];
@@ -20,13 +19,13 @@ interface TextQuestionProps {
   control: Control<any>;
 }
 
-const TextQuestion: React.FC<TextQuestionProps> = ({
+const TextQuestion = ({
   questionId,
   questionText,
   options,
   required,
   control,
-}) => {
+}: TextQuestionProps) => {
   const setAnswer = useAnswerStore((state) => state.setAnswer);
   const { isMultiline, maxAnswerLength, minAnswerLength, placeholder } =
     options;
@@ -35,15 +34,13 @@ const TextQuestion: React.FC<TextQuestionProps> = ({
       control={control}
       name={questionId}
       render={({ field }) => (
-        <FormItem className="border relative">
+        <FormItem className=" relative">
           <FormLabel>
             {questionText} {required ? <p>Req</p> : <></>}
           </FormLabel>
           {isMultiline ? (
             <Textarea
               {...field}
-              minLength={minAnswerLength ?? null}
-              maxLength={maxAnswerLength ?? null}
               placeholder={placeholder}
               onChange={(e) => {
                 field.onChange(e);
@@ -53,8 +50,6 @@ const TextQuestion: React.FC<TextQuestionProps> = ({
           ) : (
             <Input
               {...field}
-              minLength={minAnswerLength ?? null}
-              maxLength={maxAnswerLength ?? null}
               placeholder={placeholder}
               onChange={(e) => {
                 field.onChange(e);

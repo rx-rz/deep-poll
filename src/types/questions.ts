@@ -26,8 +26,8 @@ export type QuestionOptionsMap = {
     placeholder?: string;
     minEmailLength: number;
     maxEmailLength: number;
-    allowedDomains: string;
-    disallowedDomains: string;
+    allowedDomains?: string;
+    disallowedDomains?: string;
     allowDuplicates: boolean;
   };
   number: {
@@ -37,7 +37,6 @@ export type QuestionOptionsMap = {
     max: number;
   };
   phone: {
-    placeholder: string;
     allowedCountries: string[]; // ISO country codes (e.g., ['US', 'CA'])
     format: string; // e.g., '(XXX) XXX-XXXX'
   };

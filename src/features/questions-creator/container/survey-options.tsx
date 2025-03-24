@@ -20,13 +20,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
+import { useSurveyOptionsStore } from "@/store/survey-options.store";
 
 export const SurveyOptions = () => {
-  const { form } = useSurveyOptionsForm();
+  const { options } = useSurveyOptionsStore();
 
   return (
     <div className="border py-3 px-2 sticky top-0 z-50 justify-between flex    w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <p>{form.getValues("title") ?? "Untitled"}</p>
+      <p>{options.title ?? "Untitled"}</p>
       <Dialog>
         <DialogTrigger>
           <Edit strokeWidth={0.9} />
@@ -77,80 +78,86 @@ const SurveyOptionsForm = () => {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Enter survey description" {...field} />
+                  <Textarea
+                    placeholder="Enter survey description"
+                    className="rounded-none"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="collectEmailAddresses"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                <div className="space-y-0.5">
-                  <FormLabel>Collect Email Addresses</FormLabel>
-                </div>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="requiresSignIn"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                <div className="space-y-0.5">
-                  <FormLabel>Requires Sign In</FormLabel>
-                </div>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="showProgressBar"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                <div className="space-y-0.5">
-                  <FormLabel>Show Progress Bar</FormLabel>
-                </div>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="showLinkToSubmitAnother"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                <div className="space-y-0.5">
-                  <FormLabel>Show Link to Submit Another</FormLabel>
-                </div>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+          <div className="flex flex-col gap-8 py-4 border px-3 -lg">
+            <FormField
+              control={form.control}
+              name="collectEmailAddresses"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between ">
+                  <div className="space-y-0.5">
+                    <FormLabel>Collect Email Addresses</FormLabel>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="requiresSignIn"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between ">
+                  <div className="space-y-0.5">
+                    <FormLabel>Requires Sign In</FormLabel>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="showProgressBar"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between ">
+                  <div className="space-y-0.5">
+                    <FormLabel>Show Progress Bar</FormLabel>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="showLinkToSubmitAnother"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between ">
+                  <div className="space-y-0.5">
+                    <FormLabel>Show Link to Submit Another</FormLabel>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
           <DialogFooter className="mt-4">
             <Button>Save</Button>
           </DialogFooter>

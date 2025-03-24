@@ -5,6 +5,7 @@ import { z } from "zod";
 export const textQuestionOptionsSchema = z
   .object({
     placeholder: z.string().optional(),
+    isMultiline: z.boolean().default(false),
     minAnswerLength: z.coerce
       .number()
       .int()

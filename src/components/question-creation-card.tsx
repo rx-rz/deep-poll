@@ -1,4 +1,3 @@
-import { QuestionType, useQuestionStore } from "@/store/questions.store";
 import {
   ChevronDownCircle,
   ChevronUpCircle,
@@ -17,6 +16,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
+import { QuestionType } from "@/types/questions";
+import { useQuestionStore } from "@/store/questions.store";
 
 type Props = {
   icon: ReactNode;

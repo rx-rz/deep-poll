@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { useQuestionStore } from "@/store/questions.store";
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 
 export const QuestionTypeTrigger = () => {
   const [open, setOpen] = useState(false);
@@ -48,9 +49,7 @@ export const QuestionTypeTrigger = () => {
                 required: true,
                 surveyId: "",
                 options: {
-                  placeholder: "Enter your text",
-                  minAnswerLength: 1,
-                  maxAnswerLength: 255,
+                  ...defaultQuestionOptions.text,
                 },
               });
             }}

@@ -1,0 +1,55 @@
+import { QuestionOptionsMap, QuestionType } from "@/types/questions";
+
+export const defaultQuestionOptions: {
+  [key in QuestionType]: QuestionOptionsMap[key];
+} = {
+  text: {
+    placeholder: "",
+    minAnswerLength: 1,
+    maxAnswerLength: 255,
+    isMultiline: false,
+  },
+  email: {
+    placeholder: "",
+    minEmailLength: 1,
+    maxEmailLength: 255,
+    allowedDomains: "",
+    disallowedDomains: "",
+    allowDuplicates: false,
+  },
+  number: { placeholder: "", allowDecimal: false, min: 0, max: 100 },
+  phone: { placeholder: "", allowedCountries: [], format: "" },
+  multiple_choice: { choices: [], allowOther: false, randomizeOrder: false },
+  checkbox: {
+    choices: [],
+    minSelections: 1,
+    maxSelections: 5,
+    randomizeOrder: false,
+  },
+  dropdown: { choices: [], allowSearch: false },
+  rating: { min: 1, max: 5, labels: [] },
+  likert: { scale: 5, labels: [], statement: "" },
+  linear_scale: { min: 0, max: 100, labels: { start: "", end: "" } },
+  date: {
+    format: "yyyy-MM-dd",
+    minDate: "",
+    maxDate: "",
+    allowPastDates: true,
+  },
+  time: { format: "HH:mm", minTime: "", maxTime: "", allowElapsedTime: true },
+  datetime: { format: "yyyy-MM-dd HH:mm", minDatetime: "", maxDatetime: "" },
+  file: {
+    acceptedFormats: [],
+    maxSizeMB: 1,
+    maxFiles: 1,
+    allowMultiple: false,
+  },
+  slider: {
+    min: 0,
+    max: 100,
+    step: 1,
+    labels: { start: "", end: "" },
+    defaultValue: 0,
+    range: false,
+  },
+};

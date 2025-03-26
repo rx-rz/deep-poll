@@ -17,8 +17,13 @@ export const defaultQuestionOptions: {
     disallowedDomains: "",
     allowDuplicates: false,
   },
-  number: { placeholder: "", allowDecimal: false, min: 0, max: 100 },
-  phone: { placeholder: "", allowedCountries: [], format: "" },
+  number: {
+    placeholder: "",
+    allowDecimal: false,
+    min: -Infinity,
+    max: Infinity,
+  },
+  phone: { allowedCountries: [], format: "" },
   multiple_choice: { choices: [], allowOther: false, randomizeOrder: false },
   checkbox: {
     choices: [],

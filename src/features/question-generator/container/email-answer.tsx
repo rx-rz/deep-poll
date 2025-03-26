@@ -1,15 +1,11 @@
 import { Control } from "react-hook-form";
 import { QuestionOptionsMap } from "@/types/questions";
 import { Input } from "@/components/ui/input";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useAnswerStore } from "@/store/answer.store";
+import { QuestionLabel } from "./question-label";
 
-type EmailQuestionProps = {
+type EmailAnswerProps = {
   questionId: string;
   questionText: string;
   options: QuestionOptionsMap["email"];
@@ -17,13 +13,13 @@ type EmailQuestionProps = {
   control: Control<any>;
 };
 
-const EmailQuestion = ({
+export const EmailAnswer = ({
   questionId,
   questionText,
   options,
   required,
   control,
-}: EmailQuestionProps) => {
+}: EmailAnswerProps) => {
   const setAnswer = useAnswerStore((state) => state.setAnswer);
   const { placeholder, minEmailLength, maxEmailLength } = options;
 
@@ -33,9 +29,7 @@ const EmailQuestion = ({
       name={questionId}
       render={({ field }) => (
         <FormItem className="relative">
-          <FormLabel>
-            {questionText} {required ? <p>Req</p> : <></>}
-          </FormLabel>
+          <QuestionLabel questionText={questionText} required={required} />
           <Input
             {...field}
             type="email"
@@ -47,11 +41,9 @@ const EmailQuestion = ({
               setAnswer(questionId, e.target.value);
             }}
           />
-          <FormMessage />
+          <FormMessage className="text-xs -mt-1" />
         </FormItem>
       )}
     />
   );
 };
-
-export default EmailQuestion;

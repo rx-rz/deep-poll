@@ -10,34 +10,33 @@ import {
 } from "@/components/ui/form"; // Shadcn UI Form Elements
 import { useAnswerStore } from "@/store/answer.store";
 import { Textarea } from "@/components/ui/textarea";
+import { Asterisk } from "lucide-react";
+import { QuestionLabel } from "./question-label";
 
-type TextQuestionProps = {
+type TextAnswerProps = {
   questionId: string;
   questionText: string;
   options: QuestionOptionsMap["text"];
   required: boolean;
   control: Control<any>;
-}
+};
 
-const TextQuestion = ({
+export const TextAnswer = ({
   questionId,
   questionText,
   options,
   required,
   control,
-}: TextQuestionProps) => {
+}: TextAnswerProps) => {
   const setAnswer = useAnswerStore((state) => state.setAnswer);
-  const { isMultiline, maxAnswerLength, minAnswerLength, placeholder } =
-    options;
+  const { isMultiline, placeholder } = options;
   return (
     <FormField
       control={control}
       name={questionId}
       render={({ field }) => (
         <FormItem className=" relative">
-          <FormLabel>
-            {questionText} {required ? <p>Req</p> : <></>}
-          </FormLabel>
+          <QuestionLabel questionText={questionText} required={required} />
           {isMultiline ? (
             <Textarea
               {...field}
@@ -63,5 +62,3 @@ const TextQuestion = ({
     />
   );
 };
-
-export default TextQuestion;

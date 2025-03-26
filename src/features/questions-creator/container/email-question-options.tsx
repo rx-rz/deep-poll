@@ -30,8 +30,13 @@ export const EmailQuestionOptions = memo(
       setQuestionOptions,
     });
 
-    const { control, formState } = form;
+    const { control, formState, watch } = form;
     const { isDirty } = formState;
+
+    const [allowedDomainsList, disallowedDomainList] = [
+      watch("allowedDomains"),
+      watch("disallowedDomains"),
+    ];
 
     return (
       <Form {...form}>
@@ -93,7 +98,12 @@ export const EmailQuestionOptions = memo(
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="comma separated domains e.g gmail.com, yahoo.com"
+                      disabled={disallowedDomainList!.trim().length > 0}
+                      placeholder={
+                        form.getValues("disallowedDomains")?.length ?? 0 > 0
+                          ? "Every other domain will be allowed"
+                          : ""
+                      }
                       {...field}
                     />
                   </FormControl>
@@ -110,7 +120,12 @@ export const EmailQuestionOptions = memo(
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="comma separated domains e.g gmail.com, yahoo.com"
+                      disabled={allowedDomainsList!.trim().length > 0}
+                      placeholder={
+                        form.getValues("allowedDomains")?.length ?? 0 > 0
+                          ? "Every other domain will be disallowed"
+                          : ""
+                      }
                       {...field}
                     />
                   </FormControl>

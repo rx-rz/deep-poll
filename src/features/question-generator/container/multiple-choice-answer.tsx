@@ -9,8 +9,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Input } from "@/components/ui/input";
 import { QuestionLabel } from "./question-label";
+import { useMemo } from "react";
 type MultipleChoiceAnswerProps = {
   questionId: string;
   questionText: string;
@@ -38,6 +38,11 @@ export const MultipleChoiceAnswer = ({
     return shuffled;
   }
 
+  const displayedChoices = useMemo(() => {
+    return randomizeOrder ? shuffleArray(choices) : choices;
+    // Only re-shuffle if randomizeOrder or the choices array itself changes
+  }, [randomizeOrder, choices]);
+
   return (
     <FormField
       control={control}
@@ -51,44 +56,46 @@ export const MultipleChoiceAnswer = ({
               defaultValue={field.value}
               className="flex flex-col space-y-1"
             >
-              {!randomizeOrder
-                ? choices.map((choice) => (
-                    <FormItem
-                      className="flex items-center space-x-3 space-y-0"
-                      key={choice}
-                    >
-                      <FormControl>
-                        <RadioGroupItem value={choice} />
-                      </FormControl>
-                      <FormLabel className="font-normal">{choice}</FormLabel>
-                    </FormItem>
-                  ))
-                : shuffleArray(choices).map((choice) => (
-                    <FormItem
-                      className="flex items-center space-x-3 space-y-0"
-                      key={choice}
-                    >
-                      <FormControl>
-                        <RadioGroupItem value={choice} />
-                      </FormControl>
-                      <FormLabel className="font-normal">{choice}</FormLabel>
-                    </FormItem>
-                  ))}
+              {displayedChoices.map((choice) => (
+                <FormItem
+                  className="flex items-center space-x-3 space-y-0"
+                  key={choice}
+                >
+                  <FormControl>
+                    <RadioGroupItem
+                      value={choice}
+                      id={`${questionId}-${choice}`}
+                    />
+                  </FormControl>
+                  <FormLabel
+                    htmlFor={`${questionId}-${choice}`}
+                    className="font-normal cursor-pointer"
+                  >
+                    {choice}
+                  </FormLabel>
+                </FormItem>
+              ))}
             </RadioGroup>
-            {allowOther ? (
-              <>
-                <Input
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e);
-                    setAnswer(questionId, e.target.value);
-                  }}
-                />
-              </>
-            ) : (
-              <></>
-            )}
           </FormControl>
+          {/* {allowOther ? (
+            <>
+              <Label>Other:</Label>
+              <Input
+                {...field}
+                //
+                value={
+                  field.value && !choices.includes(field.value)
+                    ? field.value
+                    : ""
+                }
+                onChange={(e) => {
+                  field.onChange(e);
+                }}
+              />
+            </>
+          ) : (
+            <></>
+          )} */}
           <FormMessage />
         </FormItem>
       )}

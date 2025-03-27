@@ -9,13 +9,15 @@ export const SurveyQuestions = () => {
   return (
     <div className="flex flex-col gap-4 mt-4 w-full">
       <Link to="/answer">Answers</Link>
-      {questions.map((question) => (
-        <QuestionEditor
-          questionId={question.questionId}
-          questionType={question.questionType}
-          key={question.questionId}
-        />
-      ))}
+      <div className="w-fit  flex flex-col gap-8">
+        {questions.map((question) => (
+          <QuestionEditor
+            questionId={question.questionId}
+            questionType={question.questionType}
+            key={question.questionId}
+          />
+        ))}
+      </div>
     </div>
   );
 };

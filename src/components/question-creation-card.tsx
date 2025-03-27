@@ -20,7 +20,7 @@ import { QuestionType } from "@/types/questions";
 import { useQuestionStore } from "@/store/questions.store";
 
 type Props = {
-  icon: ReactNode;
+  icon: ReactNode | any;
   questionType: QuestionType;
   orderNumber: number;
   questionText: string;

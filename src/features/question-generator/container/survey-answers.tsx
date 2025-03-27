@@ -12,6 +12,7 @@ import { EmailAnswer } from "./email-answer";
 import { Link } from "wouter";
 import { NumberAnswer } from "./number-answer";
 import { generateQuestionSchemas } from "@/lib/generate-question-schema";
+import { MultipleChoiceAnswer } from "./multiple-choice-answer";
 
 const renderAnswerComponent = ({
   question,
@@ -61,6 +62,20 @@ const renderAnswerComponent = ({
         />
       );
       break;
+    case "multiple_choice":
+      const multipleChoiceOptions =
+        question.options as QuestionOptionsMap["multiple_choice"];
+      answerComponent = (
+        <MultipleChoiceAnswer
+          control={control}
+          key={question.questionId}
+          options={multipleChoiceOptions}
+          questionId={question.questionId}
+          questionText={question.questionText ?? ""}
+          required={question.required}
+        />
+      );
+      break;
     default:
       answerComponent = null;
   }
@@ -76,13 +91,20 @@ export const SurveyAnswers = () => {
     mode: "all",
   });
 
-  const handleSubmit = (values: any) => {
+  const onSubmit = (values: Record<string, any>) => {
     console.log(values);
+    console.log("here!");
+    console.log({
+      errors: form.formState.errors,
+      form: form.formState.dirtyFields,
+    });
   };
+
+  console.log({ form: form.formState.errors });
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleSubmit)}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="max-w-lg flex flex-col my-4 mx-auto"
       >
         <p className="text-2xl uppercase font-bold my-5">{survey.title}</p>

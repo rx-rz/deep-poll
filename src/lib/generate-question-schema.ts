@@ -107,42 +107,65 @@ export const generateQuestionSchemas = (
         schema = question.required ? numberSchema : numberSchema.optional();
         break;
       case "multiple_choice":
-        const multipleChoiceOptions =
+        const { allowOther, choices } =
           question.options as QuestionOptionsMap["multiple_choice"];
-        if (multipleChoiceOptions.allowOther) {
-          schema = question.required
-            ? z.string().nonempty({ message: "Required!" })
-            : z.string().optional();
-        } else if (
-          multipleChoiceOptions.choices &&
-          multipleChoiceOptions.choices.length > 0
-        ) {
-          // If "allowOther" is false, validate against the provided choices
-          schema = question.required
-            ? z
-                .string()
-                .refine(
-                  (value) => multipleChoiceOptions.choices.includes(value),
-                  {
-                    message: "Invalid choice",
-                  }
-                )
-            : z
-                .string()
-                .optional()
-                .refine(
-                  (value) =>
-                    !value || multipleChoiceOptions.choices.includes(value),
-                  {
-                    message: "Invalid choice",
-                  }
-                );
-        } else {
-          // If no choices are provided, any string is valid (or optional)
-          schema = question.required
-            ? z.string().nonempty({ message: "Required!" })
-            : z.string().optional();
-        }
+
+        z.enum([...choices] as any, {
+          required_error: "You need to select one",
+        });
+        let multipleChoiceSchema = z.enum(["Habibi", "Habibat", "Tonghe"], {
+          required_error: "You need to select one",
+        });
+        schema = multipleChoiceSchema;
+        // if (multipleChoiceOptions.allowOther) {
+        //   schema = z.string();
+        // }
+        // if (
+        //   !multipleChoiceOptions.allowOther &&
+        //   multipleChoiceOptions.choices
+        // ) {
+        //   schema = z.string().refine((arg) => {
+        //     return !multipleChoiceOptions.choices.includes(arg);
+        //   });
+        // }
+        // if (multipleChoiceOptions.allowOther) {
+        //   schema = z
+        //     .object({
+        //       choice: z.string().optional(),
+        //       other: z.string().optional(),
+        //     })
+        //     .refine(
+        //       (data) =>
+        //         (!!data.choice && !data.other) ||
+        //         (!data.choice && !!data.other),
+        //       {
+        //         message:
+        //           "Please select either a choice or specify in 'Other', but not both.",
+        //         path: ["choice"],
+        //       }
+        //     )
+        //     .transform((data) => data.choice || data.other);
+        // } else {
+        //   schema = question.required
+        //     ? z
+        //         .string()
+        //         .refine(
+        //           (value) => multipleChoiceOptions.choices.includes(value),
+        //           {
+        //             message: "Invalid choice",
+        //           }
+        //         )
+        //     : z
+        //         .string()
+        //         .optional()
+        //         .refine(
+        //           (value) =>
+        //             !value || multipleChoiceOptions.choices.includes(value),
+        //           {
+        //             message: "Invalid choice",
+        //           }
+        //         );
+        // }
         break;
       case "checkbox":
         const checkboxOptions =

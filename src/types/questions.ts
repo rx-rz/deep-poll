@@ -102,6 +102,20 @@ export type QuestionOptionsMap = {
     range: boolean;
     defaultValue?: number | [number, number]; // Default value(s)
   };
+
+};
+
+export type Question<T extends QuestionType = QuestionType> = {
+  questionId: string;
+  surveyId: string | null;
+  questionText?: string;
+  questionType: T;
+  options?: QuestionOptionsMap[T];
+  required: boolean;
+  orderNumber: number;
+  createdAt: string;
+};
+
   // signature: {
   //   placeholder: string; // Placeholder text (e.g., "Sign here")
   //   penColor: string; // Default pen color
@@ -117,15 +131,3 @@ export type QuestionOptionsMap = {
   //   labels: { on: string; off: string }; // Labels for on/off states
   //   defaultState: boolean; // Default toggle state
   // };
-};
-
-export type Question<T extends QuestionType = QuestionType> = {
-  questionId: string;
-  surveyId: string | null;
-  questionText?: string;
-  questionType: T;
-  options?: QuestionOptionsMap[T];
-  required: boolean;
-  orderNumber: number;
-  createdAt: string;
-};

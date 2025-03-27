@@ -106,6 +106,130 @@ export const generateQuestionSchemas = (
         }
         schema = question.required ? numberSchema : numberSchema.optional();
         break;
+      case "multiple_choice":
+        const multipleChoiceOptions =
+          question.options as QuestionOptionsMap["multiple_choice"];
+        if (multipleChoiceOptions.allowOther) {
+          schema = question.required
+            ? z.string().nonempty({ message: "Required!" })
+            : z.string().optional();
+        } else if (
+          multipleChoiceOptions.choices &&
+          multipleChoiceOptions.choices.length > 0
+        ) {
+          // If "allowOther" is false, validate against the provided choices
+          schema = question.required
+            ? z
+                .string()
+                .refine(
+                  (value) => multipleChoiceOptions.choices.includes(value),
+                  {
+                    message: "Invalid choice",
+                  }
+                )
+            : z
+                .string()
+                .optional()
+                .refine(
+                  (value) =>
+                    !value || multipleChoiceOptions.choices.includes(value),
+                  {
+                    message: "Invalid choice",
+                  }
+                );
+        } else {
+          // If no choices are provided, any string is valid (or optional)
+          schema = question.required
+            ? z.string().nonempty({ message: "Required!" })
+            : z.string().optional();
+        }
+        break;
+      case "checkbox":
+        const checkboxOptions =
+          question.options as QuestionOptionsMap["checkbox"];
+        if (checkboxOptions?.choices) {
+          const baseArraySchema = z
+            .string()
+            .refine((value) => checkboxOptions.choices.includes(value), {
+              message: "Invalid choice",
+            })
+            .array();
+
+          if (checkboxOptions.minSelections !== undefined) {
+            schema = baseArraySchema.refine(
+              (value) => value.length >= checkboxOptions.minSelections!,
+              {
+                message: `Select at least ${checkboxOptions.minSelections} choices`,
+              }
+            );
+          }
+
+          if (checkboxOptions.maxSelections !== undefined) {
+            schema = baseArraySchema.refine(
+              (value) => value.length <= checkboxOptions.maxSelections!,
+              {
+                message: `Select no more than ${checkboxOptions.maxSelections} choices`,
+              }
+            );
+          }
+
+          schema = question.required ? schema : schema.optional();
+        }
+        break;
+      case "dropdown":
+        const dropdownOptions =
+          question.options as QuestionOptionsMap["dropdown"];
+        if (dropdownOptions?.choices) {
+          schema = question.required
+            ? z
+                .string()
+                .refine((value) => dropdownOptions.choices.includes(value), {
+                  message: "Invalid choice",
+                })
+            : z
+                .string()
+                .optional()
+                .refine(
+                  (value) => !value || dropdownOptions.choices.includes(value),
+                  {
+                    message: "Invalid choice",
+                  }
+                );
+        }
+        break;
+      case "rating":
+        const ratingOptions = question.options as QuestionOptionsMap["rating"];
+        if (ratingOptions) {
+          schema = question.required
+            ? z.number().min(ratingOptions.min).max(ratingOptions.max)
+            : z
+                .number()
+                .min(ratingOptions.min)
+                .max(ratingOptions.max)
+                .optional();
+        }
+        break;
+      case "likert":
+        const likertOptions = question.options as QuestionOptionsMap["likert"];
+        if (likertOptions) {
+          schema = question.required
+            ? z.number().min(1).max(likertOptions.scale)
+            : z.number().min(1).max(likertOptions.scale).optional();
+        }
+        break;
+      case "linear_scale":
+        const linearScaleOptions =
+          question.options as QuestionOptionsMap["linear_scale"];
+        if (linearScaleOptions) {
+          schema = question.required
+            ? z.number().min(linearScaleOptions.min).max(linearScaleOptions.max)
+            : z
+                .number()
+                .min(linearScaleOptions.min)
+                .max(linearScaleOptions.max)
+                .optional();
+        }
+        break;
       default:
         schemaShape[question.questionId] = z.any();
         break;

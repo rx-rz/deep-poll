@@ -1,5 +1,5 @@
 import { useQuestionHandler } from "@/hooks/use-question-creation-handler";
-import { QuestionOptionsMap, QuestionType } from "@/store/questions.store";
+import { QuestionOptionsMap, QuestionType } from "@/types/questions";
 import { QuestionInput } from "../components/question-input";
 import { TextQuestionOptions } from "./text-question-options";
 import { Dispatch, ReactNode, SetStateAction } from "react";

@@ -11,6 +11,8 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { QuestionLabel } from "./question-label";
 import { useMemo } from "react";
+import { Label } from "@radix-ui/react-label";
+import { Input } from "@/components/ui/input";
 type MultipleChoiceAnswerProps = {
   questionId: string;
   questionText: string;
@@ -46,7 +48,7 @@ export const MultipleChoiceAnswer = ({
   return (
     <FormField
       control={control}
-      name="type"
+      name={questionId}
       render={({ field }) => (
         <FormItem className="space-y-3">
           <QuestionLabel questionText={questionText} required={required} />
@@ -62,10 +64,7 @@ export const MultipleChoiceAnswer = ({
                   key={choice}
                 >
                   <FormControl>
-                    <RadioGroupItem
-                      value={choice}
-                      id={`${questionId}-${choice}`}
-                    />
+                    <RadioGroupItem value={choice} id={choice} />
                   </FormControl>
                   <FormLabel
                     htmlFor={`${questionId}-${choice}`}
@@ -77,7 +76,7 @@ export const MultipleChoiceAnswer = ({
               ))}
             </RadioGroup>
           </FormControl>
-          {/* {allowOther ? (
+          {allowOther ? (
             <>
               <Label>Other:</Label>
               <Input
@@ -95,7 +94,7 @@ export const MultipleChoiceAnswer = ({
             </>
           ) : (
             <></>
-          )} */}
+          )}
           <FormMessage />
         </FormItem>
       )}

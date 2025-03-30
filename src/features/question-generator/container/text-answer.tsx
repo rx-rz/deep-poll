@@ -2,15 +2,10 @@ import { Control } from "react-hook-form";
 import { QuestionOptionsMap } from "@/types/questions";
 
 import { Input } from "@/components/ui/input";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"; // Shadcn UI Form Elements
+import { FormField, FormItem, FormMessage } from "@/components/ui/form"; // Shadcn UI Form Elements
 import { useAnswerStore } from "@/store/answer.store";
 import { Textarea } from "@/components/ui/textarea";
-import { Asterisk } from "lucide-react";
+
 import { QuestionLabel } from "./question-label";
 
 type TextAnswerProps = {

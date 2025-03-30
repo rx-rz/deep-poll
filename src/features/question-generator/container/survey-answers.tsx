@@ -116,6 +116,7 @@ export const SurveyAnswers = () => {
               key={question.questionId}
             >
               <p className="text-lg font-medium mb-4">{question.orderNumber}</p>
+              <p className="font-bold text-xs">{question.questionId}</p>
               {renderAnswerComponent({ control: form.control, question })}
             </div>
           ))}

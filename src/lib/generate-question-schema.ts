@@ -113,13 +113,19 @@ export const generateQuestionSchemas = (
         z.enum([...choices] as any, {
           required_error: "You need to select one",
         });
-        let multipleChoiceSchema = z.enum(["Habibi", "Habibat", "Tonghe"], {
-          required_error: "You need to select one",
-        });
+        let multipleChoiceSchema = z.enum(
+          [...choices] as [string, ...string[]],
+          {
+            required_error: "You need to select one",
+          }
+        );
         schema = multipleChoiceSchema;
-        // if (multipleChoiceOptions.allowOther) {
-        //   schema = z.string();
-        // }
+
+        if (allowOther) {
+          schema = z.string({
+            required_error: "Choose an option or enter value",
+          });
+        }
         // if (
         //   !multipleChoiceOptions.allowOther &&
         //   multipleChoiceOptions.choices
@@ -167,92 +173,92 @@ export const generateQuestionSchemas = (
         //         );
         // }
         break;
-      case "checkbox":
-        const checkboxOptions =
-          question.options as QuestionOptionsMap["checkbox"];
-        if (checkboxOptions?.choices) {
-          const baseArraySchema = z
-            .string()
-            .refine((value) => checkboxOptions.choices.includes(value), {
-              message: "Invalid choice",
-            })
-            .array();
+      // case "checkbox":
+      //   const checkboxOptions =
+      //     question.options as QuestionOptionsMap["checkbox"];
+      //   if (checkboxOptions?.choices) {
+      //     const baseArraySchema = z
+      //       .string()
+      //       .refine((value) => checkboxOptions.choices.includes(value), {
+      //         message: "Invalid choice",
+      //       })
+      //       .array();
 
-          if (checkboxOptions.minSelections !== undefined) {
-            schema = baseArraySchema.refine(
-              (value) => value.length >= checkboxOptions.minSelections!,
-              {
-                message: `Select at least ${checkboxOptions.minSelections} choices`,
-              }
-            );
-          }
+      //     if (checkboxOptions.minSelections !== undefined) {
+      //       schema = baseArraySchema.refine(
+      //         (value) => value.length >= checkboxOptions.minSelections!,
+      //         {
+      //           message: `Select at least ${checkboxOptions.minSelections} choices`,
+      //         }
+      //       );
+      //     }
 
-          if (checkboxOptions.maxSelections !== undefined) {
-            schema = baseArraySchema.refine(
-              (value) => value.length <= checkboxOptions.maxSelections!,
-              {
-                message: `Select no more than ${checkboxOptions.maxSelections} choices`,
-              }
-            );
-          }
+      //     if (checkboxOptions.maxSelections !== undefined) {
+      //       schema = baseArraySchema.refine(
+      //         (value) => value.length <= checkboxOptions.maxSelections!,
+      //         {
+      //           message: `Select no more than ${checkboxOptions.maxSelections} choices`,
+      //         }
+      //       );
+      //     }
 
-          schema = question.required ? schema : schema.optional();
-        }
-        break;
-      case "dropdown":
-        const dropdownOptions =
-          question.options as QuestionOptionsMap["dropdown"];
-        if (dropdownOptions?.choices) {
-          schema = question.required
-            ? z
-                .string()
-                .refine((value) => dropdownOptions.choices.includes(value), {
-                  message: "Invalid choice",
-                })
-            : z
-                .string()
-                .optional()
-                .refine(
-                  (value) => !value || dropdownOptions.choices.includes(value),
-                  {
-                    message: "Invalid choice",
-                  }
-                );
-        }
-        break;
-      case "rating":
-        const ratingOptions = question.options as QuestionOptionsMap["rating"];
-        if (ratingOptions) {
-          schema = question.required
-            ? z.number().min(ratingOptions.min).max(ratingOptions.max)
-            : z
-                .number()
-                .min(ratingOptions.min)
-                .max(ratingOptions.max)
-                .optional();
-        }
-        break;
-      case "likert":
-        const likertOptions = question.options as QuestionOptionsMap["likert"];
-        if (likertOptions) {
-          schema = question.required
-            ? z.number().min(1).max(likertOptions.scale)
-            : z.number().min(1).max(likertOptions.scale).optional();
-        }
-        break;
-      case "linear_scale":
-        const linearScaleOptions =
-          question.options as QuestionOptionsMap["linear_scale"];
-        if (linearScaleOptions) {
-          schema = question.required
-            ? z.number().min(linearScaleOptions.min).max(linearScaleOptions.max)
-            : z
-                .number()
-                .min(linearScaleOptions.min)
-                .max(linearScaleOptions.max)
-                .optional();
-        }
-        break;
+      //     schema = question.required ? schema : schema.optional();
+      //   }
+      //   break;
+      // case "dropdown":
+      // const dropdownOptions =
+      //   question.options as QuestionOptionsMap["dropdown"];
+      // if (dropdownOptions?.choices) {
+      //   schema = question.required
+      //     ? z
+      //         .string()
+      //         .refine((value) => dropdownOptions.choices.includes(value), {
+      //           message: "Invalid choice",
+      //         })
+      //     : z
+      //         .string()
+      //         .optional()
+      //         .refine(
+      //           (value) => !value || dropdownOptions.choices.includes(value),
+      //           {
+      //             message: "Invalid choice",
+      //           }
+      //         );
+      // }
+      // break;
+      // case "rating":
+      //   const ratingOptions = question.options as QuestionOptionsMap["rating"];
+      //   if (ratingOptions) {
+      //     schema = question.required
+      //       ? z.number().min(ratingOptions.min).max(ratingOptions.max)
+      //       : z
+      //           .number()
+      //           .min(ratingOptions.min)
+      //           .max(ratingOptions.max)
+      //           .optional();
+      //   }
+      //   break;
+      // case "likert":
+      //   const likertOptions = question.options as QuestionOptionsMap["likert"];
+      //   if (likertOptions) {
+      //     schema = question.required
+      //       ? z.number().min(1).max(likertOptions.scale)
+      //       : z.number().min(1).max(likertOptions.scale).optional();
+      //   }
+      //   break;
+      // case "linear_scale":
+      //   const linearScaleOptions =
+      //     question.options as QuestionOptionsMap["linear_scale"];
+      //   if (linearScaleOptions) {
+      //     schema = question.required
+      //       ? z.number().min(linearScaleOptions.min).max(linearScaleOptions.max)
+      //       : z
+      //           .number()
+      //           .min(linearScaleOptions.min)
+      //           .max(linearScaleOptions.max)
+      //           .optional();
+      //   }
+      //   break;
       default:
         schemaShape[question.questionId] = z.any();
         break;

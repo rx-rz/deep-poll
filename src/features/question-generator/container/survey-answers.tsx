@@ -14,6 +14,10 @@ import { NumberAnswer } from "./number-answer";
 import { generateQuestionSchemas } from "@/lib/generate-question-schema";
 import { MultipleChoiceAnswer } from "./multiple-choice-answer";
 import { CheckboxAnswer } from "./checkbox-answer";
+import { DropdownAnswer } from "./dropdown-answer";
+import { LinearScaleAnswer } from "./linear-scale-answer";
+import { SliderAnswer } from "./slider-answer";
+import { LikertAnswer } from "./likert-answer";
 
 const renderAnswerComponent = ({
   question,
@@ -85,6 +89,60 @@ const renderAnswerComponent = ({
           control={control}
           key={question.questionId}
           options={checkboxOptions}
+          questionId={question.questionId}
+          questionText={question.questionText ?? ""}
+          required={question.required}
+        />
+      );
+      break;
+    case "dropdown":
+      const dropdownOptions =
+        question.options as QuestionOptionsMap["dropdown"];
+      answerComponent = (
+        <DropdownAnswer
+          control={control}
+          key={question.questionId}
+          options={dropdownOptions}
+          questionId={question.questionId}
+          questionText={question.questionText ?? ""}
+          required={question.required}
+        />
+      );
+      break;
+    case "linear_scale":
+      const linearScaleOptions =
+        question.options as QuestionOptionsMap["linear_scale"];
+      answerComponent = (
+        <LinearScaleAnswer
+          control={control}
+          key={question.questionId}
+          options={linearScaleOptions}
+          questionId={question.questionId}
+          questionText={question.questionText ?? ""}
+          required={question.required}
+        />
+      );
+      break;
+    case "slider":
+      const sliderOptions = question.options as QuestionOptionsMap["slider"];
+      answerComponent = (
+        <SliderAnswer
+          control={control}
+          key={question.questionId}
+          options={sliderOptions}
+          questionId={question.questionId}
+          questionText={question.questionText ?? ""}
+          required={question.required}
+        />
+      );
+      break;
+    case "likert":
+      const likertOptions = question.options as QuestionOptionsMap["likert"];
+      answerComponent = (
+        <LikertAnswer
+          control={control}
+          key={question.questionId}
+          options={likertOptions}
           questionId={question.questionId}
           questionText={question.questionText ?? ""}
           required={question.required}

@@ -2,7 +2,7 @@ import {
   ChevronDownCircle,
   ChevronUpCircle,
   Stars,
-  Trash2Icon,
+  TrashIcon,
 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import {
@@ -18,6 +18,8 @@ import {
 } from "./ui/alert-dialog";
 import { QuestionType } from "@/types/questions";
 import { useQuestionStore } from "@/store/questions.store";
+
+import { Checkbox } from "./ui/checkbox";
 
 type Props = {
   icon: ReactNode | any;
@@ -41,19 +43,24 @@ export const QuestionCreationCard = ({
   const [open, setOpen] = useState(false);
   return (
     <>
-      <div className=" bg-white border-black border-3 py-4 px-5">
+      <div className=" bg-white min-w-lg max-w-lg  border rounded-lg shadow-sm  py-4 px-5">
         <div className="flex justify-between mb-4 text-sm font-medium">
           <div className="flex items-center gap-1">
             {icon}
             <p className="text-xs font-medium">{questionType}</p>
           </div>
           <div className="flex gap-2 items-center">
-            <Stars size={18} strokeWidth={3} stroke="#4392F1" />
+            <Stars
+              size={19}
+              strokeWidth={1.5}
+              stroke="#4392F1"
+              fill="#4392F1"
+            />
             <AlertDialog open={open} onOpenChange={setOpen}>
               <AlertDialogTrigger className="hover:cursor-pointer">
-                <Trash2Icon size={18} strokeWidth={1.9} />
+                <TrashIcon size={19} strokeWidth={1.5} />
               </AlertDialogTrigger>
-              <AlertDialogContent className="rounded-none">
+              <AlertDialogContent>
                 <RemoveQuestionAlertCard
                   questionId={questionId}
                   setOpen={setOpen}
@@ -67,15 +74,23 @@ export const QuestionCreationCard = ({
           <p>{questionText}</p>
         </div>
         <div className="my-4">{questionOptionsIsOpen ? children : <></>}</div>
-        <div className="w-full  flex justify-end items-end mt-4">
+        <div className="w-full flex justify-between items-center mt-4">
+          <div className="flex gap-2 mt-5">
+            <Checkbox
+
+            // checked={questionIsRequired}
+            // onCheckedChange={(checked) => setQuestionIsRequired(checked)}
+            />
+            <p className="font-medium text-xs">Required</p>
+          </div>
           <button
             className="w-fit self-end hover:cursor-pointer"
             onClick={() => setQuestionOptionsIsOpen(!questionOptionsIsOpen)}
           >
             {questionOptionsIsOpen ? (
-              <ChevronUpCircle size={18} strokeWidth={1.9} />
+              <ChevronUpCircle size={19} strokeWidth={1.5} />
             ) : (
-              <ChevronDownCircle size={18} strokeWidth={1.9} />
+              <ChevronDownCircle size={19} strokeWidth={1.5} />
             )}
           </button>
         </div>

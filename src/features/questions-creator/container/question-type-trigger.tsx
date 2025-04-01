@@ -55,7 +55,7 @@ export const QuestionTypeTrigger = () => {
             }}
           >
             <Type className="mr-2 h-4 w-4" />
-            Short answer
+            Text
           </Button>
           <Button
             className="hover:cursor-pointer bg-secondary text-black border-2"

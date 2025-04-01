@@ -220,20 +220,13 @@ export const QuestionEditor = ({ questionId, questionType }: Props) => {
       questionText={currentQuestion?.questionText ?? ""}
       questionType={questionType}
     >
-      <div className="md:ml-6 ml-5">
+      <div className="">
         <QuestionInput
           questionText={questionText}
           setQuestionText={setQuestionText}
         />
         {optionSettings}
-        <div className="flex gap-2 mt-5">
-          <Switch
-            className="w-8 h-4 hover:cursor-pointer"
-            checked={questionIsRequired}
-            onCheckedChange={(checked) => setQuestionIsRequired(checked)}
-          />
-          <p className="font-medium text-xs">Required</p>
-        </div>
+
       </div>
     </QuestionCreationCard>
   );

@@ -13,7 +13,7 @@ export const QuestionInput = ({ questionText, setQuestionText }: Props) => {
       <Textarea
         placeholder="Enter question text"
         defaultValue={questionText}
-        className="max-w-full rounded-none"
+        className="max-w-full"
         onChange={(e) => {
           setQuestionText(e.target.value);
         }}

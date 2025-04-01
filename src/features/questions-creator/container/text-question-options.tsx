@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/form";
 import { useTextQuestionOptionsForm } from "../form/textinput-form";
 import { Switch } from "@/components/ui/switch";
+import { QuestionOptionLabel } from "../components/question-option-label";
+import { OptionsButton } from "../components/options-button";
 
 type LocalQuestionOptions = QuestionOptionsMap["text"];
 type OptionProps = {
@@ -34,13 +36,13 @@ export const TextQuestionOptions = memo(
     return (
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="grid mb-4">
+          <div className="grid gap-4">
             <FormField
               control={control}
               name="minAnswerLength"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs mb-2">Minimum Answer Length</Label>
+                  <QuestionOptionLabel text="Minimum Answer Length" />
                   <FormControl>
                     <Input
                       type="text"
@@ -59,7 +61,7 @@ export const TextQuestionOptions = memo(
               name="maxAnswerLength"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs mb-2">Maximum Answer Length</Label>
+                  <QuestionOptionLabel text="Minimum Answer Length" />
                   <FormControl>
                     <Input
                       min={form.getValues("minAnswerLength")}
@@ -78,7 +80,7 @@ export const TextQuestionOptions = memo(
               name="placeholder"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs mb-2">Question Placeholder</Label>
+                  <QuestionOptionLabel text="Question Placeholder" />
                   <FormControl>
                     <Input type="text" max={300} {...field} />
                   </FormControl>
@@ -86,31 +88,26 @@ export const TextQuestionOptions = memo(
                 </FormItem>
               )}
             />
+
             <FormField
               control={control}
               name="isMultiline"
               render={({ field }) => (
                 <FormItem>
-                  <div className="flex items-center gap-2 mt-4">
+                  <div className="flex items-center border-2 rounded-md p-4 justify-between gap-2 mt-5 mb-4">
+                    <Label className="text-xs">Accept Multiline Answers</Label>
                     <Switch
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
-                    <Label className="text-xs">Accept Multiline Answers</Label>
                   </div>
                   <FormMessage />
                 </FormItem>
               )}
             />
-          </div>
 
-          <Button
-            type="submit"
-            className="w-full font-bold"
-            disabled={!isDirty}
-          >
-            SAVE
-          </Button>
+            <OptionsButton disabled={!isDirty}>Save</OptionsButton>
+          </div>
         </form>
       </Form>
     );

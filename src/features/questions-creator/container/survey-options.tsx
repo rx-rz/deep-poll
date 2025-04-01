@@ -19,7 +19,7 @@ import { Edit } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
 import { useSurveyOptionsStore } from "@/store/survey-options.store";
 
 export const SurveyOptions = () => {

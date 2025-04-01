@@ -4,5 +4,5 @@ type Props = {
   text: string;
 };
 export const QuestionOptionLabel = ({ text }: Props) => {
-  return <Label>{text}</Label>;
+  return <Label className="text-xs mb-0">{text}</Label>;
 };

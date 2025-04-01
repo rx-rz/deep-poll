@@ -13,6 +13,7 @@ import { QuestionLabel } from "./question-label";
 import { useMemo } from "react";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
+import { shuffleArray } from "@/lib/utils";
 type MultipleChoiceAnswerProps = {
   questionId: string;
   questionText: string;
@@ -30,15 +31,6 @@ export const MultipleChoiceAnswer = ({
 }: MultipleChoiceAnswerProps) => {
   const setAnswer = useAnswerStore((state) => state.setAnswer);
   const { allowOther, choices, randomizeOrder } = options;
-
-  function shuffleArray(array: string[]) {
-    const shuffled = [...array]; // Create a copy to avoid mutating the original array
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap elements
-    }
-    return shuffled;
-  }
 
   const displayedChoices = useMemo(() => {
     return randomizeOrder ? shuffleArray(choices) : choices;

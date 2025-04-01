@@ -26,47 +26,57 @@ export const CheckboxAnswer = ({
   required,
 }: Props) => {
   const { choices, minSelections, maxSelections, randomizeOrder } = options;
-  console.log({ minSelections, maxSelections });
   return (
     <>
       <FormField
         control={control}
         name={questionId}
-        render={({ field }) => (
+        render={() => (
           <FormItem>
             <QuestionLabel questionText={questionText} required={required} />
-            <FormControl>
-              <div>
-                {choices.map((choice) => (
-                  <>
-                    <Checkbox
-                      key={choice}
-                      checked={
-                        Array.isArray(field.value) &&
-                        field.value.includes(choice)
-                      }
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          field.onChange([
-                            ...(Array.isArray(field.value) ? field.value : []),
-                            choice,
-                          ]);
-                        } else {
-                          field.onChange(
-                            Array.isArray(field.value)
-                              ? field.value.filter((value) => value !== choice)
-                              : []
-                          );
+            {choices.map((choice) => (
+              <FormField
+                key={choice}
+                control={control}
+                name={questionId}
+                render={({ field }) => (
+                  <FormItem
+                    key={choice}
+                    className="flex flex-row items-start space-x-3 space-y-0"
+                  >
+                    <FormControl>
+                      <Checkbox
+                        checked={
+                          Array.isArray(field.value) &&
+                          field.value.includes(choice)
                         }
-                      }}
-                    />
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            field.onChange([
+                              ...(Array.isArray(field.value)
+                                ? field.value
+                                : []),
+                              choice,
+                            ]);
+                          } else {
+                            field.onChange(
+                              Array.isArray(field.value)
+                                ? field.value.filter(
+                                    (value) => value !== choice
+                                  )
+                                : []
+                            );
+                          }
+                        }}
+                      />
+                    </FormControl>
                     <FormLabel className="text-sm font-normal">
                       {choice}
                     </FormLabel>
-                  </>
-                ))}
-              </div>
-            </FormControl>
+                  </FormItem>
+                )}
+              />
+            ))}
             <FormMessage />
           </FormItem>
         )}

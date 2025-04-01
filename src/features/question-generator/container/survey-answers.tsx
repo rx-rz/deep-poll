@@ -18,6 +18,7 @@ import { DropdownAnswer } from "./dropdown-answer";
 import { LinearScaleAnswer } from "./linear-scale-answer";
 import { SliderAnswer } from "./slider-answer";
 import { LikertAnswer } from "./likert-answer";
+import { FileAnswer } from "./file-answer";
 
 const renderAnswerComponent = ({
   question,
@@ -143,6 +144,19 @@ const renderAnswerComponent = ({
           control={control}
           key={question.questionId}
           options={likertOptions}
+          questionId={question.questionId}
+          questionText={question.questionText ?? ""}
+          required={question.required}
+        />
+      );
+      break;
+    case "file":
+      const fileOptions = question.options as QuestionOptionsMap["file"];
+      answerComponent = (
+        <FileAnswer
+          control={control}
+          key={question.questionId}
+          options={fileOptions}
           questionId={question.questionId}
           questionText={question.questionText ?? ""}
           required={question.required}

@@ -13,6 +13,7 @@ import { Link } from "wouter";
 import { NumberAnswer } from "./number-answer";
 import { generateQuestionSchemas } from "@/lib/generate-question-schema";
 import { MultipleChoiceAnswer } from "./multiple-choice-answer";
+import { CheckboxAnswer } from "./checkbox-answer";
 
 const renderAnswerComponent = ({
   question,
@@ -70,6 +71,20 @@ const renderAnswerComponent = ({
           control={control}
           key={question.questionId}
           options={multipleChoiceOptions}
+          questionId={question.questionId}
+          questionText={question.questionText ?? ""}
+          required={question.required}
+        />
+      );
+      break;
+    case "checkbox":
+      const checkboxOptions =
+        question.options as QuestionOptionsMap["checkbox"];
+      answerComponent = (
+        <CheckboxAnswer
+          control={control}
+          key={question.questionId}
+          options={checkboxOptions}
           questionId={question.questionId}
           questionText={question.questionText ?? ""}
           required={question.required}

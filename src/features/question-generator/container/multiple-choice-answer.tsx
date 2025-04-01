@@ -42,7 +42,6 @@ export const MultipleChoiceAnswer = ({
 
   const displayedChoices = useMemo(() => {
     return randomizeOrder ? shuffleArray(choices) : choices;
-    // Only re-shuffle if randomizeOrder or the choices array itself changes
   }, [randomizeOrder, choices]);
 
   return (

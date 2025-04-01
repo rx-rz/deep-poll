@@ -8,203 +8,149 @@ export const generateQuestionSchemas = (
   questions.forEach((question) => {
     let schema: z.ZodSchema = z.any();
     switch (question.questionType) {
-      case "text":
-        const { minAnswerLength, maxAnswerLength } =
-          question.options as QuestionOptionsMap["text"];
-        let textSchema = z.string();
-        if (minAnswerLength) {
-          textSchema = textSchema.min(minAnswerLength, {
-            message: `Answer cannot be less than ${minAnswerLength} characters`,
-          });
-        }
-        if (maxAnswerLength) {
-          textSchema = textSchema.max(maxAnswerLength, {
-            message: `Answer cannot be more than ${maxAnswerLength} characters`,
-          });
-        }
-        schema = question.required
-          ? textSchema.nonempty({ message: "Required!" })
-          : textSchema.optional();
-        break;
-      case "email":
-        const {
-          minEmailLength,
-          maxEmailLength,
-          allowedDomains,
-          disallowedDomains,
-        } = question.options as QuestionOptionsMap["email"];
-        let emailSchema = z.string().email({ message: "Invalid email format" });
-        if (minEmailLength) {
-          emailSchema = emailSchema.min(minEmailLength, {
-            message: `Email cannot be less than ${minEmailLength} characters`,
-          });
-        }
-        if (maxEmailLength) {
-          emailSchema = emailSchema.max(maxEmailLength, {
-            message: `Email cannot be more than ${maxEmailLength} characters`,
-          });
-        }
+      // case "text":
+      //   const { minAnswerLength, maxAnswerLength } =
+      //     question.options as QuestionOptionsMap["text"];
+      //   let textSchema = z.string();
+      //   if (minAnswerLength) {
+      //     textSchema = textSchema.min(minAnswerLength, {
+      //       message: `Answer cannot be less than ${minAnswerLength} characters`,
+      //     });
+      //   }
+      //   if (maxAnswerLength) {
+      //     textSchema = textSchema.max(maxAnswerLength, {
+      //       message: `Answer cannot be more than ${maxAnswerLength} characters`,
+      //     });
+      //   }
+      //   schema = question.required
+      //     ? textSchema.nonempty({ message: "Required!" })
+      //     : textSchema.optional();
+      //   break;
+      // case "email":
+      //   const {
+      //     minEmailLength,
+      //     maxEmailLength,
+      //     allowedDomains,
+      //     disallowedDomains,
+      //   } = question.options as QuestionOptionsMap["email"];
+      //   let emailSchema = z.string().email({ message: "Invalid email format" });
+      //   if (minEmailLength) {
+      //     emailSchema = emailSchema.min(minEmailLength, {
+      //       message: `Email cannot be less than ${minEmailLength} characters`,
+      //     });
+      //   }
+      //   if (maxEmailLength) {
+      //     emailSchema = emailSchema.max(maxEmailLength, {
+      //       message: `Email cannot be more than ${maxEmailLength} characters`,
+      //     });
+      //   }
 
-        const validateEmailDomain = (email: string): boolean => {
-          const domain = email.split("@")[1];
+      //   const validateEmailDomain = (email: string): boolean => {
+      //     const domain = email.split("@")[1];
 
-          if (disallowedDomains) {
-            const disallowedDomainList = disallowedDomains
-              .split(",")
-              .map((d) => d.trim());
-            if (disallowedDomainList.includes(domain)) {
-              return false;
-            }
-          }
-
-          if (allowedDomains) {
-            const allowedDomainList = allowedDomains
-              .split(",")
-              .map((d) => d.trim());
-            return allowedDomainList.includes(domain);
-          }
-
-          return true; // No restrictions, accept.
-        };
-        schema = question.required
-          ? emailSchema.nonempty({ message: "Required!" }).refine(
-              (email) => {
-                const val = validateEmailDomain(email);
-                return val;
-              },
-              { message: "Domain issue" }
-            )
-          : emailSchema.optional().refine(
-              (email) => {
-                if (email) {
-                  const val = validateEmailDomain(email);
-                  return val;
-                }
-              },
-              {
-                message: "Domain issue",
-              }
-            );
-        break;
-      case "number":
-        const { allowDecimal, min, max } =
-          question.options as QuestionOptionsMap["number"];
-        let numberSchema = allowDecimal
-          ? z.coerce.number({ message: "Input must be a number" })
-          : z.coerce
-              .number({ message: "Input must be a number" })
-              .int({ message: "Number must be an integer, not a decimal" });
-        if (min !== undefined) {
-          numberSchema = numberSchema.min(min, {
-            message: `Number cannot be less than ${min}`,
-          });
-        }
-        if (max !== undefined) {
-          numberSchema = numberSchema.max(max, {
-            message: `Number cannot be more than ${max}`,
-          });
-        }
-        schema = question.required ? numberSchema : numberSchema.optional();
-        break;
-      case "multiple_choice":
-        const { allowOther, choices } =
-          question.options as QuestionOptionsMap["multiple_choice"];
-
-        z.enum([...choices] as any, {
-          required_error: "You need to select one",
-        });
-        let multipleChoiceSchema = z.enum(
-          [...choices] as [string, ...string[]],
-          {
-            required_error: "You need to select one",
-          }
-        );
-        schema = multipleChoiceSchema;
-
-        if (allowOther) {
-          schema = z.string({
-            required_error: "Choose an option or enter value",
-          });
-        }
-        // if (
-        //   !multipleChoiceOptions.allowOther &&
-        //   multipleChoiceOptions.choices
-        // ) {
-        //   schema = z.string().refine((arg) => {
-        //     return !multipleChoiceOptions.choices.includes(arg);
-        //   });
-        // }
-        // if (multipleChoiceOptions.allowOther) {
-        //   schema = z
-        //     .object({
-        //       choice: z.string().optional(),
-        //       other: z.string().optional(),
-        //     })
-        //     .refine(
-        //       (data) =>
-        //         (!!data.choice && !data.other) ||
-        //         (!data.choice && !!data.other),
-        //       {
-        //         message:
-        //           "Please select either a choice or specify in 'Other', but not both.",
-        //         path: ["choice"],
-        //       }
-        //     )
-        //     .transform((data) => data.choice || data.other);
-        // } else {
-        //   schema = question.required
-        //     ? z
-        //         .string()
-        //         .refine(
-        //           (value) => multipleChoiceOptions.choices.includes(value),
-        //           {
-        //             message: "Invalid choice",
-        //           }
-        //         )
-        //     : z
-        //         .string()
-        //         .optional()
-        //         .refine(
-        //           (value) =>
-        //             !value || multipleChoiceOptions.choices.includes(value),
-        //           {
-        //             message: "Invalid choice",
-        //           }
-        //         );
-        // }
-        break;
-      // case "checkbox":
-      //   const checkboxOptions =
-      //     question.options as QuestionOptionsMap["checkbox"];
-      //   if (checkboxOptions?.choices) {
-      //     const baseArraySchema = z
-      //       .string()
-      //       .refine((value) => checkboxOptions.choices.includes(value), {
-      //         message: "Invalid choice",
-      //       })
-      //       .array();
-
-      //     if (checkboxOptions.minSelections !== undefined) {
-      //       schema = baseArraySchema.refine(
-      //         (value) => value.length >= checkboxOptions.minSelections!,
-      //         {
-      //           message: `Select at least ${checkboxOptions.minSelections} choices`,
-      //         }
-      //       );
+      //     if (disallowedDomains) {
+      //       const disallowedDomainList = disallowedDomains
+      //         .split(",")
+      //         .map((d) => d.trim());
+      //       if (disallowedDomainList.includes(domain)) {
+      //         return false;
+      //       }
       //     }
 
-      //     if (checkboxOptions.maxSelections !== undefined) {
-      //       schema = baseArraySchema.refine(
-      //         (value) => value.length <= checkboxOptions.maxSelections!,
-      //         {
-      //           message: `Select no more than ${checkboxOptions.maxSelections} choices`,
-      //         }
-      //       );
+      //     if (allowedDomains) {
+      //       const allowedDomainList = allowedDomains
+      //         .split(",")
+      //         .map((d) => d.trim());
+      //       return allowedDomainList.includes(domain);
       //     }
 
-      //     schema = question.required ? schema : schema.optional();
+      //     return true; // No restrictions, accept.
+      //   };
+      //   schema = question.required
+      //     ? emailSchema.nonempty({ message: "Required!" }).refine(
+      //         (email) => {
+      //           const val = validateEmailDomain(email);
+      //           return val;
+      //         },
+      //         { message: "Domain issue" }
+      //       )
+      //     : emailSchema.optional().refine(
+      //         (email) => {
+      //           if (email) {
+      //             const val = validateEmailDomain(email);
+      //             return val;
+      //           }
+      //         },
+      //         {
+      //           message: "Domain issue",
+      //         }
+      //       );
+      //   break;
+      // case "number":
+      //   const { allowDecimal, min, max } =
+      //     question.options as QuestionOptionsMap["number"];
+      //   let numberSchema = allowDecimal
+      //     ? z.coerce.number({ message: "Input must be a number" })
+      //     : z.coerce
+      //         .number({ message: "Input must be a number" })
+      //         .int({ message: "Number must be an integer, not a decimal" });
+      //   if (min !== undefined) {
+      //     numberSchema = numberSchema.min(min, {
+      //       message: `Number cannot be less than ${min}`,
+      //     });
+      //   }
+      //   if (max !== undefined) {
+      //     numberSchema = numberSchema.max(max, {
+      //       message: `Number cannot be more than ${max}`,
+      //     });
+      //   }
+      //   schema = question.required ? numberSchema : numberSchema.optional();
+      //   break;
+      // case "multiple_choice":
+      //   const { allowOther, choices } =
+      //     question.options as QuestionOptionsMap["multiple_choice"];
+
+      //   z.enum([...choices] as any, {
+      //     required_error: "You need to select one",
+      //   });
+      //   let multipleChoiceSchema = z.enum(
+      //     [...choices] as [string, ...string[]],
+      //     {
+      //       required_error: "You need to select one",
+      //     }
+      //   );
+      //   schema = multipleChoiceSchema;
+
+      //   if (allowOther) {
+      //     schema = z.string({
+      //       required_error: "Choose an option or enter value",
+      //     });
       //   }
       //   break;
+      case "checkbox":
+        const checkboxOptions =
+          question.options as QuestionOptionsMap["checkbox"];
+        const checkboxSchema = z
+          .array(z.string())
+          .refine(
+            (value) =>
+              !checkboxOptions.minSelections ||
+              value.length >= checkboxOptions.minSelections,
+            {
+              message: `Select at least ${checkboxOptions.minSelections} choices`,
+            }
+          )
+          .refine(
+            (value) =>
+              !checkboxOptions.maxSelections ||
+              value.length <= checkboxOptions.maxSelections,
+            {
+              message: `Select at most ${checkboxOptions.maxSelections} choices`,
+            }
+          );
+        schema = question.required ? checkboxSchema : checkboxSchema.optional();
+
+        break;
       // case "dropdown":
       // const dropdownOptions =
       //   question.options as QuestionOptionsMap["dropdown"];

@@ -1,23 +1,25 @@
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+const { text: textOptions } = defaultQuestionOptions;
 export const textQuestionOptionsSchema = z
   .object({
     placeholder: z.string().optional(),
     isMultiline: z.boolean().default(false),
     minAnswerLength: z.coerce
-      .number()
-      .int()
+      .number({ message: "Value must be a number" })
+      .int({ message: "Value must be an integer" })
       .min(1)
       .positive("Minimum length must be positive")
-      .default(1),
+      .default(textOptions.minAnswerLength),
     maxAnswerLength: z.coerce
-      .number()
-      .int()
+      .number({ message: "Value must be a number" })
+      .int({ message: "Value must be an integer" })
       .min(1)
       .positive("Maximum length must be positive")
-      .default(255),
+      .default(textOptions.maxAnswerLength),
   })
   .refine((data) => data.maxAnswerLength >= data.minAnswerLength, {
     message:

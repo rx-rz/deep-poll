@@ -216,39 +216,21 @@ export const generateQuestionSchemas = (
                 .optional();
         }
         break;
-      // case "rating":
-      //   const ratingOptions = question.options as QuestionOptionsMap["rating"];
-      //   if (ratingOptions) {
-      //     schema = question.required
-      //       ? z.number().min(ratingOptions.min).max(ratingOptions.max)
-      //       : z
-      //           .number()
-      //           .min(ratingOptions.min)
-      //           .max(ratingOptions.max)
-      //           .optional();
-      //   }
-      //   break;
-      // case "likert":
-      //   const likertOptions = question.options as QuestionOptionsMap["likert"];
-      //   if (likertOptions) {
-      //     schema = question.required
-      //       ? z.number().min(1).max(likertOptions.scale)
-      //       : z.number().min(1).max(likertOptions.scale).optional();
-      //   }
-      //   break;
-      // case "linear_scale":
-      //   const linearScaleOptions =
-      //     question.options as QuestionOptionsMap["linear_scale"];
-      //   if (linearScaleOptions) {
-      //     schema = question.required
-      //       ? z.number().min(linearScaleOptions.min).max(linearScaleOptions.max)
-      //       : z
-      //           .number()
-      //           .min(linearScaleOptions.min)
-      //           .max(linearScaleOptions.max)
-      //           .optional();
-      //   }
-      //   break;
+      case "date":
+        schema = question.required
+          ? z.string().nonempty()
+          : z.string().optional();
+        break;
+      case "datetime":
+        schema = question.required
+          ? z.string().nonempty()
+          : z.string().optional();
+        break;
+      case "time":
+        schema = question.required
+          ? z.string().nonempty()
+          : z.string().optional();
+        break;
       default:
         schemaShape[question.questionId] = z.any();
         break;

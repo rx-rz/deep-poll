@@ -43,7 +43,7 @@ export const TextQuestionOptions = memo(
                   <Label className="text-xs mb-2">Minimum Answer Length</Label>
                   <FormControl>
                     <Input
-                      type="number"
+                      type="text"
                       min={1}
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
@@ -63,7 +63,7 @@ export const TextQuestionOptions = memo(
                   <FormControl>
                     <Input
                       min={form.getValues("minAnswerLength")}
-                      type="number"
+                      type="text"
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />

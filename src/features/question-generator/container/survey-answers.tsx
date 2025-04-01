@@ -19,6 +19,10 @@ import { LinearScaleAnswer } from "./linear-scale-answer";
 import { SliderAnswer } from "./slider-answer";
 import { LikertAnswer } from "./likert-answer";
 import { FileAnswer } from "./file-answer";
+import { DateAnswer } from "./date-answer";
+import { DateTimeAnswer } from "./datetime-answer";
+import { TimeAnswer } from "./time-answer";
+import { RatingAnswer } from "./rating-answer";
 
 const renderAnswerComponent = ({
   question,
@@ -157,6 +161,59 @@ const renderAnswerComponent = ({
           control={control}
           key={question.questionId}
           options={fileOptions}
+          questionId={question.questionId}
+          questionText={question.questionText ?? ""}
+          required={question.required}
+        />
+      );
+      break;
+    case "date":
+      const dateOptions = question.options as QuestionOptionsMap["date"];
+      answerComponent = (
+        <DateAnswer
+          control={control}
+          key={question.questionId}
+          options={dateOptions}
+          questionId={question.questionId}
+          questionText={question.questionText ?? ""}
+          required={question.required}
+        />
+      );
+      break;
+    case "datetime":
+      const dateTimeOptions =
+        question.options as QuestionOptionsMap["datetime"];
+      answerComponent = (
+        <DateTimeAnswer
+          control={control}
+          key={question.questionId}
+          options={dateTimeOptions}
+          questionId={question.questionId}
+          questionText={question.questionText ?? ""}
+          required={question.required}
+        />
+      );
+      break;
+    case "time":
+      const timeOptions = question.options as QuestionOptionsMap["time"];
+      answerComponent = (
+        <TimeAnswer
+          control={control}
+          key={question.questionId}
+          options={timeOptions}
+          questionId={question.questionId}
+          questionText={question.questionText ?? ""}
+          required={question.required}
+        />
+      );
+      break;
+    case "rating":
+      const ratingOptions = question.options as QuestionOptionsMap["rating"];
+      answerComponent = (
+        <RatingAnswer
+          control={control}
+          key={question.questionId}
+          options={ratingOptions}
           questionId={question.questionId}
           questionText={question.questionText ?? ""}
           required={question.required}

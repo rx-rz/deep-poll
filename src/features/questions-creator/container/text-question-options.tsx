@@ -45,7 +45,6 @@ export const TextQuestionOptions = memo(
                   <FormControl>
                     <Input
                       type="text"
-                      min={1}
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />

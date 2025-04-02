@@ -7,7 +7,10 @@ import { defaultQuestionOptions } from "@/lib/default-question-options";
 const numberOptions = defaultQuestionOptions.number;
 export const numberQuestionOptionsSchema = z
   .object({
-    placeholder: z.string().optional(),
+    placeholder: z
+      .string()
+      .default(numberOptions.placeholder ?? "")
+      .optional(),
     allowDecimal: z.boolean().default(false),
     min: z.coerce.number().default(numberOptions.min),
     max: z.coerce.number().default(numberOptions.max),

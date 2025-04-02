@@ -3,10 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const { text: textOptions } = defaultQuestionOptions;
+const textOptions = defaultQuestionOptions.text;
 export const textQuestionOptionsSchema = z
   .object({
-    placeholder: z.string().optional(),
+    placeholder: z
+      .string()
+      .default(textOptions.placeholder ?? "")
+      .optional(),
     isMultiline: z.boolean().default(false),
     minAnswerLength: z.coerce
       .number({ message: "Value must be a number" })

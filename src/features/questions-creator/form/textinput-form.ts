@@ -48,7 +48,7 @@ export const useTextQuestionOptionsForm = ({
   const form = useForm<TextQuestionOptionsDto>({
     resolver: zodResolver(textQuestionOptionsSchema),
     defaultValues: questionOptions,
-    mode: "onChange",
+    mode: "onBlur",
   });
 
   const onSubmit = (values: TextQuestionOptionsDto) => {

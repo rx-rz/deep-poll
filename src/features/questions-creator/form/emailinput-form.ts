@@ -2,22 +2,25 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 
+const { email: emailOptions } = defaultQuestionOptions;
 export const emailQuestionOptionsSchema = z
   .object({
     minEmailLength: z.coerce
-      .number()
-      .int()
+      .number({ message: "Value must be a number" })
+      .int({ message: "Value must be an integer" })
       .min(1, "Minimum length must be at least 1")
-      .default(1),
+      .default(emailOptions.minEmailLength),
     maxEmailLength: z.coerce
-      .number()
-      .int()
+      .number({ message: "Value must be a number" })
+      .int({ message: "Value must be an integer" })
       .min(1, "Maximum length must be at least 1")
-      .default(255),
+      .default(emailOptions.maxEmailLength),
     placeholder: z
       .string()
       .max(300, "Placeholder must be 300 characters or less")
+      .default(emailOptions.placeholder ?? "")
       .optional(),
     allowedDomains: z
       .string()
@@ -45,7 +48,7 @@ export const emailQuestionOptionsSchema = z
         },
         { message: "One or more domains are invalid" }
       ),
-    allowDuplicates: z.boolean().default(true),
+    allowDuplicates: z.boolean().default(emailOptions.allowDuplicates),
   })
   .refine((data) => data.maxEmailLength >= data.minEmailLength, {
     message:

@@ -1,7 +1,6 @@
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { QuestionOptionsMap } from "@/types/questions";
 import {
   Form,
@@ -11,9 +10,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useTextQuestionOptionsForm } from "../form/textinput-form";
-import { Switch } from "@/components/ui/switch";
 import { QuestionOptionLabel } from "../components/question-option-label";
 import { OptionsButton } from "../components/options-button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type LocalQuestionOptions = QuestionOptionsMap["text"];
 type OptionProps = {
@@ -96,7 +95,7 @@ export const TextQuestionOptions = memo(
                 <FormItem>
                   <div className="flex items-center border-2 rounded-md p-4 justify-between gap-2 mt-5 mb-4">
                     <Label className="text-xs">Accept Multiline Answers</Label>
-                    <Switch
+                    <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />

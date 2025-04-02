@@ -1,9 +1,6 @@
-// NumberQuestionOptions.tsx
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import {
   Form,
   FormControl,
@@ -13,6 +10,9 @@ import {
 } from "@/components/ui/form";
 import { useNumberQuestionOptionsForm } from "../form/numberinput-form";
 import { QuestionOptionsMap } from "@/types/questions";
+import { OptionsButton } from "../components/options-button";
+import { QuestionOptionLabel } from "../components/question-option-label";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type LocalQuestionOptions = QuestionOptionsMap["number"];
 
@@ -42,10 +42,9 @@ export const NumberQuestionOptions = memo(
               name="min"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs">Minimum Value</Label>
+                  <QuestionOptionLabel text="Minimum Value" />
                   <FormControl>
                     <Input
-                      type="number"
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -60,10 +59,9 @@ export const NumberQuestionOptions = memo(
               name="max"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs">Maximum Value</Label>
+                  <QuestionOptionLabel text="Maximum Value" />
                   <FormControl>
                     <Input
-                      type="number"
                       {...field}
                       min={form.getValues("min")}
                       onChange={(e) => field.onChange(Number(e.target.value))}
@@ -79,7 +77,7 @@ export const NumberQuestionOptions = memo(
               name="placeholder"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs">Placeholder</Label>
+                  <QuestionOptionLabel text="Placeholder" />
                   <FormControl>
                     <Input type="text" {...field} />
                   </FormControl>
@@ -93,23 +91,22 @@ export const NumberQuestionOptions = memo(
               name="allowDecimal"
               render={({ field }) => (
                 <FormItem>
-                  <p className="font-medium text-xs mb-2">Allow Decimals</p>
-                  <FormControl>
-                    <Switch
-                      className="w-8 h-4 hover:cursor-pointer"
+                  <div className="flex items-center border-2 rounded-md p-4 justify-between gap-2 mt-5 mb-4">
+                    <Label className="text-xs">Allow Decimals</Label>
+                    <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
-                  </FormControl>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
             />
-          </div>
 
-          <Button className="w-full mt-4" disabled={!isDirty} type="submit">
-            Save
-          </Button>
+            <OptionsButton disabled={!isDirty} type="submit">
+              Save
+            </OptionsButton>
+          </div>
         </form>
       </Form>
     );

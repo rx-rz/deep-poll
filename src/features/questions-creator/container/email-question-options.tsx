@@ -1,9 +1,6 @@
-// EmailQuestionOptions.tsx
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,6 +10,9 @@ import {
 } from "@/components/ui/form";
 import { useEmailQuestionOptionsForm } from "../form/emailinput-form";
 import { QuestionOptionsMap } from "@/types/questions";
+import { QuestionOptionLabel } from "../components/question-option-label";
+import { OptionsButton } from "../components/options-button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type LocalQuestionOptions = QuestionOptionsMap["email"];
 
@@ -41,16 +41,16 @@ export const EmailQuestionOptions = memo(
     return (
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="grid gap-x-4 gap-y-4 mb-4">
+          <div className="grid gap-4">
             <FormField
               control={control}
               name="minEmailLength"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs">Minimum Email Length</Label>
+                  <QuestionOptionLabel text="Minimum Email Length" />
                   <FormControl>
                     <Input
-                      type="number"
+                      type="text"
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -64,10 +64,10 @@ export const EmailQuestionOptions = memo(
               name="maxEmailLength"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs">Maximum Email Length</Label>
+                  <QuestionOptionLabel text="Maximum Email Length" />
                   <FormControl>
                     <Input
-                      type="number"
+                      type="text"
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -81,7 +81,7 @@ export const EmailQuestionOptions = memo(
               name="placeholder"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs">Question Placeholder</Label>
+                  <QuestionOptionLabel text="Question Placeholder" />
                   <FormControl>
                     <Input type="text" {...field} />
                   </FormControl>
@@ -94,7 +94,7 @@ export const EmailQuestionOptions = memo(
               name="allowedDomains"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs">Allowed Domains</Label>
+                  <QuestionOptionLabel text="Allowed Domains" />
                   <FormControl>
                     <Input
                       type="text"
@@ -111,12 +111,13 @@ export const EmailQuestionOptions = memo(
                 </FormItem>
               )}
             />
+
             <FormField
               control={control}
               name="disallowedDomains"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs">Disallowed Domains</Label>
+                  <QuestionOptionLabel text="Disallowed Domains" />
                   <FormControl>
                     <Input
                       type="text"
@@ -133,28 +134,26 @@ export const EmailQuestionOptions = memo(
                 </FormItem>
               )}
             />
-          </div>
 
-          <div className="flex text-xs gap-2 mb-5">
             <FormField
               control={control}
               name="allowDuplicates"
               render={({ field }) => (
-                <>
-                  <Switch
-                    className="w-8 h-4 hover:cursor-pointer"
+                <div className="flex items-center border-2 rounded-md p-4 justify-between gap-2 mt-5 mb-4">
+                  <Label className="text-xs">Allow Duplicates</Label>
+                  <Checkbox
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
-                  <p className="font-medium">Allow Duplicates</p>
-                </>
+
+                  <FormMessage />
+                </div>
               )}
             />
+            <OptionsButton type="submit" disabled={!isDirty}>
+              Save
+            </OptionsButton>
           </div>
-
-          <Button type="submit" className="w-full" disabled={!isDirty}>
-            Save
-          </Button>
         </form>
       </Form>
     );

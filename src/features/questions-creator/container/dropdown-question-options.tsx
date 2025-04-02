@@ -1,9 +1,19 @@
-import { memo, useState } from "react";
+import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { QuestionOptionsMap } from "@/types/questions";
+import { useDropdownQuestionOptionsForm } from "../form/dropdowninput-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { Plus, Trash2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { OptionsButton } from "../components/options-button";
 
 type LocalQuestionOptions = QuestionOptionsMap["dropdown"];
 
@@ -16,90 +26,96 @@ type OptionProps = {
 
 export const DropdownQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const [localQuestionOptions, setLocalQuestionOptions] = useState({
-      choices: questionOptions?.choices ?? [""],
-      allowSearch: questionOptions?.allowSearch ?? false,
+    const { form, onSubmit } = useDropdownQuestionOptionsForm({
+      questionOptions,
+      setQuestionOptions,
     });
-
-    const { choices, allowSearch } = localQuestionOptions;
-
-    const updateQuestionConfig = (
-      key: keyof typeof localQuestionOptions,
-      value: any
-    ) => {
-      setLocalQuestionOptions((prev) => ({ ...prev, [key]: value }));
-    };
-
-    const updateChoice = (index: number, value: string) => {
-      const updatedChoices = [...choices];
-      updatedChoices[index] = value;
-      updateQuestionConfig("choices", updatedChoices);
-    };
-
-    const addChoice = () => {
-      updateQuestionConfig("choices", [...choices, ""]);
-    };
-
-    const removeChoice = (index: number) => {
-      const updatedChoices = choices.filter((_, i) => i !== index);
-      updateQuestionConfig("choices", updatedChoices);
-    };
-
-    const isModified = Object.keys(localQuestionOptions).some(
-      (key) =>
-        JSON.stringify(
-          localQuestionOptions[key as keyof LocalQuestionOptions]
-        ) !== JSON.stringify(questionOptions[key as keyof LocalQuestionOptions])
-    );
+    const { control, watch, getValues } = form;
+    const choices = watch("choices");
 
     return (
-      <>
-        <div className="grid gap-4 mb-4">
-          <div>
-            <Label className="text-xs">Dropdown Choices</Label>
-            {choices.map((choice, index) => (
-              <div key={index} className="flex items-center gap-2 mb-2">
-                <Input
-                  type="text"
-                  value={choice}
-                  placeholder={`Choice ${index + 1}`}
-                  onChange={(e) => updateChoice(index, e.target.value)}
-                />
+      <Form {...form}>
+        <form onSubmit={onSubmit}>
+          <div className="grid gap-4 mb-4">
+            <div className="p-4 border">
+              <div className="flex justify-between items-center mb-4">
+                <Label className="text-xs"> Choices</Label>
                 <Button
-                  variant="destructive"
-                  onClick={() => removeChoice(index)}
-                  disabled={choices.length <= 1}
+                  className="text-xs border-none mt-1 w-fit bg-gradient-to-br from-blue-500 to-blue-700 rounded-md overflow-hidden shadow-lg"
+
+                  onClick={() => {
+                    form.setValue("choices", [...choices, ""], {
+                      shouldDirty: true,
+                    });
+                  }}
                 >
-                  Remove
+                  <Plus size={19} />
                 </Button>
               </div>
-            ))}
-            <Button variant="outline" className="text-xs" onClick={addChoice}>
-              Add Choice
-            </Button>
-          </div>
+              {form.getValues("choices").map((_, index) => (
+                <div key={index} className="flex items-center w-full gap-2 mb-2">
+                  <FormField
+                    key={index}
+                    control={control}
+                    
+                    name={`choices.${index}`}
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <div className="flex items-center gap-2 mb-4">
+                          <FormControl>
+                            <Input
+                              type="text"
+                              className="w-full"
+                              placeholder={`Choice ${index + 1}`}
+                              {...field}
+                            />
+                          </FormControl>
+                          <Button
+                            variant="destructive"
+                            className=" max-w-[38px]"
+                            onClick={() => {
+                              const updatedChoices = getValues(
+                                "choices"
+                              ).filter((_, i) => i !== index);
+                              form.setValue("choices", updatedChoices);
+                            }}
+                          >
+                            <Trash2 stroke="#fff" />
+                          </Button>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              ))}
+            </div>
 
-          <div className="flex items-center gap-2">
-            <Switch
-              checked={allowSearch}
-              onCheckedChange={(value) =>
-                updateQuestionConfig("allowSearch", value)
-              }
+            <FormField
+              control={control}
+              name="allowSearch"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2 border p-4 justify-between">
+                  <Label className="text-xs">Allow Search</Label>
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
             />
-            <Label className="text-xs">Allow Search in Dropdown</Label>
-          </div>
-        </div>
 
-        <Button
-          className="w-full mt-4"
-          disabled={!isModified}
-          onClick={() => {
-            setQuestionOptions({ ...localQuestionOptions });
-          }}
-        >
-          Save
-        </Button>
-      </>
+            <OptionsButton
+
+              disabled={!form.formState.isDirty}
+            >
+              Save
+            </OptionsButton>
+          </div>
+        </form>
+      </Form>
     );
   }
 );

@@ -2,7 +2,6 @@ import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Plus, Trash2 } from "lucide-react";
 import {
   Form,
@@ -13,6 +12,8 @@ import {
 } from "@/components/ui/form";
 import { useCheckboxQuestionOptionsForm } from "../form/checboxinput-form";
 import { QuestionOptionsMap } from "@/types/questions";
+import { Checkbox } from "@/components/ui/checkbox";
+import { OptionsButton } from "../components/options-button";
 type LocalQuestionOptions = QuestionOptionsMap["checkbox"];
 
 type OptionProps = {
@@ -130,25 +131,24 @@ export const CheckboxQuestionOptions = memo(
               control={control}
               name="randomizeOrder"
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
+                <FormItem className="flex items-center gap-2 border p-4 my-4 justify-between">
+                  <Label className="text-xs">Randomize Order of Choices</Label>
                   <FormControl>
-                    <Switch
+                    <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
-                  <Label className="text-xs">Randomize Order of Choices</Label>
                 </FormItem>
               )}
             />
 
-            <Button
-              type="submit"
-              className="w-full"
+            <OptionsButton
+
               disabled={!form.formState.isDirty}
             >
               Save
-            </Button>
+            </OptionsButton>
           </div>
         </form>
       </Form>

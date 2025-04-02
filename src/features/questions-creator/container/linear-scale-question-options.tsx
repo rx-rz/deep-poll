@@ -12,6 +12,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useLinearScaleQuestionOptionsForm } from "../form/linearscaleinput-form";
+import { QuestionOptionLabel } from "../components/question-option-label";
+import { OptionsButton } from "../components/options-button";
 
 type LocalQuestionOptions = QuestionOptionsMap["linear_scale"];
 
@@ -50,7 +52,7 @@ export const LinearScaleQuestionOptions = memo(
               name="min"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs">Minimum Value</Label>
+                  <QuestionOptionLabel text="Minimum Value" />
                   <FormControl>
                     <Input
                       type="number"
@@ -67,7 +69,7 @@ export const LinearScaleQuestionOptions = memo(
               name="max"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs">Maximum Value</Label>
+                  <QuestionOptionLabel text="Maximum Value" />
                   <FormControl>
                     <Input
                       type="number"
@@ -84,7 +86,7 @@ export const LinearScaleQuestionOptions = memo(
               name="labels.start"
               render={({ field }) => (
                 <FormItem>
-                  <Label className="text-xs">Start Label</Label>
+                  <QuestionOptionLabel text="Start Label" />
                   <FormControl>
                     <Input type="text" {...field} />
                   </FormControl>
@@ -95,9 +97,10 @@ export const LinearScaleQuestionOptions = memo(
             <FormField
               control={control}
               name="labels.end"
+              
               render={({ field }) => (
-                <FormItem>
-                  <Label className="text-xs">End Label</Label>
+                <FormItem className="mb-4">
+                  <QuestionOptionLabel text="End Label" />
                   <FormControl>
                     <Input type="text" {...field} />
                   </FormControl>
@@ -105,10 +108,10 @@ export const LinearScaleQuestionOptions = memo(
                 </FormItem>
               )}
             />
+            <OptionsButton type="submit" disabled={!isDirty}>
+              Save
+            </OptionsButton>
           </div>
-          <Button className="w-full mt-4" type="submit" disabled={!isDirty}>
-            Save
-          </Button>
         </form>
       </Form>
     );

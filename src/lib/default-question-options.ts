@@ -39,7 +39,7 @@ export const defaultQuestionOptions: {
   dropdown: { choices: [], allowSearch: false },
   rating: { min: 1, max: 5, labels: [] },
   likert: { scale: 5, labels: [], statement: "" },
-  linear_scale: { min: 0, max: 100, labels: { start: "", end: "" } },
+  linear_scale: { min: 1, max: 5, labels: { start: "", end: "" } },
   date: {
     format: "yyyy-MM-dd",
     minDate: "",

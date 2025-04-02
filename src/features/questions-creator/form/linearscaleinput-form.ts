@@ -2,11 +2,19 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 
+const linearScaleOptions = defaultQuestionOptions.linear_scale;
 export const linearScaleQuestionOptionsSchema = z
   .object({
-    min: z.coerce.number().int().default(0),
-    max: z.coerce.number().int().default(100),
+    min: z.coerce
+      .number({ message: "Value must be a number" })
+      .int({ message: "Value must be an integer" })
+      .default(linearScaleOptions.min),
+    max: z.coerce
+      .number({ message: "Value must be a number" })
+      .int({ message: "Value must be an integer" })
+      .default(linearScaleOptions.max),
     labels: z.object({
       start: z.string().default(""),
       end: z.string().default(""),

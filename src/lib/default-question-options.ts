@@ -24,7 +24,12 @@ export const defaultQuestionOptions: {
     max: Infinity,
   },
   phone: { allowedCountries: [], format: "" },
-  multiple_choice: { choices: [], allowOther: false, randomizeOrder: false },
+  multiple_choice: {
+    choices: [],
+    allowOther: false,
+    maxLengthForOtherParameter: 255,
+    randomizeOrder: false,
+  },
   checkbox: {
     choices: [],
     minSelections: 1,

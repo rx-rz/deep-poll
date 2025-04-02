@@ -1,18 +1,20 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 
+const checkboxOptions = defaultQuestionOptions.checkbox;
 export const checkboxQuestionOptionsSchema = z
   .object({
-    choices: z.array(z.string()).default([]),
+    choices: z.array(z.string().min(1)).default(checkboxOptions.choices),
     minSelections: z.coerce
       .number()
       .min(0, "Minimum selections must be at least 0")
-      .default(0),
+      .default(checkboxOptions.minSelections),
     maxSelections: z.coerce
       .number()
       .min(1, "Maximum selections must be at least 1")
-      .default(1),
+      .default(checkboxOptions.maxSelections),
     randomizeOrder: z.boolean().default(false),
   })
   .refine((data) => data.maxSelections >= data.minSelections, {

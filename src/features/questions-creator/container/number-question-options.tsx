@@ -45,8 +45,10 @@ export const NumberQuestionOptions = memo(
                   <QuestionOptionLabel text="Minimum Value" />
                   <FormControl>
                     <Input
-                      type="text"
                       {...field}
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      type="number"
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
@@ -64,6 +66,9 @@ export const NumberQuestionOptions = memo(
                   <FormControl>
                     <Input
                       {...field}
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      type="number"
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>

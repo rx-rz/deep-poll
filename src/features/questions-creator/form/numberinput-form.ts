@@ -12,7 +12,9 @@ export const numberQuestionOptionsSchema = z
       .default(numberOptions.placeholder ?? "")
       .optional(),
     allowDecimal: z.boolean().default(false),
-    min: z.coerce.number().default(numberOptions.min),
+    min: z.coerce
+      .number({ message: "Must be a number" })
+      .default(numberOptions.min),
     max: z.coerce.number().default(numberOptions.max),
   })
   .refine((data) => data.max >= data.min, {
@@ -21,12 +23,12 @@ export const numberQuestionOptionsSchema = z
   })
   .refine(
     (data) =>
-      data.allowDecimal === false &&
-      (Number.isInteger(data.max) === false ||
-        Number.isInteger(data.min) === false),
+      data.allowDecimal === true &&
+      (Number.isInteger(Number(data.max)) !== false ||
+        Number.isInteger(Number(data.min)) !== false),
     {
       message: "Values cannot be decimals",
-      path: ["min", "max"],
+      path: ["max"],
     }
   );
 
@@ -48,7 +50,7 @@ export const useNumberQuestionOptionsForm = ({
   const form = useForm<NumberQuestionOptionsDto>({
     resolver: zodResolver(numberQuestionOptionsSchema),
     defaultValues: questionOptions,
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const onSubmit = (values: NumberQuestionOptionsDto) => {

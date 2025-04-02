@@ -42,6 +42,7 @@ export type QuestionOptionsMap = {
   };
   multiple_choice: {
     choices: string[];
+    maxLengthForOtherParameter: number;
     allowOther: boolean; // Allow an "Other" option with text input
     randomizeOrder: boolean; // Randomize the order of choices
   };

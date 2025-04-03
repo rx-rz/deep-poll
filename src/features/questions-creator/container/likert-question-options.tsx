@@ -12,7 +12,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useLikertQuestionOptionsForm } from "../form/likertinput-form";
-import { Trash2Icon } from "lucide-react";
+import { Plus, Trash2Icon } from "lucide-react";
+import { QuestionOptionLabel } from "../components/question-option-label";
 
 type LocalQuestionOptions = QuestionOptionsMap["likert"];
 
@@ -25,17 +26,8 @@ type OptionProps = {
 
 export const LikertQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const defaultValues = {
-      scale: questionOptions?.scale ?? 5,
-      labels: questionOptions?.labels ?? [
-        "Strongly Disagree",
-        "Strongly Agree",
-      ],
-      statement: questionOptions?.statement ?? "",
-    };
-
     const { form, onSubmit } = useLikertQuestionOptionsForm({
-      questionOptions: defaultValues,
+      questionOptions,
       setQuestionOptions,
     });
 
@@ -66,12 +58,12 @@ export const LikertQuestionOptions = memo(
         <form onSubmit={onSubmit}>
           <div className=" gap-4 mb-4">
             <div>
-              <Label className="text-xs">Scale (Number of Points)</Label>
               <FormField
                 control={control}
                 name="scale"
                 render={({ field }) => (
                   <FormItem>
+                    <QuestionOptionLabel text="Scale (Number Of Points)" />
                     <FormControl>
                       <Input type="number" {...field} />
                     </FormControl>
@@ -83,12 +75,12 @@ export const LikertQuestionOptions = memo(
           </div>
 
           <div className="mb-4">
-            <Label className="text-xs">Statement</Label>
             <FormField
               control={control}
               name="statement"
               render={({ field }) => (
                 <FormItem>
+                  <QuestionOptionLabel text="Statement" />
                   <FormControl>
                     <Input
                       type="text"
@@ -102,10 +94,19 @@ export const LikertQuestionOptions = memo(
             />
           </div>
 
-          <div>
-            <Label className="text-xs">Labels for Each Point</Label>
+          <div className="border p-4 rounded-md mb-4">
+            <div className="flex justify-between items-center mb-4">
+              <Label className="text-xs">Labels for Each Point</Label>
+              <Button
+                className="text-xs border-none mt-1 w-fit bg-gradient-to-br from-blue-500 to-blue-700 rounded-md overflow-hidden shadow-lg"
+                onClick={addLabel}
+                disabled={labelsValue.length >= scaleValue}
+              >
+                <Plus size={19} />
+              </Button>
+            </div>
             {labelsValue.map((label, index) => (
-              <div key={index} className="flex items-center gap-2 mb-2">
+              <div key={index} className="flex items-center gap-2 mb-4">
                 <Input
                   type="text"
                   value={label}
@@ -121,13 +122,6 @@ export const LikertQuestionOptions = memo(
                 </Button>
               </div>
             ))}
-            <Button
-              variant="outline"
-              onClick={addLabel}
-              disabled={labelsValue.length >= scaleValue}
-            >
-              Add Label
-            </Button>
           </div>
 
           <Button className="w-full mt-4" type="submit" disabled={!isDirty}>

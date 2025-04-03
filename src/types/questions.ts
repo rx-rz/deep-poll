@@ -72,9 +72,13 @@ export type QuestionOptionsMap = {
     labels: { start: string; end: string }; // Labels for start and end points
   };
   date: {
-    format: string; // Date format (e.g., 'YYYY-MM-DD')
-    minDate?: string; // Minimum selectable date
-    maxDate?: string; // Maximum selectable date
+    format:
+      | "ISO e.g 2023-04-05"
+      | "MM/DD/YYYY (US Format) e.g 04/15/2023"
+      | "DD/MM/YYYY (UK/European Format)  e.g 15/04/2023"
+      | "Month name, day and year e.g April 15, 2023"; // Date format (e.g., 'YYYY-MM-DD')
+    minDate: string | undefined; // Minimum selectable date
+    maxDate: string | undefined; // Maximum selectable date
     allowPastDates: boolean; // Allow dates in the past
   };
   time: {

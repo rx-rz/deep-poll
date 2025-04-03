@@ -1,8 +1,6 @@
-// SliderOptions.tsx
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { QuestionOptionsMap } from "@/types/questions";
 import {
   Form,
@@ -12,7 +10,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useSliderOptionsForm } from "../form/sliderinput-form";
-import { Switch } from "@/components/ui/switch";
+import { OptionsButton } from "../components/options-button";
+import { QuestionOptionLabel } from "../components/question-option-label";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type LocalQuestionOptions = QuestionOptionsMap["slider"];
 
@@ -25,121 +25,104 @@ type OptionProps = {
 
 export const SliderQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const defaultValues = {
-      min: questionOptions?.min ?? 0,
-      max: questionOptions?.max ?? 100,
-      step: questionOptions?.step ?? 1,
-      labels: {
-        start: questionOptions?.labels?.start ?? "",
-        end: questionOptions?.labels?.end ?? "",
-      },
-      range: questionOptions?.range ?? false,
-      defaultValue: questionOptions?.defaultValue ?? 0,
-    };
-
     const { form, onSubmit } = useSliderOptionsForm({
-      questionOptions: defaultValues,
+      questionOptions,
       setQuestionOptions,
     });
 
-    const { control, formState } = form;
-    const { isDirty } = formState;
+    const { control } = form;
 
     return (
       <Form {...form}>
         <form onSubmit={onSubmit}>
-          <div className="grid gap-4 mb-4">
-            <div className="grid gap-4">
-              <FormField
-                control={control}
-                name="min"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label className="text-xs">Minimum Value</Label>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="max"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label className="text-xs">Maximum Value</Label>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="step"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label className="text-xs">Step</Label>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={control}
-                name="labels.start"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label className="text-xs">Start Label</Label>
-                    <FormControl>
-                      <Input type="text" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="labels.end"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label className="text-xs">End Label</Label>
-                    <FormControl>
-                      <Input type="text" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+          <div className="flex flex-col gap-4">
+            <FormField
+              control={control}
+              name="min"
+              render={({ field }) => (
+                <FormItem>
+                  <QuestionOptionLabel text="Minimum Value" />
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="max"
+              render={({ field }) => (
+                <FormItem>
+                  <QuestionOptionLabel text="Maximum Value" />
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="step"
+              render={({ field }) => (
+                <FormItem>
+                  <QuestionOptionLabel text="Step" />
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="labels.start"
+              render={({ field }) => (
+                <FormItem>
+                  <QuestionOptionLabel text="Start Label" />
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="labels.end"
+              render={({ field }) => (
+                <FormItem>
+                  <QuestionOptionLabel text="End Label" />
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={control}
               name="range"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                <FormItem className="flex flex-row my-4  items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
                     <Label htmlFor="range">Range</Label>
                   </div>
                   <FormControl>
-                    <Switch
+                    <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -147,11 +130,10 @@ export const SliderQuestionOptions = memo(
                 </FormItem>
               )}
             />
+            <OptionsButton type="submit" disabled={!form.formState.isDirty}>
+              Save
+            </OptionsButton>
           </div>
-
-          <Button className="w-full mt-4" type="submit" disabled={!isDirty}>
-            Save
-          </Button>
         </form>
       </Form>
     );

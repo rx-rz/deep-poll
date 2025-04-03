@@ -1,4 +1,5 @@
 import { QuestionOptionsMap, QuestionType } from "@/types/questions";
+import dayjs from "dayjs";
 
 export const defaultQuestionOptions: {
   [key in QuestionType]: QuestionOptionsMap[key];
@@ -41,9 +42,9 @@ export const defaultQuestionOptions: {
   likert: { scale: 5, labels: [], statement: "" },
   linear_scale: { min: 1, max: 5, labels: { start: "", end: "" } },
   date: {
-    format: "yyyy-MM-dd",
-    minDate: "",
-    maxDate: "",
+    format: "ISO e.g 2023-04-05",
+    minDate: dayjs(Date.now(), "YYYY-MM-DD").toString(),
+    maxDate: dayjs(Date.now(), "YYYY-MM-DD").toString(),
     allowPastDates: true,
   },
   time: { format: "HH:mm", minTime: "", maxTime: "", allowElapsedTime: true },

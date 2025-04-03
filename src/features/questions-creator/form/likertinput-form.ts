@@ -1,10 +1,13 @@
-// likertQuestionOptionsSchema.ts
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export const likertQuestionOptionsSchema = z.object({
-  scale: z.coerce.number().int().min(2).default(5),
+  scale: z.coerce
+    .number({ message: "Value must be a number" })
+    .int()
+    .min(2)
+    .default(5),
   labels: z
     .string()
     .array()

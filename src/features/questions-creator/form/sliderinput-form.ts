@@ -1,18 +1,25 @@
-// sliderOptionsSchema.ts
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+const sliderOptions = defaultQuestionOptions.slider;
 export const sliderOptionsSchema = z
   .object({
-    min: z.coerce.number().default(0),
-    max: z.coerce.number().default(100),
-    step: z.coerce.number().default(1),
+    min: z.coerce
+      .number({ message: "Value must be a number" })
+      .default(sliderOptions.min),
+    max: z.coerce
+      .number({ message: "Value must be a number" })
+      .default(sliderOptions.max),
+    step: z.coerce
+      .number({ message: "Value must be a number" })
+      .default(sliderOptions.step),
     labels: z.object({
-      start: z.string().default(""),
-      end: z.string().default(""),
+      start: z.string().default(sliderOptions.labels.start),
+      end: z.string().default(sliderOptions.labels.end),
     }),
-    range: z.boolean().default(false),
+    range: z.boolean().default(sliderOptions.range),
     defaultValue: z
       .union([
         z.coerce.number(),

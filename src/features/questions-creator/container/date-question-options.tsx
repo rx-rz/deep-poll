@@ -1,6 +1,4 @@
-// DateQuestionOptions.tsx
 import { memo } from "react";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { QuestionOptionsMap } from "@/types/questions";
 import {
@@ -14,7 +12,6 @@ import {
   dateFormats,
   useDateQuestionOptionsForm,
 } from "../form/dateinput-form";
-import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
@@ -132,23 +129,6 @@ export const DateQuestionOptions = memo(
             </div>
           </div>
 
-          <FormField
-            control={control}
-            name="allowPastDates"
-            render={({ field }) => (
-              <FormItem className="border p-4 flex justify-between my-8">
-                <Label htmlFor="allowPastDates" className="text-xs">
-                  Allow Past Dates
-                </Label>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
           <OptionsButton type="submit" disabled={!isDirty}>
             Save
           </OptionsButton>

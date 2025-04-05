@@ -22,7 +22,6 @@ export const dateQuestionOptionsSchema = z
       .default(dateOptions.format),
     minDate: z.string().default(dateOptions.minDate),
     maxDate: z.string().default(dateOptions.maxDate),
-    allowPastDates: z.boolean().default(false),
   })
   .refine(
     (data) => {
@@ -56,28 +55,6 @@ export const dateQuestionOptionsSchema = z
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Maximum date cannot be lower than minimum date",
-          path: ["maxDate"],
-        });
-      }
-    }
-  })
-  .superRefine(({ minDate, maxDate, format: f, allowPastDates }, ctx) => {
-    if (allowPastDates === false) {
-      const format = dateFormats[f];
-      const minDateObj = dayjs(minDate, format);
-      const maxDateObj = dayjs(maxDate, format);
-      const now = dayjs(Date.now());
-      if (minDateObj.isBefore(now)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Minimum date cannot be in the past",
-          path: ["minDate"],
-        });
-      }
-      if (maxDateObj.isBefore(now)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Maximum date cannot be in the past",
           path: ["maxDate"],
         });
       }

@@ -44,13 +44,11 @@ export const defaultQuestionOptions: {
     format: "ISO e.g 2023-04-05",
     minDate: "",
     maxDate: "",
-    allowPastDates: true,
   },
   time: {
     format: "12-hour with AM/PM e.g 2:30 PM",
     minTime: "",
     maxTime: "",
-    allowElapsedTime: true,
   },
   datetime: { format: "yyyy-MM-dd HH:mm", minDatetime: "", maxDatetime: "" },
   file: {

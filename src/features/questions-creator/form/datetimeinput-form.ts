@@ -22,18 +22,9 @@ export const datetimeQuestionOptionsSchema = z
     minDatetime: z.string().optional(),
     maxDatetime: z.string().optional(),
   })
-  .refine(
-    (data) => {
-      if (data.minDatetime && data.maxDatetime) {
-        return new Date(data.minDatetime) < new Date(data.maxDatetime);
-      }
-      return true;
-    },
-    {
-      message: "Minimum datetime must be less than maximum datetime.",
-      path: ["minDatetime"],
-    }
-  );
+  .superRefine((data, ctx) => {
+    
+  })
 
 export type DateTimeQuestionOptionsDto = z.infer<
   typeof datetimeQuestionOptionsSchema

@@ -72,7 +72,7 @@ export const DropdownAnswer = ({
                   </Command>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent className="p-0">
+              <PopoverContent className="p-0 w-max-content">
                 <Command>
                   <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>

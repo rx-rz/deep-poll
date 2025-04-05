@@ -1,5 +1,4 @@
 import { FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { useAnswerStore } from "@/store/answer.store";
 import { QuestionOptionsMap } from "@/types/questions";
 import { Control } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -17,7 +16,6 @@ export const NumberAnswer = ({
   options,
   control,
 }: NumberAnswerProps) => {
-  const setAnswer = useAnswerStore((state) => state.setAnswer);
   const { max, min, placeholder } = options;
 
   return (
@@ -34,7 +32,6 @@ export const NumberAnswer = ({
             placeholder={placeholder}
             onChange={(e) => {
               field.onChange(e);
-              setAnswer(questionId, e.target.value);
             }}
           />
           <FormMessage className="text-xs -mt-1" />

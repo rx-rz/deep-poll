@@ -42,8 +42,8 @@ export const defaultQuestionOptions: {
   linear_scale: { min: 1, max: 5, labels: { start: "", end: "" } },
   date: {
     format: "ISO e.g 2023-04-05",
-    minDate: null,
-    maxDate: null,
+    minDate: "",
+    maxDate: "",
     allowPastDates: true,
   },
   time: {

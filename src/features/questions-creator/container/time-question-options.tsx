@@ -23,8 +23,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { RefreshCcw } from "lucide-react";
 import { ResetButton } from "../components/reset-button";
 type LocalQuestionOptions = QuestionOptionsMap["time"];
 
@@ -42,7 +40,7 @@ export const TimeQuestionOptions = memo(
       setQuestionOptions,
     });
 
-    const { control, formState, setValue } = form;
+    const { control, formState } = form;
     const { isDirty } = formState;
 
     return (
@@ -91,7 +89,10 @@ export const TimeQuestionOptions = memo(
                         <Input type="time" {...field} />
                         <ResetButton
                           onClick={() => {
-                            setValue("minTime", "");
+                            form.reset({
+                              ...form.getValues(),
+                              minTime: "",
+                            });
                           }}
                         />
                       </div>
@@ -113,7 +114,10 @@ export const TimeQuestionOptions = memo(
                         <Input type="time" {...field} />
                         <ResetButton
                           onClick={() => {
-                            setValue("maxTime", "");
+                            form.reset({
+                              ...form.getValues(),
+                              maxTime: "",
+                            });
                           }}
                         />
                       </div>

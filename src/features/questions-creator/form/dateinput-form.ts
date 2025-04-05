@@ -2,13 +2,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import dayjs from "dayjs";
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 export const dateFormats = {
   "ISO e.g 2023-04-05": "YYYY-MM-DD",
   "MM/DD/YYYY (US Format) e.g 04/15/2023": "MM/DD/YYYY",
   "DD/MM/YYYY (UK/European Format)  e.g 15/04/2023": "DD/MM/YYYY",
   "Month name, day and year e.g April 15, 2023": "MMMM D, YYYY",
 } as const;
-
+const dateOptions = defaultQuestionOptions.date;
 export const dateQuestionOptionsSchema = z
   .object({
     format: z
@@ -19,8 +20,12 @@ export const dateQuestionOptionsSchema = z
         "Month name, day and year e.g April 15, 2023",
       ])
       .default("ISO e.g 2023-04-05"),
-    minDate: z.string().optional(),
-    maxDate: z.string().optional(),
+    minDate: z
+      .string()
+      .default(dateOptions.minDate),
+    maxDate: z
+      .string()
+      .default(dateOptions.maxDate),
     allowPastDates: z.boolean().default(false),
   })
   .refine(

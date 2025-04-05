@@ -24,14 +24,8 @@ export const timeQuestionOptionsSchema = z
         "12-hour with seconds e.g 2:30:45 PM",
       ])
       .default("12-hour with AM/PM e.g 2:30 PM"),
-    minTime: z
-      .string()
-      .optional()
-      .default(timeOptions.minTime ?? ""),
-    maxTime: z
-      .string()
-      .optional()
-      .default(timeOptions.maxTime ?? ""),
+    minTime: z.string().default(timeOptions.minTime),
+    maxTime: z.string().default(timeOptions.maxTime),
     allowElapsedTime: z.boolean().default(timeOptions.allowElapsedTime),
   })
   .superRefine(({ minTime, maxTime }, ctx) => {

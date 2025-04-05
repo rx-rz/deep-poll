@@ -77,8 +77,8 @@ export type QuestionOptionsMap = {
       | "MM/DD/YYYY (US Format) e.g 04/15/2023"
       | "DD/MM/YYYY (UK/European Format)  e.g 15/04/2023"
       | "Month name, day and year e.g April 15, 2023"; // Date format (e.g., 'YYYY-MM-DD')
-    minDate: string | null; // Minimum selectable date
-    maxDate: string | null; // Maximum selectable date
+    minDate: string; // Minimum selectable date
+    maxDate: string; // Maximum selectable date
     allowPastDates: boolean; // Allow dates in the past
   };
   time: {
@@ -87,8 +87,8 @@ export type QuestionOptionsMap = {
       | "24-hour without seconds e.g 14:30"
       | "12-hour with AM/PM e.g 2:30 PM"
       | "12-hour with seconds e.g 2:30:45 PM"; // Time format (e.g., 'HH:mm')
-    minTime?: string; // Minimum time
-    maxTime?: string; // Maximum time
+    minTime: string; // Minimum time
+    maxTime: string; // Maximum time
     allowElapsedTime: boolean; // Allow elapsed time (e.g., 1 hour from now)
   };
   datetime: {

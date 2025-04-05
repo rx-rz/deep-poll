@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { QuestionOptionLabel } from "../components/question-option-label";
 import { OptionsButton } from "../components/options-button";
+import { ResetButton } from "../components/reset-button";
 
 type LocalQuestionOptions = QuestionOptionsMap["date"];
 
@@ -43,7 +44,7 @@ export const DateQuestionOptions = memo(
 
     const { control, formState } = form;
     const { isDirty } = formState;
-    console.log(Object.keys(dateFormats));
+
     return (
       <Form {...form}>
         <form onSubmit={onSubmit}>
@@ -86,7 +87,17 @@ export const DateQuestionOptions = memo(
                   <FormItem>
                     <QuestionOptionLabel text="Minimum Date" />
                     <FormControl className="border">
-                      <Input type="date" {...field} />
+                      <div className="relative border">
+                        <Input type="date" {...field} />
+                        <ResetButton
+                          onClick={() => {
+                            form.reset({
+                              ...form.getValues(),
+                              minDate: "",
+                            });
+                          }}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -102,11 +113,17 @@ export const DateQuestionOptions = memo(
                   <FormItem>
                     <QuestionOptionLabel text="Maximum Date" />
                     <FormControl>
-                      <Input
-                        type="date"
-                        {...field}
-                        className="w-full border-4"
-                      />
+                      <div className="relative border">
+                        <Input type="date" {...field} />
+                        <ResetButton
+                          onClick={() => {
+                            form.reset({
+                              ...form.getValues(),
+                              maxDate: "",
+                            });
+                          }}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

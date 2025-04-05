@@ -1,5 +1,4 @@
 import { memo } from "react";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { QuestionOptionsMap } from "@/types/questions";
 import {
@@ -15,7 +14,6 @@ import {
 } from "../form/timeinput-form";
 import { QuestionOptionLabel } from "../components/question-option-label";
 import { OptionsButton } from "../components/options-button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,

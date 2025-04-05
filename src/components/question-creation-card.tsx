@@ -115,13 +115,13 @@ const RemoveQuestionAlertCard = ({
         </AlertDialogTitle>
         <AlertDialogDescription>
           This action cannot be undone. This will permanently delete your
-          account and remove your data from our servers.
+          question.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
         <AlertDialogAction
-          className="bg-red-500 hover:bg-red-500 text-white"
+          className="bg-gradient-to-br from-red-500 to-red-700 hover:bg-red-500 text-white"
           onClick={() => {
             removeQuestion(questionId);
             setOpen(false);

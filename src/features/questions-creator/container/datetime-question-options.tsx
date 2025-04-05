@@ -1,4 +1,3 @@
-// DateTimeQuestionOptions.tsx
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -24,14 +23,8 @@ type OptionProps = {
 
 export const DateTimeQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const defaultValues = {
-      format: questionOptions?.format ?? "yyyy-MM-dd HH:mm",
-      minDatetime: questionOptions?.minDatetime ?? "",
-      maxDatetime: questionOptions?.maxDatetime ?? "",
-    };
-
     const { form, onSubmit } = useDateTimeQuestionOptionsForm({
-      questionOptions: defaultValues,
+      questionOptions,
       setQuestionOptions,
     });
 

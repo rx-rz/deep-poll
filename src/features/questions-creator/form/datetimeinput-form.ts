@@ -7,12 +7,18 @@ export const dateTimeFormats = {
   "Date and 12-hour time e.g Apr 15, 2023 2:30 PM": "MMM D, YYYY h:mm A",
   "Date and 24-hour time e.g 15/04/2023 14:30": "DD/MM/YYYY HH:mm",
   "Full date and time e.g April 15, 2023 14:30:45": "MMMM D, YYYY HH:mm:ss",
-  "Compact date and time e.g 20230415143045": "YYYYMMDDHHmmss",
 } as const;
 
 export const datetimeQuestionOptionsSchema = z
   .object({
-    format: z.string().default("yyyy-MM-dd HH:mm"),
+    format: z
+      .enum([
+        "ISO e.g 2023-04-15T14:30:45",
+        "Date and 12-hour time e.g Apr 15, 2023 2:30 PM",
+        "Date and 24-hour time e.g 15/04/2023 14:30",
+        "Full date and time e.g April 15, 2023 14:30:45",
+      ])
+      .default("Date and 12-hour time e.g Apr 15, 2023 2:30 PM"),
     minDatetime: z.string().optional(),
     maxDatetime: z.string().optional(),
   })
@@ -21,7 +27,7 @@ export const datetimeQuestionOptionsSchema = z
       if (data.minDatetime && data.maxDatetime) {
         return new Date(data.minDatetime) < new Date(data.maxDatetime);
       }
-      return true; // Skip validation if either minDatetime or maxDatetime is missing
+      return true;
     },
     {
       message: "Minimum datetime must be less than maximum datetime.",

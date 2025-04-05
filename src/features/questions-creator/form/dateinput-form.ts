@@ -19,13 +19,9 @@ export const dateQuestionOptionsSchema = z
         "DD/MM/YYYY (UK/European Format)  e.g 15/04/2023",
         "Month name, day and year e.g April 15, 2023",
       ])
-      .default("ISO e.g 2023-04-05"),
-    minDate: z
-      .string()
-      .default(dateOptions.minDate),
-    maxDate: z
-      .string()
-      .default(dateOptions.maxDate),
+      .default(dateOptions.format),
+    minDate: z.string().default(dateOptions.minDate),
+    maxDate: z.string().default(dateOptions.maxDate),
     allowPastDates: z.boolean().default(false),
   })
   .refine(

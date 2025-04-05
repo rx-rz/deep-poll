@@ -1,4 +1,3 @@
-import { useAnswerStore } from "@/store/answer.store";
 import { QuestionOptionsMap } from "@/types/questions";
 import { Control } from "react-hook-form";
 import {
@@ -9,11 +8,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { QuestionLabel } from "./question-label";
 import { useMemo } from "react";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 import { shuffleArray } from "@/lib/utils";
+
 type MultipleChoiceAnswerProps = {
   questionId: string;
   questionText: string;
@@ -24,12 +23,9 @@ type MultipleChoiceAnswerProps = {
 
 export const MultipleChoiceAnswer = ({
   questionId,
-  questionText,
   options,
-  required,
   control,
 }: MultipleChoiceAnswerProps) => {
-  const setAnswer = useAnswerStore((state) => state.setAnswer);
   const { allowOther, choices, randomizeOrder } = options;
 
   const displayedChoices = useMemo(() => {
@@ -42,7 +38,6 @@ export const MultipleChoiceAnswer = ({
       name={questionId}
       render={({ field }) => (
         <FormItem className="space-y-3">
-          <QuestionLabel questionText={questionText} required={required} />
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange}
@@ -72,7 +67,6 @@ export const MultipleChoiceAnswer = ({
               <Label>Other:</Label>
               <Input
                 {...field}
-                //
                 value={
                   field.value && !choices.includes(field.value)
                     ? field.value

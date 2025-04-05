@@ -23,6 +23,7 @@ import { DateAnswer } from "./date-answer";
 import { DateTimeAnswer } from "./datetime-answer";
 import { TimeAnswer } from "./time-answer";
 import { RatingAnswer } from "./rating-answer";
+import { Separator } from "@/components/ui/separator";
 
 const renderAnswerComponent = ({
   question,
@@ -252,16 +253,17 @@ export const SurveyAnswers = () => {
         className="max-w-lg flex flex-col my-4 mx-auto"
       >
         <p className="text-2xl uppercase font-bold my-5">{survey.title}</p>
-        <div className=" grid grid-cols-1 gap-6">
+        <div className="">
           <Link to="/">Questions</Link>
           {questions.map((question) => (
-            <div
-              className="border border-black px-8 py-5"
-              key={question.questionId}
-            >
-              <p className="text-lg font-medium mb-4">{question.orderNumber}</p>
-              <p className="font-bold text-xs">{question.questionId}</p>
+            <div key={question.questionId} className="my-8">
+              <div className="flex gap-1">
+                <p className=" font-medium mb-4">{question.orderNumber}.</p>
+                <p className="font-bold">{question.questionText}</p>
+              </div>
+
               {renderAnswerComponent({ control: form.control, question })}
+
             </div>
           ))}
         </div>

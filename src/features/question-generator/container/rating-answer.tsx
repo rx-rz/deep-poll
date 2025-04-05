@@ -37,7 +37,7 @@ export const RatingAnswer = ({
       name={questionId}
       render={({ field }) => (
         <FormItem>
-          <QuestionLabel questionText={questionText} required={required} />
+
           <FormControl>
             <div className="flex items-center">
               {ratings.map((rating) => (

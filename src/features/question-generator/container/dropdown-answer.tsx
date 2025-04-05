@@ -58,7 +58,7 @@ export const DropdownAnswer = ({
         name={questionId}
         render={({ field }) => (
           <FormItem>
-            <QuestionLabel questionText={questionText} required={required} />
+  
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <FormControl>
@@ -114,7 +114,7 @@ export const DropdownAnswer = ({
         name={questionId}
         render={({ field }) => (
           <FormItem>
-            <QuestionLabel questionText={questionText} required={required} />
+  
             <Select
               onValueChange={(currentValue) => {
                 field.onChange(currentValue);

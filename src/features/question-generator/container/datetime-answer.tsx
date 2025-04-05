@@ -34,7 +34,7 @@ export const DateTimeAnswer = ({
       name={questionId}
       render={({ field }) => (
         <FormItem>
-          <QuestionLabel questionText={questionText} required={required} />
+
           <FormControl>
             <Input
               type="datetime-local"

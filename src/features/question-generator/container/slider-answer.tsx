@@ -44,7 +44,7 @@ export const SliderAnswer = ({
             : [min];
         return (
           <FormItem>
-            <QuestionLabel questionText={questionText} required={required} />
+  
             <div className="flex flex-col space-y-2">
               {labels && (
                 <div className="flex justify-between text-sm text-muted-foreground">

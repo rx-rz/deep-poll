@@ -34,7 +34,7 @@ export const TimeAnswer = ({
       name={questionId}
       render={({ field }) => (
         <FormItem>
-          <QuestionLabel questionText={questionText} required={required} />
+
           <FormControl>
             <Input
               type="time"

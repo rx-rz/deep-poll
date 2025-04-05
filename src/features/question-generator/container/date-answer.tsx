@@ -4,11 +4,9 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { QuestionLabel } from "./question-label";
 import { useAnswerStore } from "@/store/answer.store";
 
 type DateAnswerProps = {
@@ -34,7 +32,7 @@ export const DateAnswer = ({
       name={questionId}
       render={({ field }) => (
         <FormItem>
-          <QuestionLabel questionText={questionText} required={required} />
+
           <FormControl>
             <Input
               type="date"

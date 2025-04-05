@@ -2,11 +2,10 @@ import { Control } from "react-hook-form";
 import { QuestionOptionsMap } from "@/types/questions";
 
 import { Input } from "@/components/ui/input";
-import { FormField, FormItem, FormMessage } from "@/components/ui/form"; // Shadcn UI Form Elements
+import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useAnswerStore } from "@/store/answer.store";
 import { Textarea } from "@/components/ui/textarea";
-
-import { QuestionLabel } from "./question-label";
+import { ResetButton } from "../components/reset-button";
 
 type TextAnswerProps = {
   questionId: string;
@@ -18,24 +17,21 @@ type TextAnswerProps = {
 
 export const TextAnswer = ({
   questionId,
-  questionText,
   options,
-  required,
   control,
 }: TextAnswerProps) => {
   const setAnswer = useAnswerStore((state) => state.setAnswer);
-  const { isMultiline, placeholder } = options;
+
   return (
     <FormField
       control={control}
       name={questionId}
       render={({ field }) => (
         <FormItem className=" relative">
-          <QuestionLabel questionText={questionText} required={required} />
-          {isMultiline ? (
+          {options.isMultiline ? (
             <Textarea
               {...field}
-              placeholder={placeholder}
+              placeholder={options.placeholder}
               onChange={(e) => {
                 field.onChange(e);
                 setAnswer(questionId, e.target.value);
@@ -44,14 +40,14 @@ export const TextAnswer = ({
           ) : (
             <Input
               {...field}
-              placeholder={placeholder}
+              placeholder={options.placeholder}
               onChange={(e) => {
                 field.onChange(e);
                 setAnswer(questionId, e.target.value);
               }}
             />
           )}
-          <FormMessage />
+          <ResetButton onClick={() => {}} /> <FormMessage />
         </FormItem>
       )}
     />

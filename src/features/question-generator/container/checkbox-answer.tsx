@@ -8,7 +8,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { QuestionLabel } from "./question-label";
 
 type Props = {
   questionId: string;
@@ -18,14 +17,7 @@ type Props = {
   control: Control<any>;
 };
 
-export const CheckboxAnswer = ({
-  questionId,
-  control,
-  options,
-  questionText,
-  required,
-}: Props) => {
-  const { choices, minSelections, maxSelections, randomizeOrder } = options;
+export const CheckboxAnswer = ({ questionId, control, options }: Props) => {
   return (
     <>
       <FormField
@@ -33,8 +25,7 @@ export const CheckboxAnswer = ({
         name={questionId}
         render={() => (
           <FormItem>
-            <QuestionLabel questionText={questionText} required={required} />
-            {choices.map((choice) => (
+            {options.choices.map((choice) => (
               <FormField
                 key={choice}
                 control={control}

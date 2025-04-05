@@ -64,7 +64,7 @@ export const generateQuestionSchemas = (
             return allowedDomainList.includes(domain);
           }
 
-          return true; // No restrictions, accept.
+          return true;
         };
         schema = question.required
           ? emailSchema.nonempty({ message: "Required!" }).refine(
@@ -72,7 +72,7 @@ export const generateQuestionSchemas = (
                 const val = validateEmailDomain(email);
                 return val;
               },
-              { message: "Domain issue" }
+              { message: `Domain not valid.` }
             )
           : emailSchema.optional().refine(
               (email) => {

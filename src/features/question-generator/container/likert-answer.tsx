@@ -37,7 +37,7 @@ export const LikertAnswer = ({
       name={questionId}
       render={({ field }) => (
         <FormItem>
-          <QuestionLabel questionText={questionText} required={required} />
+
           {statement && <p className="mb-2">{statement}</p>}
           <FormControl>
             <RadioGroup

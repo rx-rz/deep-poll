@@ -37,7 +37,7 @@ export const LinearScaleAnswer = ({
       name={questionId}
       render={({ field }) => (
         <FormItem>
-          <QuestionLabel questionText={questionText} required={required} />
+
           <FormControl>
             <RadioGroup
               onValueChange={(value) => {

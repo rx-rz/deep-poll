@@ -2,7 +2,6 @@
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { QuestionOptionsMap } from "@/types/questions";
 import {
   Form,
@@ -86,7 +85,7 @@ export const DateQuestionOptions = memo(
                 render={({ field }) => (
                   <FormItem>
                     <QuestionOptionLabel text="Minimum Date" />
-                    <FormControl>
+                    <FormControl className="border">
                       <Input type="date" {...field} />
                     </FormControl>
                     <FormMessage />
@@ -103,7 +102,11 @@ export const DateQuestionOptions = memo(
                   <FormItem>
                     <QuestionOptionLabel text="Maximum Date" />
                     <FormControl>
-                      <Input type="date" {...field} className="w-full border-4"/>
+                      <Input
+                        type="date"
+                        {...field}
+                        className="w-full border-4"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

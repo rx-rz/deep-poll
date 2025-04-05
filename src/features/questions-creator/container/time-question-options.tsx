@@ -1,8 +1,6 @@
-// TimeQuestionOptions.tsx
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { QuestionOptionsMap } from "@/types/questions";
 import {
   Form,
@@ -11,8 +9,23 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { useTimeQuestionOptionsForm } from "../form/timeinput-form";
-import { Switch } from "@/components/ui/switch";
+import {
+  timeFormats,
+  useTimeQuestionOptionsForm,
+} from "../form/timeinput-form";
+import { QuestionOptionLabel } from "../components/question-option-label";
+import { OptionsButton } from "../components/options-button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { RefreshCcw } from "lucide-react";
+import { ResetButton } from "../components/reset-button";
 type LocalQuestionOptions = QuestionOptionsMap["time"];
 
 type OptionProps = {
@@ -24,19 +37,12 @@ type OptionProps = {
 
 export const TimeQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const defaultValues = {
-      format: questionOptions?.format ?? "HH:mm",
-      minTime: questionOptions?.minTime ?? "",
-      allowElapsedTime: questionOptions?.allowElapsedTime ?? false,
-      maxTime: questionOptions?.maxTime ?? "",
-    };
-
     const { form, onSubmit } = useTimeQuestionOptionsForm({
-      questionOptions: defaultValues,
+      questionOptions,
       setQuestionOptions,
     });
 
-    const { control, formState } = form;
+    const { control, formState, setValue } = form;
     const { isDirty } = formState;
 
     return (
@@ -44,76 +50,104 @@ export const TimeQuestionOptions = memo(
         <form onSubmit={onSubmit}>
           <div className="grid  gap-4 mb-4">
             <div>
-              <Label className="text-xs">Time Format</Label>
               <FormField
                 control={control}
                 name="format"
                 render={({ field }) => (
                   <FormItem>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <QuestionOptionLabel text="Time Format" />
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a time format to display" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.keys(timeFormats).map((format: any) => (
+                          <SelectItem value={format} key={format}>
+                            {format}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div>
+              <FormField
+                control={control}
+                name="minTime"
+                render={({ field }) => (
+                  <FormItem>
+                    <QuestionOptionLabel text="Minimum Time" />
                     <FormControl>
-                      <Input type="text" {...field} placeholder="e.g., HH:mm" />
+                      <div className="relative border">
+                        <Input type="time" {...field} />
+                        <ResetButton
+                          onClick={() => {
+                            setValue("minTime", "");
+                          }}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label className="text-xs">Minimum Time</Label>
-                <FormField
-                  control={control}
-                  name="minTime"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input type="time" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div>
-                <Label className="text-xs">Maximum Time</Label>
-                <FormField
-                  control={control}
-                  name="maxTime"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input type="time" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
             <div>
               <FormField
                 control={control}
-                name="allowElapsedTime"
+                name="maxTime"
                 render={({ field }) => (
-                  <FormItem className="flex flex-">
+                  <FormItem>
+                    <QuestionOptionLabel text="Maximum Time" />
                     <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                      <div className="relative border">
+                        <Input type="time" {...field} />
+                        <ResetButton
+                          onClick={() => {
+                            setValue("maxTime", "");
+                          }}
+                        />
+                      </div>
                     </FormControl>
-                    <Label htmlFor="allowElapsedTime" className="text-xs">
-                      Allow Elapsed Time
-                    </Label>
+
+                    <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
           </div>
+          <div>
+            <FormField
+              control={control}
+              name="allowElapsedTime"
+              render={({ field }) => (
+                <FormItem className="flex p-4 border shadow-sm justify-between my-8">
+                  <Label htmlFor="allowElapsedTime" className="text-xs">
+                    Allow Elapsed Time
+                  </Label>
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
 
-          <Button className="w-full" type="submit" disabled={!isDirty}>
+          <OptionsButton type="submit" disabled={!isDirty}>
             Save
-          </Button>
+          </OptionsButton>
         </form>
       </Form>
     );

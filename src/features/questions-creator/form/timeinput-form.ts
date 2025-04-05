@@ -1,50 +1,82 @@
-// timeQuestionOptionsSchema.ts
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { zodResolver } from "@hookform/resolvers/zod";
+import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+export const timeFormats = {
+  "24-hour with seconds e.g 14:30:45": "HH:mm:ss",
+  "24-hour without seconds e.g 14:30": "HH:mm",
+  "12-hour with AM/PM e.g 2:30 PM": "h:mm A",
+  "12-hour with seconds e.g 2:30:45 PM": "h:mm:ss A",
+  "24-hour with milliseconds e.g 14:30:45.123": "HH:mm:ss.SSS",
+} as const;
+
+const timeOptions = defaultQuestionOptions.time;
+
 export const timeQuestionOptionsSchema = z
   .object({
-    format: z.string().default("HH:mm"),
-    minTime: z.string().optional(),
-    maxTime: z.string().optional(),
-    allowElapsedTime: z.boolean().default(false),
+    format: z
+      .enum([
+        "24-hour with seconds e.g 14:30:45",
+        "24-hour without seconds e.g 14:30",
+        "12-hour with AM/PM e.g 2:30 PM",
+        "12-hour with seconds e.g 2:30:45 PM",
+      ])
+      .default("12-hour with AM/PM e.g 2:30 PM"),
+    minTime: z
+      .string()
+      .optional()
+      .default(timeOptions.minTime ?? ""),
+    maxTime: z
+      .string()
+      .optional()
+      .default(timeOptions.maxTime ?? ""),
+    allowElapsedTime: z.boolean().default(timeOptions.allowElapsedTime),
   })
-  .refine(
-    (data) => {
-      if (data.minTime && data.maxTime) {
-        return data.minTime < data.maxTime;
+  .superRefine(({ minTime, maxTime }, ctx) => {
+    if (minTime && maxTime) {
+      if (minTime > maxTime) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Minimum time cannot be higher than maximum time",
+          path: ["minTime"],
+        });
       }
-      return true;
-    },
-    {
-      message: "Minimum time must be less than maximum time.",
-      path: ["minTime"],
-    }
-  )
-  .refine(
-    (data) => {
-      if (!data.allowElapsedTime && data.minTime) {
-        const now = new Date();
-        const [hours, minutes] = data.minTime.split(":").map(Number);
-        const minTimeDate = new Date(
-          now.getFullYear(),
-          now.getMonth(),
-          now.getDate(),
-          hours,
-          minutes
-        );
-
-        return minTimeDate >= now;
+      if (maxTime < minTime) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Maximum time cannot be lower than minimum time",
+          path: ["minTime"],
+        });
       }
-      return true;
-    },
-    {
-      message:
-        "Minimum time must be greater than or equal to the current time when elapsed time is not allowed.",
-      path: ["minTime"],
     }
-  );
+  })
+  .superRefine((data, ctx) => {
+    if (data.allowElapsedTime === false) {
+      const currentTime = new Date().getTime();
+      if (data.minTime) {
+        const minTimeObj = dayjs(data.minTime, data.format);
+        if (minTimeObj.isBefore(currentTime)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Minimum time cannot be in the past.",
+            path: ["minTime"],
+          });
+        }
+      }
+      if (data.maxTime) {
+        const maxTimeObj = dayjs(data.maxTime, data.format);
+        if (maxTimeObj.isBefore(currentTime)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Maximum time cannot be in the past.",
+            path: ["maxTime"],
+          });
+        }
+      }
+    }
+  });
 
 export type TimeQuestionOptionsDto = z.infer<typeof timeQuestionOptionsSchema>;
 

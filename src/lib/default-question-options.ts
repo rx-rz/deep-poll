@@ -50,7 +50,11 @@ export const defaultQuestionOptions: {
     minTime: "",
     maxTime: "",
   },
-  datetime: { format: "yyyy-MM-dd HH:mm", minDatetime: "", maxDatetime: "" },
+  datetime: {
+    format: "Date and 12-hour time e.g Apr 15, 2023 2:30 PM",
+    minDatetime: "",
+    maxDatetime: "",
+  },
   file: {
     acceptedFormats: [],
     maxSizeMB: 1,

@@ -102,7 +102,7 @@ export const DateQuestionOptions = memo(
               />
             </div>
 
-            <div>
+            <div className="mb-4">
               <FormField
                 control={control}
                 name="maxDate"

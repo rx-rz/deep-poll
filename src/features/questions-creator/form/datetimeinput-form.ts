@@ -1,7 +1,9 @@
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+const dateTimeOptions = defaultQuestionOptions.datetime;
 export const dateTimeFormats = {
   "ISO e.g 2023-04-15T14:30:45": "YYYY-MM-DDTHH:mm:ss",
   "Date and 12-hour time e.g Apr 15, 2023 2:30 PM": "MMM D, YYYY h:mm A",
@@ -19,12 +21,27 @@ export const datetimeQuestionOptionsSchema = z
         "Full date and time e.g April 15, 2023 14:30:45",
       ])
       .default("Date and 12-hour time e.g Apr 15, 2023 2:30 PM"),
-    minDatetime: z.string().optional(),
-    maxDatetime: z.string().optional(),
+    minDatetime: z.string().default(dateTimeOptions.minDatetime ?? ""),
+    maxDatetime: z.string().default(dateTimeOptions.maxDatetime ?? ""),
   })
   .superRefine((data, ctx) => {
-    
-  })
+    if (data.minDatetime && data.maxDatetime) {
+      if (data.minDatetime > data.maxDatetime) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Minimum datetime must be less than maximum datetime",
+          path: ["minDatetime"],
+        });
+      }
+      if (data.maxDatetime < data.minDatetime) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Maximum datetime must be greater than minimum datetime",
+          path: ["maxDatetime"],
+        });
+      }
+    }
+  });
 
 export type DateTimeQuestionOptionsDto = z.infer<
   typeof datetimeQuestionOptionsSchema

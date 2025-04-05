@@ -90,9 +90,13 @@ export type QuestionOptionsMap = {
     maxTime: string; // Maximum time
   };
   datetime: {
-    format: string; // Datetime format (e.g., 'YYYY-MM-DDTHH:mm')
-    minDatetime?: string; // Minimum datetime
-    maxDatetime?: string; // Maximum datetime
+    format:
+      | "ISO e.g 2023-04-15T14:30:45"
+      | "Date and 12-hour time e.g Apr 15, 2023 2:30 PM"
+      | "Date and 24-hour time e.g 15/04/2023 14:30"
+      | "Full date and time e.g April 15, 2023 14:30:45"; // Datetime format (e.g., 'YYYY-MM-DDTHH:mm')
+    minDatetime: string; // Minimum datetime
+    maxDatetime: string; // Maximum datetime
   };
   file: {
     allowMultiple: boolean;

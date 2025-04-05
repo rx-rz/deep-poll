@@ -102,7 +102,7 @@ export const TimeQuestionOptions = memo(
                 )}
               />
             </div>
-            <div>
+            <div className="mb-4">
               <FormField
                 control={control}
                 name="maxTime"
@@ -128,25 +128,6 @@ export const TimeQuestionOptions = memo(
                 )}
               />
             </div>
-          </div>
-          <div>
-            <FormField
-              control={control}
-              name="allowElapsedTime"
-              render={({ field }) => (
-                <FormItem className="flex p-4 border shadow-sm justify-between my-8">
-                  <Label htmlFor="allowElapsedTime" className="text-xs">
-                    Allow Elapsed Time
-                  </Label>
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
           </div>
 
           <OptionsButton type="submit" disabled={!isDirty}>

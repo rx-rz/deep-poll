@@ -1,4 +1,3 @@
-// FileUploadOptions.tsx
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -15,6 +14,8 @@ import {
 import { QuestionOptionsMap } from "@/types/questions";
 
 import { useFileUploadOptionsForm } from "../form/fileuploadinput-form";
+import { Checkbox } from "@/components/ui/checkbox";
+import { OptionsButton } from "../components/options-button";
 
 type LocalQuestionOptions = QuestionOptionsMap["file"];
 type OptionProps = {
@@ -26,15 +27,8 @@ type OptionProps = {
 
 export const FileUploadQuestionOptions = memo(
   ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const defaultValues = {
-      acceptedFormats: questionOptions?.acceptedFormats ?? ["pdf"],
-      maxSizeMB: questionOptions?.maxSizeMB ?? 5,
-      maxFiles: questionOptions?.maxFiles ?? 1,
-      allowMultiple: questionOptions?.allowMultiple ?? false,
-    };
-
     const { form, onSubmit } = useFileUploadOptionsForm({
-      questionOptions: defaultValues,
+      questionOptions,
       setQuestionOptions,
     });
 
@@ -104,7 +98,7 @@ export const FileUploadQuestionOptions = memo(
                     <Label htmlFor="allowMultiple">Allow Multiple Files</Label>
                   </div>
                   <FormControl>
-                    <Switch
+                    <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -114,9 +108,9 @@ export const FileUploadQuestionOptions = memo(
             />
           </div>
 
-          <Button className="w-full mt-4" type="submit" disabled={!isDirty}>
+          <OptionsButton type="submit" disabled={!isDirty}>
             Save
-          </Button>
+          </OptionsButton>
         </form>
       </Form>
     );

@@ -7,6 +7,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import dayjs from "dayjs";
+import { dateFormats } from "@/features/questions-creator/form/dateinput-form";
 
 type DateAnswerProps = {
   questionId: string;
@@ -19,7 +21,9 @@ type DateAnswerProps = {
 export const DateAnswer = ({
   questionId,
   control,
+  options,
 }: DateAnswerProps) => {
+  const { format } = options;
   return (
     <FormField
       control={control}
@@ -27,13 +31,21 @@ export const DateAnswer = ({
       render={({ field }) => (
         <FormItem>
           <FormControl>
-            <Input
-              type="date"
-              {...field}
-              onChange={(e) => {
-                field.onChange(e.target.value);
-              }}
-            />
+            <div className="relative ">
+              <Input
+                type="date"
+                {...field}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                }}
+              />
+              <p className="absolute right-2 top-1/2 -translate-y-1/2 text-sm font-medium">
+                Shown as {" "}
+                {field.value
+                  ? dayjs(field.value).format(dateFormats[format])
+                  : ""}
+              </p>
+            </div>
           </FormControl>
           <FormMessage />
         </FormItem>

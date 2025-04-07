@@ -17,7 +17,7 @@ export const SliderAnswer = ({
   control,
 }: SliderAnswerProps) => {
   const { min, max, step, labels, range } = options;
-  console.log({ min, max });
+
   return (
     <FormField
       control={control}

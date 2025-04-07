@@ -1,14 +1,7 @@
 import { QuestionOptionsMap } from "@/types/questions";
 import { Control } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Slider } from "@/components/ui/slider";
-import { QuestionLabel } from "./question-label";
 
 type SliderAnswerProps = {
   questionId: string;
@@ -20,13 +13,11 @@ type SliderAnswerProps = {
 
 export const SliderAnswer = ({
   questionId,
-  questionText,
   options,
-  required,
   control,
 }: SliderAnswerProps) => {
   const { min, max, step, labels, range } = options;
-
+  console.log({ min, max });
   return (
     <FormField
       control={control}
@@ -44,7 +35,6 @@ export const SliderAnswer = ({
             : [min];
         return (
           <FormItem>
-  
             <div className="flex flex-col space-y-2">
               {labels && (
                 <div className="flex justify-between text-sm text-muted-foreground">

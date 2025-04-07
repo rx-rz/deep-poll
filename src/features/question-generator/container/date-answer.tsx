@@ -40,9 +40,8 @@ export const DateAnswer = ({
                 }}
               />
               <p className="absolute right-2 top-1/2 -translate-y-1/2 text-sm font-medium">
-                Shown as {" "}
                 {field.value
-                  ? dayjs(field.value).format(dateFormats[format])
+                  ? `Shown as ${dayjs(field.value).format(dateFormats[format])}`
                   : ""}
               </p>
             </div>

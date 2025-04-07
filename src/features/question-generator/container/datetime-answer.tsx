@@ -4,12 +4,11 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { QuestionLabel } from "./question-label";
-import { useAnswerStore } from "@/store/answer.store";
+import { dateTimeFormats } from "@/features/questions-creator/form/datetimeinput-form";
+import dayjs from "dayjs";
 
 type DateTimeAnswerProps = {
   questionId: string;
@@ -21,29 +20,33 @@ type DateTimeAnswerProps = {
 
 export const DateTimeAnswer = ({
   questionId,
-  questionText,
   options,
-  required,
   control,
 }: DateTimeAnswerProps) => {
-  const setAnswer = useAnswerStore((state) => state.setAnswer);
-
+  const { format } = options;
   return (
     <FormField
       control={control}
       name={questionId}
       render={({ field }) => (
         <FormItem>
-
           <FormControl>
-            <Input
-              type="datetime-local"
-              {...field}
-              onChange={(e) => {
-                field.onChange(e.target.value);
-                setAnswer(questionId, e.target.value);
-              }}
-            />
+            <div className="relative">
+              <Input
+                type="datetime-local"
+                {...field}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                }}
+              />
+              <p className="absolute right-2 top-1/2 -translate-y-1/2 text-sm font-medium">
+                {field.value
+                  ? `Shown as ${dayjs(field.value).format(
+                      dateTimeFormats[format]
+                    )}`
+                  : ""}
+              </p>
+            </div>
           </FormControl>
           <FormMessage />
         </FormItem>

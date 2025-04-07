@@ -43,7 +43,7 @@ export const QuestionCreationCard = ({
   const [open, setOpen] = useState(false);
   return (
     <>
-      <div className=" bg-white/20 backdrop-filter backdrop-blur-lg backdrop-saturate-150 min-w-lg max-w-lg  border rounded-lg shadow-sm  py-4 px-5">
+      <div className="border  backdrop-saturate-150 md:min-w-lg max-w-lg  border-blue-500  rounded-lg shadow-xs shadow-blue-500  py-4 px-5">
         <div className="flex justify-between mb-4 text-sm font-medium">
           <div className="flex items-center gap-1">
             {icon}

@@ -1,8 +1,5 @@
-// LinearScaleQuestionOptions.tsx
 import { memo } from "react";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { QuestionOptionsMap } from "@/types/questions";
 import {
   Form,
@@ -97,7 +94,6 @@ export const LinearScaleQuestionOptions = memo(
             <FormField
               control={control}
               name="labels.end"
-              
               render={({ field }) => (
                 <FormItem className="mb-4">
                   <QuestionOptionLabel text="End Label" />

@@ -4,7 +4,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import {
@@ -21,7 +20,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useState } from "react";
-import { QuestionLabel } from "./question-label";
 import { useAnswerStore } from "@/store/answer.store";
 import {
   Select,
@@ -41,9 +39,7 @@ type DropdownAnswerProps = {
 
 export const DropdownAnswer = ({
   questionId,
-  questionText,
   options,
-  required,
   control,
 }: DropdownAnswerProps) => {
   const { choices, allowSearch } = options;
@@ -58,7 +54,6 @@ export const DropdownAnswer = ({
         name={questionId}
         render={({ field }) => (
           <FormItem>
-  
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <FormControl>
@@ -72,7 +67,7 @@ export const DropdownAnswer = ({
                   </Command>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent className="p-0 w-max-content">
+              <PopoverContent className="p-0 w-max-content md:w-[510px]">
                 <Command>
                   <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
@@ -114,7 +109,6 @@ export const DropdownAnswer = ({
         name={questionId}
         render={({ field }) => (
           <FormItem>
-  
             <Select
               onValueChange={(currentValue) => {
                 field.onChange(currentValue);

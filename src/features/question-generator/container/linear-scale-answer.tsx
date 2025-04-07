@@ -8,7 +8,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { QuestionLabel } from "./question-label";
 import { useAnswerStore } from "@/store/answer.store";
 
 type LinearScaleAnswerProps = {
@@ -21,9 +20,7 @@ type LinearScaleAnswerProps = {
 
 export const LinearScaleAnswer = ({
   questionId,
-  questionText,
   options,
-  required,
   control,
 }: LinearScaleAnswerProps) => {
   const { min, max, labels } = options;
@@ -37,7 +34,6 @@ export const LinearScaleAnswer = ({
       name={questionId}
       render={({ field }) => (
         <FormItem>
-
           <FormControl>
             <RadioGroup
               onValueChange={(value) => {
@@ -47,22 +43,22 @@ export const LinearScaleAnswer = ({
               value={field.value?.toString()}
               className="flex flex-col space-y-1"
             >
-              <div className="flex justify-between text-sm text-muted-foreground">
-                <span>{labels?.start || min}</span>
-                <span>{labels?.end || max}</span>
-              </div>
-              <div className="flex flex-row space-x-2">
-                {values.map((value) => (
-                  <FormItem
-                    key={value}
-                    className="flex flex-row space-x-3 space-y-0 items-center"
-                  >
-                    <FormControl>
-                      <RadioGroupItem value={value.toString()} />
-                    </FormControl>
-                    <FormLabel className="font-normal">{value}</FormLabel>
-                  </FormItem>
-                ))}
+              <div>
+                <div className="flex justify-between pb-10 relative">
+                  <p className="absolute bottom-0 text-sm font-medium">{labels?.start || min}</p>
+                  <p className="absolute bottom-0 right-0 text-sm font-medium">{labels?.end || max}</p>
+                  {values.map((value) => (
+                    <FormItem
+                      key={value}
+                      className="flex flex-col  space-y-0 items-center"
+                    >
+                      <FormLabel className="font-normal">{value}</FormLabel>
+                      <FormControl>
+                        <RadioGroupItem value={value.toString()} />
+                      </FormControl>
+                    </FormItem>
+                  ))}
+                </div>
               </div>
             </RadioGroup>
           </FormControl>

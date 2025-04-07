@@ -250,20 +250,19 @@ export const SurveyAnswers = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-lg flex flex-col my-4 mx-auto"
+        className="max-w-lg w-[95%] flex flex-col my-4 mx-auto"
       >
         <p className="text-2xl uppercase font-bold my-5">{survey.title}</p>
         <div className="">
           <Link to="/">Questions</Link>
           {questions.map((question) => (
-            <div key={question.questionId} className="my-8">
+            <div key={question.questionId} className="my-4 border-2 p-4 rounded-md">
               <div className="flex gap-1">
                 <p className=" font-medium mb-4">{question.orderNumber}.</p>
                 <p className="font-bold">{question.questionText}</p>
               </div>
 
               {renderAnswerComponent({ control: form.control, question })}
-
             </div>
           ))}
         </div>

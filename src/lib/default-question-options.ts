@@ -37,9 +37,10 @@ export const defaultQuestionOptions: {
     randomizeOrder: false,
   },
   dropdown: { choices: [], allowSearch: false },
-  rating: { min: 1, max: 5, labels: [] },
+
   likert: { scale: 5, labels: [], statement: "" },
-  linear_scale: { min: 1, max: 5, labels: { start: "", end: "" } },
+  linear_scale: { min: 1, max: 3, labels: { start: "", end: "" } },
+  rating: { min: 1, max: 5, labels: [] },
   date: {
     format: "ISO e.g 2023-04-05",
     minDate: "",

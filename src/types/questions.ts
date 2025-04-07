@@ -64,7 +64,6 @@ export type QuestionOptionsMap = {
   likert: {
     scale: number; // Number of points on the scale (e.g., 5, 7)
     labels: string[]; // Labels for each point on the scale
-    statement: string; // Statement being rated
   };
   linear_scale: {
     min: number; // Starting value

@@ -69,12 +69,7 @@ export const QuestionTypeTrigger = () => {
                 required: true,
                 surveyId: "",
                 options: {
-                  placeholder: "Enter your email",
-                  allowDuplicates: false,
-                  allowedDomains: "",
-                  disallowedDomains: "",
-                  maxEmailLength: 255,
-                  minEmailLength: 1,
+                  ...defaultQuestionOptions.email,
                 },
               });
             }}
@@ -94,10 +89,7 @@ export const QuestionTypeTrigger = () => {
                 required: true,
                 surveyId: "",
                 options: {
-                  placeholder: "Enter a number",
-                  allowDecimal: false,
-                  max: Infinity,
-                  min: -Infinity,
+                  ...defaultQuestionOptions.number,
                 },
               });
             }}
@@ -128,9 +120,7 @@ export const QuestionTypeTrigger = () => {
                 required: true,
                 surveyId: "",
                 options: {
-                  allowOther: false,
-                  choices: [],
-                  randomizeOrder: false,
+                  ...defaultQuestionOptions.multiple_choice,
                 },
               });
             }}
@@ -173,8 +163,7 @@ export const QuestionTypeTrigger = () => {
                 required: true,
                 surveyId: "",
                 options: {
-                  allowSearch: true,
-                  choices: [],
+                  ...defaultQuestionOptions.dropdown,
                 },
               });
             }}
@@ -199,9 +188,7 @@ export const QuestionTypeTrigger = () => {
                 required: true,
                 surveyId: "",
                 options: {
-                  labels: { start: "Poor", end: "Excellent" },
-                  max: 5,
-                  min: 2,
+                  ...defaultQuestionOptions.linear_scale,
                 },
               });
             }}
@@ -221,12 +208,7 @@ export const QuestionTypeTrigger = () => {
                 required: true,
                 surveyId: "",
                 options: {
-                  labels: { start: "0", end: "100" },
-                  max: 100,
-                  min: 0,
-                  range: false,
-                  step: 1,
-                  defaultValue: 50,
+                  ...defaultQuestionOptions.slider,
                 },
               });
             }}
@@ -246,17 +228,7 @@ export const QuestionTypeTrigger = () => {
                 required: true,
                 surveyId: "",
                 options: {
-                  labels: [
-                    "Strongly disagree",
-                    "disagree",
-                    "Somewhat disagree",
-                    "Neither agree nor disagree",
-                    "Somewhat agree",
-                    "Agree",
-                    "Strongly agree",
-                  ],
-                  scale: 7,
-                  statement: "",
+                  ...defaultQuestionOptions.likert,
                 },
               });
             }}
@@ -281,10 +253,7 @@ export const QuestionTypeTrigger = () => {
                 required: true,
                 surveyId: "",
                 options: {
-                  allowPastDates: true,
-                  format: "YYYY-mm-dd",
-                  maxDate: "",
-                  minDate: "",
+                  ...defaultQuestionOptions.date,
                 },
               });
             }}
@@ -304,10 +273,7 @@ export const QuestionTypeTrigger = () => {
                 required: true,
                 surveyId: "",
                 options: {
-                  allowElapsedTime: true,
-                  format: "HH:mm",
-                  maxTime: "",
-                  minTime: "",
+                  ...defaultQuestionOptions.time,
                 },
               });
             }}
@@ -327,9 +293,7 @@ export const QuestionTypeTrigger = () => {
                 required: true,
                 surveyId: "",
                 options: {
-                  format: "",
-                  maxDatetime: "",
-                  minDatetime: "",
+                  ...defaultQuestionOptions.datetime,
                 },
               });
             }}

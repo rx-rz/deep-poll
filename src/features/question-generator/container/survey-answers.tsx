@@ -23,8 +23,6 @@ import { DateAnswer } from "./date-answer";
 import { DateTimeAnswer } from "./datetime-answer";
 import { TimeAnswer } from "./time-answer";
 import { RatingAnswer } from "./rating-answer";
-import { Separator } from "@/components/ui/separator";
-
 const renderAnswerComponent = ({
   question,
   control,

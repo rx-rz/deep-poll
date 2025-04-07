@@ -38,7 +38,16 @@ export const defaultQuestionOptions: {
   },
   dropdown: { choices: [], allowSearch: false },
 
-  likert: { scale: 5, labels: [], statement: "" },
+  likert: {
+    scale: 5,
+    labels: [
+      "Strongly Disagree",
+      "Disagree",
+      "Neither Agree nor Disagree (or Neutral)",
+      "Agree",
+      "Strongly Agree",
+    ],
+  },
   linear_scale: { min: 1, max: 3, labels: { start: "", end: "" } },
   rating: { min: 1, max: 5, labels: [] },
   date: {

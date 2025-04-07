@@ -1,13 +1,15 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 
+const likertQuestionOptions = defaultQuestionOptions.likert;
 export const likertQuestionOptionsSchema = z.object({
   scale: z.coerce
     .number({ message: "Value must be a number" })
     .int()
-    .min(2)
-    .default(5),
+    .max(7, { message: "Scale must be between 2 and 7" })
+    .default(likertQuestionOptions.scale),
   labels: z
     .string()
     .array()
@@ -15,7 +17,7 @@ export const likertQuestionOptionsSchema = z.object({
     .refine((items) => items.length === new Set(items).size, {
       message: "Labels must be unique",
     }),
-  statement: z.string().default(""),
+
 });
 
 export type LikertQuestionOptionsDto = z.infer<

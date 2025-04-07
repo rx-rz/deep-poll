@@ -1,4 +1,3 @@
-// LikertQuestionOptions.tsx
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -74,26 +73,6 @@ export const LikertQuestionOptions = memo(
             </div>
           </div>
 
-          <div className="mb-4">
-            <FormField
-              control={control}
-              name="statement"
-              render={({ field }) => (
-                <FormItem>
-                  <QuestionOptionLabel text="Statement" />
-                  <FormControl>
-                    <Input
-                      type="text"
-                      {...field}
-                      placeholder="Enter the statement being rated"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
           <div className="border p-4 rounded-md mb-4">
             <div className="flex justify-between items-center mb-4">
               <Label className="text-xs">Labels for Each Point</Label>
@@ -105,23 +84,25 @@ export const LikertQuestionOptions = memo(
                 <Plus size={19} />
               </Button>
             </div>
-            {labelsValue.map((label, index) => (
-              <div key={index} className="flex items-center gap-2 mb-4">
-                <Input
-                  type="text"
-                  value={label}
-                  placeholder={`Label for Point ${index + 1}`}
-                  onChange={(e) => updateLabel(index, e.target.value)}
-                />
-                <Button
-                  variant="destructive"
-                  onClick={() => removeLabel(index)}
-                  disabled={labelsValue.length <= 2}
-                >
-                  <Trash2Icon stroke="#fff" />
-                </Button>
-              </div>
-            ))}
+            {Array.from({ length: scaleValue }, (_, i) => i).map(
+              (_, index) => (
+                <div key={index} className="flex items-center gap-2 mb-4">
+                  <Input
+                    type="text"
+                    value={labelsValue[index]}
+                    placeholder={`Label for Point ${index + 1}`}
+                    onChange={(e) => updateLabel(index, e.target.value)}
+                  />
+                  <Button
+                    variant="destructive"
+                    onClick={() => removeLabel(index)}
+                    disabled={labelsValue.length <= 2}
+                  >
+                    <Trash2Icon stroke="#fff" />
+                  </Button>
+                </div>
+              )
+            )}
           </div>
 
           <Button className="w-full mt-4" type="submit" disabled={!isDirty}>

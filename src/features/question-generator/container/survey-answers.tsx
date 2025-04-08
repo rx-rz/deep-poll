@@ -254,7 +254,7 @@ export const SurveyAnswers = () => {
         <div className="">
           <Link to="/">Questions</Link>
           {questions.map((question) => (
-            <div key={question.questionId} className="my-4 border-2 p-4 rounded-md">
+            <div key={question.questionId} className="my-4  p-4 rounded-md">
               <div className="flex gap-1">
                 <p className=" font-medium mb-4">{question.orderNumber}.</p>
                 <p className="font-bold">{question.questionText}</p>

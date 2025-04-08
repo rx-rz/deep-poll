@@ -25,7 +25,7 @@ export const TimeAnswer = ({
   control,
 }: TimeAnswerProps) => {
   const { format } = options;
-  const timeFormatter = dayjs.extend(customParseFormat);
+  dayjs.extend(customParseFormat);
   return (
     <FormField
       control={control}

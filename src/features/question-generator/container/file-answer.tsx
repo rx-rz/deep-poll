@@ -8,8 +8,6 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { UploadCloudIcon } from "lucide-react";
-import { QuestionLabel } from "./question-label";
-import { useAnswerStore } from "@/store/answer.store";
 import { useState } from "react";
 
 type FileAnswerProps = {
@@ -22,13 +20,11 @@ type FileAnswerProps = {
 
 export const FileAnswer = ({
   questionId,
-  questionText,
   options,
-  required,
   control,
 }: FileAnswerProps) => {
   const { allowMultiple, acceptedFormats, maxSizeMB, maxFiles } = options;
-  const setAnswer = useAnswerStore((state) => state.setAnswer);
+
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [fileErrors, setFileErrors] = useState<string[]>([]);
 
@@ -37,11 +33,14 @@ export const FileAnswer = ({
     onChange: (value: File[]) => void
   ) => {
     const files = event.target.files;
+
     if (files) {
       const fileArray = Array.from(files);
       const validFiles: File[] = [];
       const errors: string[] = [];
-
+      if (files.length > maxFiles) {
+        errors.push(`You can only upload a maximum of ${maxFiles} files.`);
+      }
       fileArray.forEach((file) => {
         const fileExtension = file.name.split(".").pop()?.toLowerCase();
         const fileSizeMB = file.size / (1024 * 1024);
@@ -64,6 +63,7 @@ export const FileAnswer = ({
       }
 
       setFileErrors(errors);
+      
       onChange(validFiles); // Update react-hook-form using field.onChange
       //   setAnswer(questionId, validFiles); // Update answer store
     }
@@ -75,7 +75,6 @@ export const FileAnswer = ({
       name={questionId}
       render={({ field }) => (
         <FormItem>
-
           <FormControl>
             <div>
               <input
@@ -92,20 +91,12 @@ export const FileAnswer = ({
                 <Button variant="outline" asChild>
                   <span>
                     <UploadCloudIcon className="mr-2 h-4 w-4" />
-                    Upload File(s)
+                    {selectedFiles.length > 0
+                      ? `Selected ${selectedFiles.length} file(s)`
+                      : "Upload File(s)"}
                   </span>
                 </Button>
               </label>
-              {selectedFiles.length > 0 && (
-                <div className="mt-2">
-                  <p>Selected Files:</p>
-                  <ul>
-                    {selectedFiles.map((file) => (
-                      <li key={file.name}>{file.name}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
               {fileErrors.length > 0 && (
                 <div className="mt-2">
                   <p className="text-red-500">File Errors:</p>

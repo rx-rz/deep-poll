@@ -21,7 +21,6 @@ export const useSurveyOptionsStore = create<SurveyOptionsStore>()(
         showProgressBar: false,
         showLinkToSubmitAnother: false,
       },
-
       updateOptions: (updates) =>
         set((state) => ({
           options: { ...state.options, ...updates },

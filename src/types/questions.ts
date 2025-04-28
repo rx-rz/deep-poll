@@ -125,18 +125,3 @@ export type Question<T extends QuestionType = QuestionType> = {
   createdAt: string;
 };
 
-// signature: {
-//   placeholder: string; // Placeholder text (e.g., "Sign here")
-//   penColor: string; // Default pen color
-//   backgroundColor: string; // Background color
-//   clearButtonLabel: string; // Text for the clear button
-// };
-// matrix: {
-//   rows: string[]; // Row labels (e.g., questions or categories)
-//   columns: string[]; // Column labels (e.g., rating scale)
-//   allowMultipleSelections: boolean; // Allow multiple selections per row
-// };
-// toggle: {
-//   labels: { on: string; off: string }; // Labels for on/off states
-//   defaultState: boolean; // Default toggle state
-// };

@@ -3,7 +3,6 @@ import { createId } from "@paralleldrive/cuid2";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-/** Zustand store using an array */
 type QuestionStore = {
   questions: Question[];
   addQuestion: <T extends QuestionType>(
@@ -20,8 +19,6 @@ export const useQuestionStore = create<QuestionStore>()(
   persist(
     (set) => ({
       questions: [],
-
-      /** Add a new question */
       addQuestion: (data) =>
         set((state) => ({
           questions: [

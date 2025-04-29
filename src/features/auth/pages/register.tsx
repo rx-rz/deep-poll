@@ -10,9 +10,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRegister } from "../api/use-register";
+import { LoadingStateText } from "@/components/loading-state-text";
 
 export const RegisterPage = () => {
-  const { form, handleSubmit } = useRegister();
+  const { form, handleSubmit, loading } = useRegister();
   return (
     <div className="max-w-lg mx-auto mt-16 rounded-2xl border-8 border-[#f5f5f5] p-6">
       <img src="/logo.png" alt="" className="w-12 h-12" />
@@ -66,7 +67,9 @@ export const RegisterPage = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">
+            {loading ? <LoadingStateText text="Loading" /> : "Submit"}
+          </Button>
         </form>
       </Form>
     </div>

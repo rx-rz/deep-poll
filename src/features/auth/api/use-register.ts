@@ -14,7 +14,7 @@ export const useRegister = () => {
     return response.data;
   };
 
-  const { data, error, mutate, isPending } = useMutation({
+  const {  mutate, isPending } = useMutation({
     mutationFn: register,
     onSuccess: (data) => {
       location.reload();
@@ -40,7 +40,8 @@ export const useRegister = () => {
   return {
     form,
     handleSubmit,
-    error,
     loading: isPending,
   };
+
+
 };

@@ -35,7 +35,6 @@ export const useRegister = () => {
 
   const handleSubmit = (values: RegisterUserDto) => {
     mutate(values);
-    console.log(values);
   };
 
   return {

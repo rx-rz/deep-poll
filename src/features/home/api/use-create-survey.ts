@@ -30,9 +30,6 @@ export const useCreateSurvey = () => {
     const userData = JSON.parse(
       localStorage.getItem("deep-poll-user") || "{}"
     );
-    console.log(userData)
-    console.log(userData.data.account_id)
-    console.log("here!")
     mutate({
       accountId: userData.data.account_id ?? "",
       isPublished: false,

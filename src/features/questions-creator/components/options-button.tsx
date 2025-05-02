@@ -1,10 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ReactNode } from "react";
 
-type Props = {
-  children: ReactNode;
-  props: React.ComponentProps<"button">;
-};
 export const OptionsButton = ({
   children,
   ...props

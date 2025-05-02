@@ -26,7 +26,7 @@ export const SurveyOptions = () => {
   const { options } = useSurveyOptionsStore();
 
   return (
-    <div className="border py-3 px-2 sticky top-0 z-50 justify-between flex    w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="border py-3 px-2 sticky top-0 z-50 justify-between flex w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <p>{options.title ?? "Untitled"}</p>
       <Dialog>
         <DialogTrigger>

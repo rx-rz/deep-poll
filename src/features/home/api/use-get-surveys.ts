@@ -1,4 +1,3 @@
-import { queryClient } from "@/App";
 import { api } from "@/lib/axios";
 import { Survey } from "@/types/survey";
 import { useQuery } from "@tanstack/react-query";
@@ -10,9 +9,9 @@ type Response = {
     surveys: Survey[];
   };
 };
+
 export const useGetSurveys = () => {
   const getSurveys = async (): Promise<Response> => {
-    queryClient.invalidateQueries({queryKey: ["surveys"]});
     const response = await api.get("/surveys");
     return response.data;
   };
@@ -21,7 +20,7 @@ export const useGetSurveys = () => {
     queryFn: getSurveys,
     queryKey: ["surveys"],
   });
-  
+
   return {
     surveys: data?.data.surveys ?? [],
     error,

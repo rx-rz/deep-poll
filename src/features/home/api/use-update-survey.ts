@@ -11,20 +11,21 @@ type Response = {
 };
 
 export const useUpdateSurvey = () => {
-    const updateSurvey = async ({dto, id}: {dto: UpdateSurveyDto, id: string}): Promise<Response> => {
-        const response = await api.put(`/surveys/${id}`, dto);
-        return response.data;
-    };
-    
-    const { mutate, isPending } = useMutation({
-        mutationFn: updateSurvey,
-        onSuccess: (data) => {
-        console.log(data);
-        },
-    });
-    
-    return {
-        mutate,
-        loading: isPending,
-    };
-}
+  const updateSurvey = async (dto: UpdateSurveyDto): Promise<Response> => {
+    const { id, ...values } = dto;
+    const response = await api.put(`/surveys/${id}`, values);
+    return response.data;
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: updateSurvey,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+
+  return {
+    mutate,
+    loading: isPending,
+  };
+};

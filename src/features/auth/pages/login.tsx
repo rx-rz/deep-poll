@@ -1,0 +1,60 @@
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useLogin } from "../api/use-login";
+import { LoadingStateText } from "@/components/loading-state-text";
+
+export const LoginPage = () => {
+  const { form, handleSubmit, loading } = useLogin();
+  return (
+    <div className="max-w-lg mx-auto mt-16 rounded-2xl border-8 border-[#f5f5f5] p-6">
+      <img src="/logo.png" alt="" className="w-12 h-12" />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="John Doe" {...field} />
+                </FormControl>
+                <FormDescription>This is your email.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Enter your password. It must be at least 8 characters long.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">
+            {loading ? <LoadingStateText text="Loading" /> : "Submit"}
+          </Button>
+        </form>
+      </Form>
+    </div>
+  );
+};

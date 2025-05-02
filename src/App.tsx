@@ -5,8 +5,10 @@ import { CreateSurveyQuestions } from "./features/questions-creator/pages/create
 import DesignSystem from "./features/questions-creator/pages/design-system";
 import { AnswerSurvey } from "./features/question-generator/pages/answer-survey";
 import { RegisterPage } from "./features/auth/pages/register";
+import { LoginPage } from "./features/auth/pages/login";
+import { Homepage } from "./features/home/pages/homepage";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 function App() {
   return (
@@ -18,8 +20,14 @@ function App() {
         <Route path={"/register"}>
           <RegisterPage />
         </Route>
+        <Route path={"/login"}>
+          <LoginPage />
+        </Route>
         <Route path={"/answer"}>
           <AnswerSurvey />
+        </Route>
+        <Route path={"/home"}>
+          <Homepage />
         </Route>
         <Route path={"/design"}>
           <DesignSystem />

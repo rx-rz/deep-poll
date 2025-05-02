@@ -19,28 +19,28 @@ export const useLogin = () => {
     return response.data;
   };
 
-  const {mutate, isPending} = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: login,
-    onSuccess: (data) => {
-        console.log(data);
+    onSuccess: ({ data }) => {
+      localStorage.setItem("deep-poll-user", JSON.stringify({...data}));
+      console.log(data);
     },
     onError: (error) => {
-        console.log(error);
-    }
-  })
+      console.log(error);
+    },
+  });
 
   const form = useForm<LoginUserDto>({
     resolver: zodResolver(loginUserSchema),
-    
-  })
+  });
 
   const handleSubmit = (values: LoginUserDto) => {
-    mutate(values)
-  }
+    mutate(values);
+  };
 
   return {
     form,
     handleSubmit,
-    loading: isPending
-  }
+    loading: isPending,
+  };
 };

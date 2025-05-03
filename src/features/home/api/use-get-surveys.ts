@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useSurveyListStore } from "@/store/surveys.store";
 import { Survey } from "@/types/survey";
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,6 +12,7 @@ type Response = {
 };
 
 export const useGetSurveys = () => {
+  const setStateSurveys = useSurveyListStore((state) => state.setSurveys);
   const getSurveys = async (): Promise<Response> => {
     const response = await api.get("/surveys");
     return response.data;
@@ -20,6 +22,8 @@ export const useGetSurveys = () => {
     queryFn: getSurveys,
     queryKey: ["surveys"],
   });
+
+  setStateSurveys(data?.data.surveys ?? []);
 
   return {
     surveys: data?.data.surveys ?? [],

@@ -13,7 +13,6 @@ export const createSurveySchema = z.object({
 
 export const updateSurveySchema = createSurveySchema
   .omit({ accountId: true })
-  .merge(z.object({ id: z.string().cuid() }))
   .partial();
 
 export type CreateSurveyDto = z.infer<typeof createSurveySchema>;

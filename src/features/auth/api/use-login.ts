@@ -22,6 +22,7 @@ export const useLogin = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: login,
     onSuccess: ({ data }) => {
+      
       localStorage.setItem("deep-poll-user", JSON.stringify({...data}));
       console.log(data);
     },

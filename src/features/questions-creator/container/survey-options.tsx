@@ -6,7 +6,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useSurveyOptionsForm } from "../form/survey-options-form";
 import { Input } from "@/components/ui/input";
 import {
   Dialog,
@@ -20,14 +19,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { useSurveyOptionsStore } from "@/store/survey-options.store";
+import { useUpdateSurvey } from "@/features/home/api/use-update-survey";
+import { useParams } from "wouter";
+import { useSurveyListStore } from "@/store/surveys.store";
 
 export const SurveyOptions = () => {
-  const { options } = useSurveyOptionsStore();
+  const { surveyId } = useParams();
+  const survey = useSurveyListStore((state) =>
+    state.fetchSurveyById(surveyId!)
+  );
+  console.log({survey})
 
   return (
     <div className="border py-3 px-2 sticky top-0 z-50 justify-between flex w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <p>{options.title ?? "Untitled"}</p>
+      <p>{survey?.title ?? "Untitled"}</p>
       <Dialog>
         <DialogTrigger>
           <Edit strokeWidth={0.9} />
@@ -41,7 +46,7 @@ export const SurveyOptions = () => {
 };
 
 const SurveyOptionsForm = () => {
-  const { form, submitHandler } = useSurveyOptionsForm();
+  const { form, handleSubmit } = useUpdateSurvey();
 
   return (
     <>
@@ -52,7 +57,7 @@ const SurveyOptionsForm = () => {
       </DialogHeader>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(submitHandler)}
+          onSubmit={form.handleSubmit(handleSubmit)}
           className="flex flex-col gap-6"
         >
           <FormField
@@ -86,23 +91,6 @@ const SurveyOptionsForm = () => {
             )}
           />
           <div className="flex flex-col gap-8 py-4 border px-3 -lg">
-            <FormField
-              control={form.control}
-              name="collectEmailAddresses"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between ">
-                  <div className="space-y-0.5">
-                    <FormLabel>Collect Email Addresses</FormLabel>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="requiresSignIn"

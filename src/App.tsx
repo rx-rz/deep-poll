@@ -14,7 +14,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Switch>
-        <Route path={"/"}>
+        <Route path={"/survey/:surveyId"}>
           <CreateSurveyQuestions />
         </Route>
         <Route path={"/register"}>

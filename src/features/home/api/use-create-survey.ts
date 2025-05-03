@@ -1,6 +1,7 @@
 import { api } from "@/lib/axios";
 import { CreateSurveyDto } from "../schema";
 import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "@/App";
 
 type Response = {
   success: boolean;
@@ -19,7 +20,8 @@ export const useCreateSurvey = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: createSurvey,
     onSuccess: (data) => {
-      console.log(data);
+      console.log(data)
+      queryClient.invalidateQueries({ queryKey: ["surveys"] });
     },
     onError: (error) => {
       console.log(error);
@@ -27,11 +29,10 @@ export const useCreateSurvey = () => {
   });
 
   const handleSubmit = () => {
-    const userData = JSON.parse(
-      localStorage.getItem("deep-poll-user") || "{}"
-    );
+    const userData = JSON.parse(localStorage.getItem("deep-poll-user") || "{}");
+
     mutate({
-      accountId: userData.data.account_id ?? "",
+      accountId: userData.account_id ?? "",
       isPublished: false,
       requiresSignIn: false,
       showLinkToSubmitAnother: false,

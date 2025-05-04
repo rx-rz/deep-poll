@@ -76,11 +76,7 @@ export const QuestionCreationCard = ({
         <div className="my-4">{questionOptionsIsOpen ? children : <></>}</div>
         <div className="w-full flex justify-between items-center mt-4">
           <div className="flex gap-2 mt-5">
-            <Checkbox
-
-            // checked={questionIsRequired}
-            // onCheckedChange={(checked) => setQuestionIsRequired(checked)}
-            />
+            <Checkbox />
             <p className="font-medium text-xs">Required</p>
           </div>
           <button

@@ -1,7 +1,6 @@
+import { defaultQuestionOptions } from "@/lib/default-question-options";
+import { Question } from "@/types/questions";
 import { memo } from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,32 +8,34 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { useMultipleChoiceQuestionOptionsForm } from "../form/multiplechoiceinput-form";
-import { QuestionOptionsMap } from "@/types/questions";
-import { Plus, Trash2Icon } from "lucide-react";
-import { QuestionOptionLabel } from "../components/question-option-label";
-import { OptionsButton } from "../components/options-button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { OptionsButton } from "../components/options-button";
+import { QuestionOptionLabel } from "../components/question-option-label";
+import { useMultipleChoiceQuestionCreationForm } from "../form/multiplechoiceinput-form";
+import { Plus, Trash2Icon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-type LocalQuestionOptions = QuestionOptionsMap["multiple_choice"];
-
-type OptionProps = {
-  questionOptions: LocalQuestionOptions;
-  setQuestionOptions: React.Dispatch<
-    React.SetStateAction<LocalQuestionOptions>
-  >;
+type Props = {
+  question: Question<"multiple_choice">;
 };
 
-export const MultipleChoiceQuestionOptions = memo(
-  ({ questionOptions, setQuestionOptions }: OptionProps) => {
-    const { form, onSubmit } = useMultipleChoiceQuestionOptionsForm({
-      questionOptions,
-      setQuestionOptions,
+export const MultipleChoiceInputQuestionCreator = memo(
+  ({ question }: Props) => {
+    const questionSettings = {
+      questionText: question.questionText ?? "",
+      options: question.options ?? defaultQuestionOptions.multiple_choice,
+    };
+
+    const { form, onSubmit } = useMultipleChoiceQuestionCreationForm({
+      question: questionSettings,
+      id: question.questionId
     });
 
     const { control, watch, setValue, formState } = form;
     const { isDirty } = formState;
-    const choices = watch("choices");
+    const choices = watch("options.choices");
 
     return (
       <Form {...form}>
@@ -42,7 +43,21 @@ export const MultipleChoiceQuestionOptions = memo(
           <div className="grid gap-4 mb-4">
             <FormField
               control={control}
-              name="choices"
+              name="questionText"
+              render={({ field }) => (
+                <FormItem>
+                  <QuestionOptionLabel text="Question Text" />
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={control}
+              name="options.choices"
               render={() => (
                 <FormItem className="border p-4 mt-4 shadow-sm">
                   <div className="flex justify-between mb-2">
@@ -51,7 +66,7 @@ export const MultipleChoiceQuestionOptions = memo(
                       size={"sm"}
                       className="text-xs border-none mt-1 w-fit bg-gradient-to-br from-blue-500 to-blue-700 rounded-md overflow-hidden shadow-lg"
                       onClick={() =>
-                        setValue("choices", [...choices, ""], {
+                        setValue("options.choices", [...choices, ""], {
                           shouldDirty: true,
                         })
                       }
@@ -69,7 +84,7 @@ export const MultipleChoiceQuestionOptions = memo(
                         onChange={(e) => {
                           const updatedChoices = [...choices];
                           updatedChoices[index] = e.target.value;
-                          setValue("choices", updatedChoices, {
+                          setValue("options.choices", updatedChoices, {
                             shouldDirty: true,
                           });
                         }}
@@ -80,7 +95,7 @@ export const MultipleChoiceQuestionOptions = memo(
                           const updatedChoices = choices.filter(
                             (_, i) => i !== index
                           );
-                          setValue("choices", updatedChoices, {
+                          setValue("options.choices", updatedChoices, {
                             shouldDirty: true,
                           });
                         }}
@@ -97,7 +112,7 @@ export const MultipleChoiceQuestionOptions = memo(
 
             <FormField
               control={control}
-              name="maxLengthForOtherParameter"
+              name="options.maxLengthForOtherParameter"
               render={({ field }) => (
                 <FormItem>
                   <QuestionOptionLabel text="Maximum Length For Other Value" />
@@ -117,7 +132,7 @@ export const MultipleChoiceQuestionOptions = memo(
             <div className="p-4 flex-col my-4 flex gap-6 border rounded-md shadow-xs">
               <FormField
                 control={control}
-                name="allowOther"
+                name="options.allowOther"
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex justify-between ">
@@ -134,7 +149,7 @@ export const MultipleChoiceQuestionOptions = memo(
 
               <FormField
                 control={control}
-                name="randomizeOrder"
+                name="options.randomizeOrder"
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex justify-between ">

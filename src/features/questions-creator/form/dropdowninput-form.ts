@@ -1,10 +1,59 @@
 import { defaultQuestionOptions } from "@/lib/default-question-options";
+import { useQuestionStore } from "@/store/questions.store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const dropdownOptions = defaultQuestionOptions.dropdown;
 
+// new schema + form implementation
+export const dropdownQuestionSchema = z
+  .object({
+    questionText: z.string().default("Lorem ipsum"),
+    options: z.object({
+      choices: z.array(z.string().min(1)).default(dropdownOptions.choices),
+      allowSearch: z.boolean().default(dropdownOptions.allowSearch),
+    }),
+  })
+  .refine((data) => data.options.choices.length > 0, {
+    message: "Choices must have at least one option",
+    path: ["options", "choices"],
+  });
+
+export type DropdownQuestionDto = z.infer<typeof dropdownQuestionSchema>;
+
+export const useDropdownQuestionCreationForm = ({
+  question,
+  id,
+}: {
+  question: DropdownQuestionDto;
+  id: string;
+}) => {
+  const updateQuestion = useQuestionStore((state) => state.updateQuestion);
+  const form = useForm<DropdownQuestionDto>({
+    resolver: zodResolver(dropdownQuestionSchema),
+    defaultValues: {
+      questionText: question.questionText,
+      options: question.options,
+    },
+  });
+
+  const onSubmit = (values: DropdownQuestionDto) => {
+    updateQuestion(id, {
+      questionType: "dropdown",
+      questionText: values.questionText,
+      options: values.options,
+    });
+    form.reset(values);
+  };
+
+  return {
+    form,
+    onSubmit: form.handleSubmit(onSubmit),
+  };
+};
+
+// old schema + form implementation
 export const dropdownQuestionOptionsSchema = z
   .object({
     choices: z.array(z.string().min(1)).default(dropdownOptions.choices),

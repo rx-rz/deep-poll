@@ -1,7 +1,7 @@
 import { useQuestionStore } from "@/store/questions.store";
 
-import { QuestionEditor } from "./question-editor";
 import { Link } from "wouter";
+import { QuestionCreator } from "./question-creator";
 
 export const SurveyQuestions = () => {
   const { questions } = useQuestionStore();
@@ -11,11 +11,7 @@ export const SurveyQuestions = () => {
       <Link to="/answer">Answers</Link>
       <div className="w-fit  flex flex-col gap-3">
         {questions.map((question) => (
-          <QuestionEditor
-            questionId={question.questionId}
-            questionType={question.questionType}
-            key={question.questionId}
-          />
+          <QuestionCreator question={question} key={question.questionId}/>
         ))}
       </div>
     </div>

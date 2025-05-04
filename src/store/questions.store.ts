@@ -13,11 +13,12 @@ type QuestionStore = {
     updates: Partial<Question<T>>
   ) => void;
   removeQuestion: (id: string) => void;
+  getQuestion: (id: string) => Question | undefined;
 };
 
 export const useQuestionStore = create<QuestionStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       questions: [],
       addQuestion: (data) =>
         set((state) => ({
@@ -45,6 +46,11 @@ export const useQuestionStore = create<QuestionStore>()(
         set((state) => ({
           questions: state.questions.filter((q) => q.questionId !== id),
         })),
+
+      /** Get a question by ID */
+      getQuestion: (id) => {
+        return get().questions.find((q) => q.questionId === id);
+      },
     }),
     {
       name: "question-store", // unique name for the storage

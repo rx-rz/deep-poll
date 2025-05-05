@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { useQuestionStore } from "@/store/questions.store";
+import { Question } from "@/types/questions";
 
 const numberOptions = defaultQuestionOptions.number;
 
@@ -46,8 +47,13 @@ export const useNumberQuestionCreationForm = ({
   question: NumberQuestionDto;
   id: string;
 }) => {
+  const questionInStore = useQuestionStore((state) =>
+    state.getQuestion(id)
+  ) as Question<"number">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-
+  const addUpdatedQuestion = useQuestionStore(
+    (state) => state.addUpdatedQuestion
+  );
   const form = useForm<NumberQuestionDto>({
     resolver: zodResolver(numberQuestionSchema),
     defaultValues: {
@@ -62,66 +68,11 @@ export const useNumberQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    form.reset(values);
-  };
-
-  return {
-    form,
-    onSubmit: form.handleSubmit(onSubmit),
-  };
-};
-
-// old schema + form implementation
-export const numberQuestionOptionsSchema = z
-  .object({
-    placeholder: z
-      .string()
-      .default(numberOptions.placeholder ?? "")
-      .optional(),
-    allowDecimal: z.boolean().default(false),
-    min: z.coerce
-      .number({ message: "Must be a number" })
-      .default(numberOptions.min),
-    max: z.coerce.number().default(numberOptions.max),
-  })
-  .refine((data) => data.max >= data.min, {
-    message: "Maximum value must be greater than or equal to minimum value",
-    path: ["max"],
-  })
-  // .refine(
-  //   (data) =>
-  //     data.allowDecimal === false &&
-  //     (!Number.isInteger(Number(data.max)) ||
-  //       !Number.isInteger(Number(data.min))),
-  //   {
-  //     message: "Values cannot be decimals",
-  //     path: ["max"],
-  //   }
-  // );
-
-export type NumberQuestionOptionsDto = z.infer<
-  typeof numberQuestionOptionsSchema
->;
-
-type FormValidatorProps = {
-  questionOptions: NumberQuestionOptionsDto;
-  setQuestionOptions: React.Dispatch<
-    React.SetStateAction<NumberQuestionOptionsDto>
-  >;
-};
-
-export const useNumberQuestionOptionsForm = ({
-  questionOptions,
-  setQuestionOptions,
-}: FormValidatorProps) => {
-  const form = useForm<NumberQuestionOptionsDto>({
-    resolver: zodResolver(numberQuestionOptionsSchema),
-    defaultValues: questionOptions,
-    mode: "onChange",
-  });
-
-  const onSubmit = (values: NumberQuestionOptionsDto) => {
-    setQuestionOptions(values);
+    addUpdatedQuestion(id, {
+      ...questionInStore,
+      questionText: values.questionText,
+      options: values.options,
+    });
     form.reset(values);
   };
 

@@ -36,7 +36,7 @@ export const DateInputQuestionCreator = memo(({ question }: Props) => {
 
   const { form, onSubmit } = useDateQuestionCreationForm({
     question: questionSettings,
-    id: question.questionId,
+    id: question.id,
   });
 
   const { control, formState, reset } = form;

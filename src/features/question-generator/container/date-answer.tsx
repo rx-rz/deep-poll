@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import { dateFormats } from "@/features/questions-creator/form/dateinput-form";
 
 type DateAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["date"];
   required: boolean;
@@ -19,7 +19,7 @@ type DateAnswerProps = {
 };
 
 export const DateAnswer = ({
-  questionId,
+  id,
   control,
   options,
 }: DateAnswerProps) => {
@@ -27,7 +27,7 @@ export const DateAnswer = ({
   return (
     <FormField
       control={control}
-      name={questionId}
+      name={id}
       render={({ field }) => (
         <FormItem>
           <FormControl>

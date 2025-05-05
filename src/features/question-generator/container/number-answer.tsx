@@ -5,14 +5,14 @@ import { Input } from "@/components/ui/input";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 
 type NumberAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["number"];
   required: boolean;
   control: Control<any>;
 };
 export const NumberAnswer = ({
-  questionId,
+  id,
   options,
   control,
 }: NumberAnswerProps) => {
@@ -21,7 +21,7 @@ export const NumberAnswer = ({
   return (
     <FormField
       control={control}
-      name={questionId}
+      name={id}
       render={({ field }) => (
         <FormItem className="relative">
           <Input

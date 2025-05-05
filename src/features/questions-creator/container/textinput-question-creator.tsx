@@ -25,7 +25,7 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
     options: question.options ?? defaultQuestionOptions.text,
   };
   const { form, onSubmit } = useTextQuestionCreationForm({
-    id: question.questionId,
+    id: question.id,
     question: questionSettings,
   });
 

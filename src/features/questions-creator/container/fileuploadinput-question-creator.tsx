@@ -27,7 +27,7 @@ export const FileUploadInputQuestionCreator = memo(({ question }: Props) => {
 
   const { form, onSubmit } = useFileUploadQuestionCreationForm({
     question: questionSettings,
-    id: question.questionId,
+    id: question.id,
   });
 
   const { control, formState } = form;

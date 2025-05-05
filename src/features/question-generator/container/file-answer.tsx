@@ -11,7 +11,7 @@ import { UploadCloudIcon } from "lucide-react";
 import { useState } from "react";
 
 type FileAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["file"];
   required: boolean;
@@ -19,7 +19,7 @@ type FileAnswerProps = {
 };
 
 export const FileAnswer = ({
-  questionId,
+  id,
   options,
   control,
 }: FileAnswerProps) => {
@@ -65,21 +65,21 @@ export const FileAnswer = ({
       setFileErrors(errors);
       
       onChange(validFiles); // Update react-hook-form using field.onChange
-      //   setAnswer(questionId, validFiles); // Update answer store
+      //   setAnswer(id, validFiles); // Update answer store
     }
   };
 
   return (
     <FormField
       control={control}
-      name={questionId}
+      name={id}
       render={({ field }) => (
         <FormItem>
           <FormControl>
             <div>
               <input
                 type="file"
-                id={`file-upload-${questionId}`}
+                id={`file-upload-${id}`}
                 multiple={allowMultiple}
                 accept={acceptedFormats
                   ?.map((format) => `.${format}`)
@@ -87,7 +87,7 @@ export const FileAnswer = ({
                 onChange={(e) => handleFileChange(e, field.onChange)}
                 className="hidden"
               />
-              <label htmlFor={`file-upload-${questionId}`}>
+              <label htmlFor={`file-upload-${id}`}>
                 <Button variant="outline" asChild>
                   <span>
                     <UploadCloudIcon className="mr-2 h-4 w-4" />

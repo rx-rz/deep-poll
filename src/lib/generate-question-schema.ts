@@ -244,10 +244,10 @@ export const generateQuestionSchemas = (
           : z.string().optional();
         break;
       default:
-        schemaShape[question.questionId] = z.any();
+        schemaShape[question.id] = z.any();
         break;
     }
-    schemaShape[question.questionId] = schema;
+    schemaShape[question.id] = schema;
   });
   return z.object(schemaShape);
 };

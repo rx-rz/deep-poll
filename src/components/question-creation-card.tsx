@@ -27,7 +27,7 @@ type Props = {
   orderNumber: number;
   questionText: string;
   children: ReactNode;
-  questionId: string;
+  id: string;
 };
 
 export const QuestionCreationCard = ({
@@ -36,7 +36,7 @@ export const QuestionCreationCard = ({
   orderNumber,
   questionText,
   children,
-  questionId,
+  id,
 }: Props) => {
   const [questionOptionsIsOpen, setQuestionOptionsIsOpen] = useState(false);
 
@@ -62,7 +62,7 @@ export const QuestionCreationCard = ({
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <RemoveQuestionAlertCard
-                  questionId={questionId}
+                  id={id}
                   setOpen={setOpen}
                 />
               </AlertDialogContent>
@@ -96,11 +96,11 @@ export const QuestionCreationCard = ({
 };
 
 const RemoveQuestionAlertCard = ({
-  questionId,
+  id,
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  questionId: string;
+  id: string;
 }) => {
   const { removeQuestion } = useQuestionStore();
   return (
@@ -119,7 +119,7 @@ const RemoveQuestionAlertCard = ({
         <AlertDialogAction
           className="bg-gradient-to-br from-red-500 to-red-700 hover:bg-red-500 text-white"
           onClick={() => {
-            removeQuestion(questionId);
+            removeQuestion(id);
             setOpen(false);
           }}
         >

@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/select";
 
 type DropdownAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["dropdown"];
   required: boolean;
@@ -38,7 +38,7 @@ type DropdownAnswerProps = {
 };
 
 export const DropdownAnswer = ({
-  questionId,
+  id,
   options,
   control,
 }: DropdownAnswerProps) => {
@@ -51,7 +51,7 @@ export const DropdownAnswer = ({
     return (
       <FormField
         control={control}
-        name={questionId}
+        name={id}
         render={({ field }) => (
           <FormItem>
             <Popover open={open} onOpenChange={setOpen}>
@@ -86,7 +86,7 @@ export const DropdownAnswer = ({
                               field.onChange(currentValue);
                               setValue(currentValue);
                               setOpen(false);
-                              setAnswer(questionId, currentValue);
+                              setAnswer(id, currentValue);
                             }}
                           >
                             {choice}
@@ -106,13 +106,13 @@ export const DropdownAnswer = ({
     return (
       <FormField
         control={control}
-        name={questionId}
+        name={id}
         render={({ field }) => (
           <FormItem>
             <Select
               onValueChange={(currentValue) => {
                 field.onChange(currentValue);
-                setAnswer(questionId, currentValue);
+                setAnswer(id, currentValue);
               }}
             >
               <FormControl>

@@ -115,7 +115,7 @@ export type QuestionOptionsMap = {
 };
 
 export type Question<T extends QuestionType = QuestionType> = {
-  questionId: string;
+  id: string;
   surveyId: string | null;
   questionText?: string;
   questionType: T;
@@ -124,4 +124,3 @@ export type Question<T extends QuestionType = QuestionType> = {
   orderNumber: number;
   createdAt: string;
 };
-

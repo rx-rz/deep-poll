@@ -37,9 +37,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <TextAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={textOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -50,9 +50,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <EmailAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={emailOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -63,9 +63,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <NumberAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={numberOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -77,9 +77,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <MultipleChoiceAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={multipleChoiceOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -91,9 +91,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <CheckboxAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={checkboxOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -105,9 +105,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <DropdownAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={dropdownOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -119,9 +119,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <LinearScaleAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={linearScaleOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -132,9 +132,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <SliderAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={sliderOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -145,9 +145,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <LikertAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={likertOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -158,9 +158,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <FileAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={fileOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -171,9 +171,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <DateAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={dateOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -185,9 +185,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <DateTimeAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={dateTimeOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -198,9 +198,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <TimeAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={timeOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -211,9 +211,9 @@ const renderAnswerComponent = ({
       answerComponent = (
         <RatingAnswer
           control={control}
-          key={question.questionId}
+          key={question.id}
           options={ratingOptions}
-          questionId={question.questionId}
+          id={question.id}
           questionText={question.questionText ?? ""}
           required={question.required}
         />
@@ -254,7 +254,7 @@ export const SurveyAnswers = () => {
         <div className="">
           <Link to="/">Questions</Link>
           {questions.map((question) => (
-            <div key={question.questionId} className="my-4  p-4 rounded-md">
+            <div key={question.id} className="my-4  p-4 rounded-md">
               <div className="flex gap-1">
                 <p className=" font-medium mb-4">{question.orderNumber}.</p>
                 <p className="font-bold">{question.questionText}</p>

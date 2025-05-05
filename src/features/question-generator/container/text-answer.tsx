@@ -6,7 +6,7 @@ import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 
 type TextAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["text"];
   required: boolean;
@@ -14,14 +14,14 @@ type TextAnswerProps = {
 };
 
 export const TextAnswer = ({
-  questionId,
+  id,
   options,
   control,
 }: TextAnswerProps) => {
   return (
     <FormField
       control={control}
-      name={questionId}
+      name={id}
       render={({ field }) => (
         <FormItem className=" relative">
           {options.isMultiline ? (

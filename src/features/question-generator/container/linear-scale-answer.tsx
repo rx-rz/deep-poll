@@ -11,7 +11,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAnswerStore } from "@/store/answer.store";
 
 type LinearScaleAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["linear_scale"];
   required: boolean;
@@ -19,7 +19,7 @@ type LinearScaleAnswerProps = {
 };
 
 export const LinearScaleAnswer = ({
-  questionId,
+  id,
   options,
   control,
 }: LinearScaleAnswerProps) => {
@@ -31,14 +31,14 @@ export const LinearScaleAnswer = ({
   return (
     <FormField
       control={control}
-      name={questionId}
+      name={id}
       render={({ field }) => (
         <FormItem>
           <FormControl>
             <RadioGroup
               onValueChange={(value) => {
                 field.onChange(parseInt(value));
-                setAnswer(questionId, parseInt(value));
+                setAnswer(id, parseInt(value));
               }}
               value={field.value?.toString()}
               className="flex flex-col space-y-1"

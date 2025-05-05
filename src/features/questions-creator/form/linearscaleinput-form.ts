@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { useQuestionStore } from "@/store/questions.store";
+import { Question } from "@/types/questions";
 
 const linearScaleOptions = defaultQuestionOptions.linear_scale;
 
@@ -37,12 +38,18 @@ export type LinearScaleQuestionDto = z.infer<typeof linearScaleQuestionSchema>;
 
 export const useLinearScaleQuestionCreationForm = ({
   question,
-  id
+  id,
 }: {
   question: LinearScaleQuestionDto;
   id: string;
 }) => {
+  const questionInStore = useQuestionStore((state) =>
+    state.getQuestion(id)
+  ) as Question<"linear_scale">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
+  const addUpdatedQuestion = useQuestionStore(
+    (state) => state.addUpdatedQuestion
+  );
   const form = useForm<LinearScaleQuestionDto>({
     resolver: zodResolver(linearScaleQuestionSchema),
     defaultValues: {
@@ -57,61 +64,11 @@ export const useLinearScaleQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    form.reset(values);
-  };
-
-  return {
-    form,
-    onSubmit: form.handleSubmit(onSubmit),
-  };
-};
-
-// old schema + form implementation
-export const linearScaleQuestionOptionsSchema = z
-  .object({
-    min: z.coerce
-      .number({ message: "Value must be a number" })
-      .min(0, { message: "Minimum value must be greater than or equal to 0" })
-      .int({ message: "Value must be an integer" })
-      .default(linearScaleOptions.min),
-    max: z.coerce
-      .number({ message: "Value must be a number" })
-      .int({ message: "Value must be an integer" })
-      .max(10, { message: "Maximum value must be less than or equal to 10" })
-      .default(linearScaleOptions.max),
-    labels: z.object({
-      start: z.string().default(""),
-      end: z.string().default(""),
-    }),
-  })
-  .refine((data) => data.max > data.min, {
-    message: "Maximum value must be greater than minimum value",
-    path: ["max"],
-  });
-
-export type LinearScaleQuestionOptionsDto = z.infer<
-  typeof linearScaleQuestionOptionsSchema
->;
-
-type FormValidatorProps = {
-  questionOptions: LinearScaleQuestionOptionsDto;
-  setQuestionOptions: React.Dispatch<
-  React.SetStateAction<LinearScaleQuestionOptionsDto>
-  >;
-};
-
-export const useLinearScaleQuestionOptionsForm = ({
-  questionOptions,
-  setQuestionOptions,
-}: FormValidatorProps) => {
-  const form = useForm<LinearScaleQuestionOptionsDto>({
-    resolver: zodResolver(linearScaleQuestionOptionsSchema),
-    defaultValues: questionOptions,
-    mode: "onChange",
-  });
-
-  const onSubmit = (values: LinearScaleQuestionOptionsDto) => {
-    setQuestionOptions(values);
+    addUpdatedQuestion(id, {
+      ...questionInStore,
+      questionText: values.questionText,
+      options: values.options,
+    });
     form.reset(values);
   };
 

@@ -10,26 +10,26 @@ import {
 } from "@/components/ui/form";
 
 type Props = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["checkbox"];
   required: boolean;
   control: Control<any>;
 };
 
-export const CheckboxAnswer = ({ questionId, control, options }: Props) => {
+export const CheckboxAnswer = ({ id, control, options }: Props) => {
   return (
     <>
       <FormField
         control={control}
-        name={questionId}
+        name={id}
         render={() => (
           <FormItem>
             {options.choices.map((choice) => (
               <FormField
                 key={choice}
                 control={control}
-                name={questionId}
+                name={id}
                 render={({ field }) => (
                   <FormItem
                     key={choice}

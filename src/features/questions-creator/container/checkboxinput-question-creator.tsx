@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { OptionsButton } from "../components/options-button";
 import { QuestionOptionLabel } from "../components/question-option-label";
-import { useCheckboxQuestionCreationForm } from "../form/checboxinput-form";
+import { useCheckboxQuestionCreationForm } from "../form/checkboxinput-form";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -29,7 +29,7 @@ export const CheckboxInputQuestionCreator = memo(({ question }: Props) => {
 
   const { form, onSubmit } = useCheckboxQuestionCreationForm({
     question: questionSettings,
-    id: question.questionId
+    id: question.id
   });
 
   const { control, formState, setValue, watch, getValues } = form;

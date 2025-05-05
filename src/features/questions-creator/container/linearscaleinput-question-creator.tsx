@@ -25,7 +25,7 @@ export const LinearScaleInputQuestionCreator = memo(({ question }: Props) => {
 
   const { form, onSubmit } = useLinearScaleQuestionCreationForm({
     question: questionSettings,
-    id: question.questionId
+    id: question.id
   });
 
   const { formState, control } = form;

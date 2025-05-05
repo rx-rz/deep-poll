@@ -30,7 +30,7 @@ export const MultipleChoiceInputQuestionCreator = memo(
 
     const { form, onSubmit } = useMultipleChoiceQuestionCreationForm({
       question: questionSettings,
-      id: question.questionId
+      id: question.id
     });
 
     const { control, watch, setValue, formState } = form;

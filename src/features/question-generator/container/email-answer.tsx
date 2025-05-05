@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 type EmailAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["email"];
   required: boolean;
@@ -12,14 +12,14 @@ type EmailAnswerProps = {
 };
 
 export const EmailAnswer = ({
-  questionId,
+  id,
   options,
   control,
 }: EmailAnswerProps) => {
   return (
     <FormField
       control={control}
-      name={questionId}
+      name={id}
       render={({ field }) => (
         <FormItem className="relative">
           <Input

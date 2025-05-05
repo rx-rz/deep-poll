@@ -15,11 +15,11 @@ const initializeOptions = <T extends QuestionType>(
 };
 
 export const useQuestionHandler = <T extends QuestionType>(
-  questionId: string,
+  id: string,
   questionType: T
 ) => {
   const { questions, updateQuestion } = useQuestionStore();
-  const currentQuestion = questions.find((q) => q.questionId === questionId);
+  const currentQuestion = questions.find((q) => q.id === id);
   const currentOptions = currentQuestion?.options as
     | Partial<QuestionOptionsMap[T]>
     | undefined;
@@ -38,7 +38,7 @@ export const useQuestionHandler = <T extends QuestionType>(
   const debouncedLocalOptions = useDebounce(localOptions, 900);
 
   useEffect(() => {
-    updateQuestion(questionId, {
+    updateQuestion(id, {
       questionText: debouncedQuestionText,
       options: debouncedLocalOptions,
       required: debouncedQuestionRequired,
@@ -47,7 +47,7 @@ export const useQuestionHandler = <T extends QuestionType>(
     debouncedQuestionText,
     debouncedLocalOptions,
     debouncedQuestionRequired,
-    questionId,
+    id,
     updateQuestion,
   ]);
 

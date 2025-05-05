@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { useQuestionStore } from "@/store/questions.store";
+import { Question } from "@/types/questions";
 
 const multipleChoiceOptions = defaultQuestionOptions.multiple_choice;
 
@@ -41,7 +42,13 @@ export const useMultipleChoiceQuestionCreationForm = ({
   question: MultipleChoiceQuestionDto;
   id: string;
 }) => {
+  const questionInStore = useQuestionStore((state) =>
+    state.getQuestion(id)
+  ) as Question<"multiple_choice">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
+  const addUpdatedQuestion = useQuestionStore(
+    (state) => state.addUpdatedQuestion
+  );
   const form = useForm<MultipleChoiceQuestionDto>({
     resolver: zodResolver(multipleChoiceQuestionSchema),
     defaultValues: {
@@ -53,6 +60,11 @@ export const useMultipleChoiceQuestionCreationForm = ({
   const onSubmit = (values: MultipleChoiceQuestionDto) => {
     updateQuestion(id, {
       questionType: "multiple_choice",
+      questionText: values.questionText,
+      options: values.options,
+    });
+    addUpdatedQuestion(id, {
+      ...questionInStore,
       questionText: values.questionText,
       options: values.options,
     });

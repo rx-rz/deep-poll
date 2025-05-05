@@ -12,7 +12,7 @@ import { timeFormats } from "@/features/questions-creator/form/timeinput-form";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
 type TimeAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["time"];
   required: boolean;
@@ -20,7 +20,7 @@ type TimeAnswerProps = {
 };
 
 export const TimeAnswer = ({
-  questionId,
+  id,
   options,
   control,
 }: TimeAnswerProps) => {
@@ -29,7 +29,7 @@ export const TimeAnswer = ({
   return (
     <FormField
       control={control}
-      name={questionId}
+      name={id}
       render={({ field }) => (
         <FormItem>
           <FormControl>

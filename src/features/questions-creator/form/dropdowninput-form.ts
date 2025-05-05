@@ -1,5 +1,6 @@
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { useQuestionStore } from "@/store/questions.store";
+import { Question } from "@/types/questions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -29,7 +30,13 @@ export const useDropdownQuestionCreationForm = ({
   question: DropdownQuestionDto;
   id: string;
 }) => {
+  const questionInStore = useQuestionStore((state) =>
+    state.getQuestion(id)
+  ) as Question<"dropdown">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
+  const addUpdatedQuestion = useQuestionStore(
+    (state) => state.addUpdatedQuestion
+  );
   const form = useForm<DropdownQuestionDto>({
     resolver: zodResolver(dropdownQuestionSchema),
     defaultValues: {
@@ -40,7 +47,11 @@ export const useDropdownQuestionCreationForm = ({
 
   const onSubmit = (values: DropdownQuestionDto) => {
     updateQuestion(id, {
-      questionType: "dropdown",
+      questionText: values.questionText,
+      options: values.options,
+    });
+    addUpdatedQuestion(id, {
+      ...questionInStore,
       questionText: values.questionText,
       options: values.options,
     });

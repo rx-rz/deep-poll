@@ -12,7 +12,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAnswerStore } from "@/store/answer.store";
 
 type LikertAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["likert"];
   required: boolean;
@@ -20,7 +20,7 @@ type LikertAnswerProps = {
 };
 
 export const LikertAnswer = ({
-  questionId,
+  id,
   options,
   control,
 }: LikertAnswerProps) => {
@@ -32,14 +32,14 @@ export const LikertAnswer = ({
   return (
     <FormField
       control={control}
-      name={questionId}
+      name={id}
       render={({ field }) => (
         <FormItem>
           <FormControl>
             <RadioGroup
               onValueChange={(value) => {
                 field.onChange(parseInt(value));
-                setAnswer(questionId, parseInt(value));
+                setAnswer(id, parseInt(value));
               }}
               value={field.value?.toString()}
               className="flex flex-col space-y-1"

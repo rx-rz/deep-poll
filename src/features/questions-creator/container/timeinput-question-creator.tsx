@@ -36,7 +36,7 @@ export const TimeInputQuestionCreator = memo(({ question }: Props) => {
 
   const { form, onSubmit } = useTimeQuestionCreationForm({
     question: questionSettings,
-    id: question.questionId,
+    id: question.id,
   });
 
   const { control, formState, reset } = form;

@@ -105,7 +105,7 @@ export const QuestionCreator = ({ question }: Props) => {
     <QuestionCreationCard
       icon={QuestionIcon[question.questionType]}
       orderNumber={question.orderNumber ?? 1}
-      questionId={question.questionId}
+      id={question.id}
       questionText={question.questionText ?? ""}
       questionType={question.questionType}
     >

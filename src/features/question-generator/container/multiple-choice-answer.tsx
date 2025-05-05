@@ -15,7 +15,7 @@ import { shuffleArray } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 
 type MultipleChoiceAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["multiple_choice"];
   required: boolean;
@@ -23,7 +23,7 @@ type MultipleChoiceAnswerProps = {
 };
 
 export const MultipleChoiceAnswer = ({
-  questionId,
+  id,
   options,
   control,
 }: MultipleChoiceAnswerProps) => {
@@ -37,7 +37,7 @@ export const MultipleChoiceAnswer = ({
   return (
     <FormField
       control={control}
-      name={questionId}
+      name={id}
       render={({ field }) => (
         <FormItem className="space-y-3">
           <FormControl>
@@ -62,7 +62,7 @@ export const MultipleChoiceAnswer = ({
                     />
                   </FormControl>
                   <FormLabel
-                    htmlFor={`${questionId}-${choice}`}
+                    htmlFor={`${id}-${choice}`}
                     className="font-normal cursor-pointer"
                   >
                     {choice}

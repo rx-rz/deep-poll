@@ -1,9 +1,11 @@
 import { Link } from "wouter";
 import { useGetSurveys } from "../api/use-get-surveys";
 import { Trash2Icon } from "lucide-react";
+import { useQuestionStore } from "@/store/questions.store";
 
 export const SurveyList = () => {
   const { surveys, loading, error } = useGetSurveys();
+  const { resetQuestions, resetUpdatedQuestions } = useQuestionStore();
 
   if (loading) {
     return <div>Loading...</div>;
@@ -14,7 +16,7 @@ export const SurveyList = () => {
   }
 
   return (
-<div className="bg-gray-100 min-h-screen py-6 px-4 sm:px-6 lg:px-8">
+    <div className="bg-gray-100 min-h-screen py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-3xl font-semibold text-gray-900 mb-6">Surveys</h1>
         <ul className="space-y-4">
@@ -25,6 +27,10 @@ export const SurveyList = () => {
                 className="bg-white shadow overflow-hidden rounded-md flex items-center justify-between"
               >
                 <Link
+                  onClick={() => {
+                    resetQuestions();
+                    resetUpdatedQuestions();
+                  }}
                   href={`/survey/${survey.id}`}
                   className="block w-full px-4 py-4 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
                 >
@@ -32,6 +38,7 @@ export const SurveyList = () => {
                     <h2 className="text-xl font-medium text-gray-900">
                       {survey.title}
                     </h2>
+                    <p>{survey.id}</p>
                     <p className="mt-1 text-gray-500">{survey.description}</p>
                   </div>
                 </Link>

@@ -25,7 +25,7 @@ export const EmailInputQuestionCreator = memo(({ question }: Props) => {
     options: question.options ?? defaultQuestionOptions.email,
   };
   const { form, onSubmit } = useEmailQuestionCreationForm({
-    id: question.questionId,
+    id: question.id,
     question: questionSettings,
   });
 

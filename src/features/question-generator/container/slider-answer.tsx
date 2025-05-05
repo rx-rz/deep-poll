@@ -4,7 +4,7 @@ import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Slider } from "@/components/ui/slider";
 
 type SliderAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["slider"];
   required: boolean;
@@ -12,7 +12,7 @@ type SliderAnswerProps = {
 };
 
 export const SliderAnswer = ({
-  questionId,
+  id,
   options,
   control,
 }: SliderAnswerProps) => {
@@ -21,7 +21,7 @@ export const SliderAnswer = ({
   return (
     <FormField
       control={control}
-      name={questionId}
+      name={id}
       render={({ field }) => {
         const sliderValue =
           field.value !== undefined

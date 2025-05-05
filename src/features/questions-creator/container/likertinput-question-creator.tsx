@@ -28,7 +28,7 @@ export const LikertInputQuestionCreator = memo(({ question }: Props) => {
 
   const { form, onSubmit } = useLikertQuestionCreationForm({
     question: questionSettings,
-    id: question.questionId,
+    id: question.id,
   });
 
   const { control, formState, watch, setValue } = form;

@@ -4,6 +4,7 @@ import { z } from "zod";
 import dayjs from "dayjs";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { useQuestionStore } from "@/store/questions.store";
+import { Question } from "@/types/questions";
 
 export const dateFormats = {
   "ISO e.g 2023-04-05": "YYYY-MM-DD",
@@ -77,12 +78,18 @@ export type DateQuestionDto = z.infer<typeof dateQuestionSchema>;
 
 export const useDateQuestionCreationForm = ({
   question,
-  id
+  id,
 }: {
   question: DateQuestionDto;
   id: string;
 }) => {
+  const questionInStore = useQuestionStore((state) =>
+    state.getQuestion(id)
+  ) as Question<"date">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
+  const addUpdatedQuestion = useQuestionStore(
+    (state) => state.addUpdatedQuestion
+  );
   const form = useForm<DateQuestionDto>({
     resolver: zodResolver(dateQuestionSchema),
     defaultValues: {
@@ -92,11 +99,16 @@ export const useDateQuestionCreationForm = ({
   });
 
   const onSubmit = (values: DateQuestionDto) => {
-updateQuestion(id, {
+    updateQuestion(id, {
       questionText: values.questionText,
       options: values.options,
     });
-    form.reset(values)
+    addUpdatedQuestion(id, {
+      ...questionInStore,
+      questionText: values.questionText,
+      options: values.options,
+    });
+    form.reset(values);
   };
 
   return {

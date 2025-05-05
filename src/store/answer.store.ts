@@ -3,23 +3,23 @@ import { QuestionType } from "@/types/questions";
 import { create } from "zustand";
 
 type AnswerStore = {
-  answers: { [questionId: string]: any };
+  answers: { [id: string]: any };
   setAnswer: <T extends QuestionType>(
-    questionId: string,
+    id: string,
     answer: Answer<T>
   ) => void;
   getAnswer: <T extends QuestionType>(
-    questionId: string
+    id: string
   ) => Answer<T> | undefined;
   resetAnswers: () => void;
 };
 
 export const useAnswerStore = create<AnswerStore>((set, get) => ({
   answers: {},
-  setAnswer: (questionId, answer) =>
+  setAnswer: (id, answer) =>
     set((state) => ({
-      answers: { ...state.answers, [questionId]: answer },
+      answers: { ...state.answers, [id]: answer },
     })),
-  getAnswer: (questionId) => get().answers[questionId],
+  getAnswer: (id) => get().answers[id],
   resetAnswers: () => set({ answers: {} }),
 }));

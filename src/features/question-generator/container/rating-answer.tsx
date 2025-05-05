@@ -12,7 +12,7 @@ import { QuestionLabel } from "./question-label";
 import { useAnswerStore } from "@/store/answer.store";
 
 type RatingAnswerProps = {
-  questionId: string;
+  id: string;
   questionText: string;
   options: QuestionOptionsMap["rating"];
   required: boolean;
@@ -20,7 +20,7 @@ type RatingAnswerProps = {
 };
 
 export const RatingAnswer = ({
-  questionId,
+  id,
   questionText,
   options,
   required,
@@ -34,7 +34,7 @@ export const RatingAnswer = ({
   return (
     <FormField
       control={control}
-      name={questionId}
+      name={id}
       render={({ field }) => (
         <FormItem>
 
@@ -49,7 +49,7 @@ export const RatingAnswer = ({
                   }`}
                   onClick={() => {
                     field.onChange(rating);
-                    setAnswer(questionId, rating);
+                    setAnswer(id, rating);
                   }}
                 >
                   <Star className="h-5 w-5" />

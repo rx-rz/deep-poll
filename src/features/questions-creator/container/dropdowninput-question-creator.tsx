@@ -30,7 +30,7 @@ export const DropdownInputQuestionCreator = memo(({ question }: Props) => {
   const { form, onSubmit } =
     useDropdownQuestionCreationForm({
       question: questionSettings,
-      id: question.questionId,
+      id: question.id,
     });
 
   const { control, formState, setValue, watch, getValues } = form;

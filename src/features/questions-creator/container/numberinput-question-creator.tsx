@@ -27,7 +27,7 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
 
   const { form, onSubmit } = useNumberQuestionCreationForm({
     question: questionSettings,
-    id: question.questionId,
+    id: question.id,
   });
 
   const { control, formState } = form;

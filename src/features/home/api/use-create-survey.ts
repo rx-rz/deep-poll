@@ -1,7 +1,11 @@
 import { api } from "@/lib/axios";
 import { CreateSurveyDto } from "../schema";
 import { useMutation } from "@tanstack/react-query";
+import { handleAPIErrors } from "@/lib/errors";
+import { toast } from "sonner";
 import { queryClient } from "@/App";
+import { GetSurveyResponse } from "./use-get-surveys";
+import { useSurveyListStore } from "@/store/surveys.store";
 
 type Response = {
   success: boolean;
@@ -12,6 +16,17 @@ type Response = {
 };
 
 export const useCreateSurvey = () => {
+  const userData = JSON.parse(localStorage.getItem("deep-poll-user") || "{}");
+  const newSurvey = {
+    accountId: userData.account_id ?? "",
+    isPublished: false,
+    requiresSignIn: false,
+    showLinkToSubmitAnother: false,
+    showProgressBar: false,
+    title: "Untitled Survey",
+    description: "",
+  };
+
   const createSurvey = async (dto: CreateSurveyDto): Promise<Response> => {
     const response = await api.post("/surveys", dto);
     return response.data;
@@ -19,28 +34,29 @@ export const useCreateSurvey = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: createSurvey,
-    onSuccess: (data) => {
-      console.log(data)
-      queryClient.invalidateQueries({ queryKey: ["surveys"] });
+    onSuccess: ({ message }) => {
+      toast.success(message);
+      location.reload();
+      //   ...old,
+      //   {
+      //     id: data.id,
+      //     accountId: userData.account_id ?? "",
+      //     isPublished: false,
+      //     requiresSignIn: false,
+      //     showLinkToSubmitAnother: false,
+      //     showProgressBar: false,
+      //     title: "Untitled Survey",
+      //     description: "",
+      //   },
+      // ]);
     },
-    onError: (error) => {
-      console.log(error);
-    },
+    onError: (error) => handleAPIErrors(error),
   });
 
   const handleSubmit = () => {
-    const userData = JSON.parse(localStorage.getItem("deep-poll-user") || "{}");
-
-    mutate({
-      accountId: userData.account_id ?? "",
-      isPublished: false,
-      requiresSignIn: false,
-      showLinkToSubmitAnother: false,
-      showProgressBar: false,
-      title: "Untitled Survey",
-      description: "",
-    });
+    mutate(newSurvey);
   };
+  
   return {
     handleSubmit,
     loading: isPending,

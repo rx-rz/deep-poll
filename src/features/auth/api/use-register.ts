@@ -1,4 +1,4 @@
-import { api, APIError } from "@/lib/axios";
+import { api } from "@/lib/axios";
 import { RegisterUserDto, registerUserSchema } from "../schemas";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 import { routes } from "@/routes";
+import { handleAPIErrors } from "@/lib/errors";
 
 type Response = {
   success: boolean;
@@ -24,11 +25,7 @@ export const useRegister = () => {
       toast.success("Account successfully created. Please login.");
       navigate(routes.LOGIN);
     },
-    onError: (error) => {
-      if (error instanceof APIError) {
-        toast.error(error.message);
-      }
-    },
+    onError: (error) => handleAPIErrors(error),
   });
 
   const form = useForm<RegisterUserDto>({

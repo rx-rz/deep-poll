@@ -1,4 +1,4 @@
-import { api, APIError } from "@/lib/axios";
+import { api } from "@/lib/axios";
 import { LoginUserDto, loginUserSchema } from "../schemas";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocation } from "wouter";
 import { protectedRoutes } from "@/routes";
 import { toast } from "sonner";
+import { handleAPIErrors } from "@/lib/errors";
 
 type Response = {
   success: boolean;
@@ -31,11 +32,7 @@ export const useLogin = () => {
       toast.success("User logged in successfully");
       navigate(protectedRoutes.HOME);
     },
-    onError: (error) => {
-      if (error instanceof APIError) {
-        toast.error(error.message);
-      }
-    },
+    onError: (error) => handleAPIErrors(error)
   });
 
   const form = useForm<LoginUserDto>({

@@ -35,7 +35,7 @@ function App() {
         </Route> */}
 
       </Switch>
-      <Toaster richColors/>
+      <Toaster richColors visibleToasts={1}/>
       </>
     </QueryClientProvider>
   );

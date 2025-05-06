@@ -3,7 +3,7 @@ import { useSurveyListStore } from "@/store/surveys.store";
 import { Survey } from "@/types/survey";
 import { useQuery } from "@tanstack/react-query";
 
-type Response = {
+export type GetSurveyResponse = {
   success: boolean;
   message: string;
   data: {
@@ -13,7 +13,7 @@ type Response = {
 
 export const useGetSurveys = () => {
   const setStateSurveys = useSurveyListStore((state) => state.setSurveys);
-  const getSurveys = async (): Promise<Response> => {
+  const getSurveys = async (): Promise<GetSurveyResponse> => {
     const response = await api.get("/surveys");
     return response.data;
   };
@@ -21,6 +21,7 @@ export const useGetSurveys = () => {
   const { data, error, isLoading } = useQuery({
     queryFn: getSurveys,
     queryKey: ["surveys"],
+    
   });
 
   setStateSurveys(data?.data.surveys ?? []);

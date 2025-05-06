@@ -1,4 +1,5 @@
 import axios from "axios";
+import { APIError } from "./errors";
 export const api = axios.create({
   withCredentials: true,
   baseURL: import.meta.env.VITE_API_URL,
@@ -8,20 +9,7 @@ api.interceptors.request.use((request) => {
   return request;
 });
 
-export class APIError extends Error {
-  constructor(
-    message: string,
-    public status: number,
-    public code: string,
-    public details: any
-  ) {
-    super(message);
-    this.name = "APIError";
-    this.status = status;
-    this.code = code;
-    this.details = details;
-  }
-}
+
 
 api.interceptors.response.use(
   (response) => response,

@@ -1,8 +1,8 @@
 import { Link } from "wouter";
 import { useGetSurveys } from "../api/use-get-surveys";
-import { Trash2Icon } from "lucide-react";
 import { useQuestionStore } from "@/store/questions.store";
 import { protectedRoutes } from "@/routes";
+import { queryClient } from "@/App";
 
 export const SurveyList = () => {
   const { surveys, loading, error } = useGetSurveys();
@@ -16,6 +16,7 @@ export const SurveyList = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  console.log({surveys: queryClient.getQueryData(["surveys"])})
   return (
     <div className="">
       <div className=" mx-auto">

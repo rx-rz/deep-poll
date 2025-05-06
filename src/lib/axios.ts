@@ -8,7 +8,7 @@ api.interceptors.request.use((request) => {
   return request;
 });
 
-class APIError extends Error {
+export class APIError extends Error {
   constructor(
     message: string,
     public status: number,

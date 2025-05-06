@@ -1,5 +1,5 @@
+
 import { api } from "@/lib/axios";
-import { useQuestionStore } from "@/store/questions.store";
 import { Question } from "@/types/questions";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
@@ -14,7 +14,6 @@ type Response = {
 
 export const useGetQuestions = () => {
   const { surveyId } = useParams();
-  const setQuestions = useQuestionStore((state) => state.setQuestions);
   const getSurveyQuestions = async (): Promise<Response> => {
     const response = await api.get(`/surveys/${surveyId}/questions`);
     return response.data;
@@ -22,10 +21,9 @@ export const useGetQuestions = () => {
 
   const { data, error, isLoading } = useQuery({
     queryFn: getSurveyQuestions,
-    queryKey: [`survey-question-${surveyId}`, surveyId],
+    queryKey: [`survey-questions`, surveyId],
     enabled: !!surveyId,
   });
-
 
   return {
     questions: data?.data.questions,

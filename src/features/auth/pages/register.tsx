@@ -11,14 +11,16 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRegister } from "../api/use-register";
 import { LoadingStateText } from "@/components/loading-state-text";
+import { Link } from "wouter";
+import { routes } from "@/routes";
 
 export const RegisterPage = () => {
   const { form, handleSubmit, loading } = useRegister();
   return (
-    <div className="max-w-lg mx-auto mt-16 rounded-2xl border-8 border-[#f5f5f5] p-6">
-      <img src="/logo.png" alt="" className="w-12 h-12" />
+    <div className="max-w-lg mx-auto mt-16">
+      <p className="text-2xl my-12">Register</p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
           <FormField
             control={form.control}
             name="name"
@@ -28,9 +30,6 @@ export const RegisterPage = () => {
                 <FormControl>
                   <Input placeholder="John Doe" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -44,9 +43,6 @@ export const RegisterPage = () => {
                 <FormControl>
                   <Input placeholder="johndoe@gmail.com" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -60,18 +56,25 @@ export const RegisterPage = () => {
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
-                <FormDescription>
-                  Enter your password. It must be at least 8 characters long.
-                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">
+          <Button type="submit" className="w-full mt-4">
             {loading ? <LoadingStateText text="Loading" /> : "Submit"}
           </Button>
         </form>
       </Form>
+      <p className="text-center mt-2">
+        Already have an account? Please{" "}
+        <Link
+          href={routes.LOGIN}
+          className="text-primary hover:underline underline-offset-2"
+        >
+          login.
+        </Link>
+      </p>
     </div>
   );
 };

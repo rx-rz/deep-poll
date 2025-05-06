@@ -2,17 +2,18 @@ import { Route, Switch } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import { CreateSurveyQuestions } from "./features/questions-creator/pages/create-survey-questions";
-import DesignSystem from "./features/questions-creator/pages/design-system";
 import { AnswerSurvey } from "./features/question-generator/pages/answer-survey";
 import { RegisterPage } from "./features/auth/pages/register";
 import { LoginPage } from "./features/auth/pages/login";
 import { Homepage } from "./features/home/pages/homepage";
+import { Toaster } from "./components/ui/sonner";
 
 export const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <>
       <Switch>
         <Route path={"/survey/:surveyId"}>
           <CreateSurveyQuestions />
@@ -26,13 +27,16 @@ function App() {
         <Route path={"/answer"}>
           <AnswerSurvey />
         </Route>
-        <Route path={"/home"}>
+        <Route path={"/"}>
           <Homepage />
         </Route>
-        <Route path={"/design"}>
+        {/* <Route path={"/design"}>
           <DesignSystem />
-        </Route>
+        </Route> */}
+
       </Switch>
+      <Toaster richColors/>
+      </>
     </QueryClientProvider>
   );
 }

@@ -1,6 +1,6 @@
 import { useCreateSurvey } from "../api/use-create-survey";
 
-export const CreateSurveyBButton = () => {
+export const CreateSurveyButton = () => {
   const { handleSubmit, loading } = useCreateSurvey();
 
   return (

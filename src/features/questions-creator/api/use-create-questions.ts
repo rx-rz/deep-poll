@@ -2,6 +2,7 @@ import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import { Question } from "@/types/questions";
 import { useParams } from "wouter";
+import { useQuestionStore } from "@/store/questions.store";
 
 type Response = {
   success: boolean;
@@ -9,18 +10,19 @@ type Response = {
 };
 
 export const useCreateQuestions = () => {
-  const {surveyId} = useParams()
-  const createQuestions = async (
-    dto: Question[]
-  ): Promise<Response> => {
+  const { surveyId } = useParams();
+  const { resetUpdatedQuestions } = useQuestionStore();
+  const createQuestions = async (dto: Question[]): Promise<Response> => {
     const response = await api.post(`/surveys/${surveyId}/questions`, dto);
     return response.data;
   };
 
   const { mutate, isPending } = useMutation({
     mutationFn: createQuestions,
-    onSuccess: () => {
-      location.reload();
+    onSuccess: (data) => {
+      console.log({data})
+      resetUpdatedQuestions();
+
     },
     onError: (error) => {
       console.log(error);

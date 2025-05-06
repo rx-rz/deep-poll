@@ -113,6 +113,7 @@ export const MultipleChoiceInputQuestionCreator = memo(
             <FormField
               control={control}
               name="options.maxLengthForOtherParameter"
+              disabled={form.getValues("options.allowOther") === false}
               render={({ field }) => (
                 <FormItem>
                   <QuestionOptionLabel text="Maximum Length For Other Value" />

@@ -15,12 +15,15 @@ import {
   DialogHeader,
 } from "@/components/ui/dialog";
 import {
+  AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
+  AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Edit, Trash2Icon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
@@ -40,7 +43,7 @@ export const SurveyOptions = () => {
   return (
     <div className="border py-3 px-2 sticky top-0 z-50 justify-between flex w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <p>{survey?.title ?? "Untitled"}</p>
-      <div>
+      <div className="space-x-3">
         <Dialog>
           <DialogTrigger>
             <Edit strokeWidth={0.9} />
@@ -49,14 +52,14 @@ export const SurveyOptions = () => {
             <SurveyOptionsForm />
           </DialogContent>
         </Dialog>
-        <Dialog>
-          <DialogTrigger>
-            <Trash2Icon strokeWidth={0.9} />
-          </DialogTrigger>
-          <DialogContent>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Trash2Icon strokeWidth={0.9} stroke="red" />
+          </AlertDialogTrigger>
+          <AlertDialogContent>
             <SurveyDeletionPrompt />
-          </DialogContent>
-        </Dialog>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );

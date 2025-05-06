@@ -2,6 +2,7 @@ import { api } from "@/lib/axios";
 import { protectedRoutes } from "@/routes";
 import { useSurveyListStore } from "@/store/surveys.store";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { useLocation, useParams } from "wouter";
 
 type Response = {
@@ -14,6 +15,7 @@ type Response = {
 
 export const useDeleteSurvey = () => {
   const { surveyId } = useParams();
+  console.log(surveyId)
   const deleteSurveyInStore = useSurveyListStore((state) => state.deleteSurvey);
   const [_, navigate] = useLocation();
   const deleteSurveyFunction = async (): Promise<Response> => {
@@ -23,8 +25,9 @@ export const useDeleteSurvey = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: deleteSurveyFunction,
-    onSuccess: ({ data }) => {
-      deleteSurveyInStore(data.id);
+    onSuccess: () => {
+      deleteSurveyInStore(surveyId ?? "");
+      toast.success("Survey deleted successfully")
       navigate(protectedRoutes.HOME);
     },
     onError: (error) => {

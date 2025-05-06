@@ -1,4 +1,3 @@
-import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { Question } from "@/types/questions";
 import { memo } from "react";
 import {
@@ -22,16 +21,9 @@ type Props = {
 };
 
 export const DropdownInputQuestionCreator = memo(({ question }: Props) => {
-  const questionSettings = {
-    questionText: question.questionText ?? "",
-    options: question.options ?? defaultQuestionOptions.dropdown,
-  };
-
-  const { form, onSubmit } =
-    useDropdownQuestionCreationForm({
-      question: questionSettings,
-      id: question.id,
-    });
+  const { form, onSubmit } = useDropdownQuestionCreationForm({
+    question,
+  });
 
   const { control, formState, setValue, watch, getValues } = form;
   const { isDirty } = formState;
@@ -90,9 +82,9 @@ export const DropdownInputQuestionCreator = memo(({ question }: Props) => {
                           variant="destructive"
                           className=" max-w-[38px]"
                           onClick={() => {
-                            const updatedChoices = getValues("options.choices")!.filter(
-                              (_, i) => i !== index
-                            );
+                            const updatedChoices = getValues(
+                              "options.choices"
+                            )!.filter((_, i) => i !== index);
                             setValue("options.choices", updatedChoices, {
                               shouldDirty: true,
                             });

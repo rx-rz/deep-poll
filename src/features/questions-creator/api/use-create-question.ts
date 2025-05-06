@@ -10,10 +10,10 @@ type Response = {
   message: string;
 };
 
-export const useCreateQuestions = () => {
+export const useCreateQuestion = () => {
   const { surveyId } = useParams();
   const { resetApiQueuedQuestions } = useQuestionStore();
-  const createQuestions = async (dto: Question[]): Promise<Response> => {
+  const createQuestions = async (dto: Question): Promise<Response> => {
     const response = await api.post(`/surveys/${surveyId}/questions`, dto);
     return response.data;
   };

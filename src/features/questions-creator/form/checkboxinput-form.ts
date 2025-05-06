@@ -7,7 +7,6 @@ import { Question } from "@/types/questions";
 
 const checkboxOptions = defaultQuestionOptions.checkbox;
 
-// new schema + form implementation
 export const checkboxQuestionSchema = z
   .object({
     questionText: z.string().default("Lorem ipsum"),

@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Question } from "@/types/questions";
 import { useParams } from "wouter";
 import { useQuestionStore } from "@/store/questions.store";
+import { toast } from "sonner";
 
 type Response = {
   success: boolean;
@@ -20,9 +21,9 @@ export const useCreateQuestions = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: createQuestions,
     onSuccess: (data) => {
-      console.log({data})
+      console.log({ data });
       resetUpdatedQuestions();
-
+      toast.success("Survey successfully updated");
     },
     onError: (error) => {
       console.log(error);

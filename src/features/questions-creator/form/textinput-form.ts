@@ -58,6 +58,7 @@ export const useTextQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"text">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
+  const removeUpdatedQuestion = useQuestionStore((state) => state.removeUpdatedQuestion)
   const addUpdatedQuestion = useQuestionStore(
     (state) => state.addUpdatedQuestion
   );
@@ -75,6 +76,7 @@ export const useTextQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
+    removeUpdatedQuestion(questionInStore.id)
     addUpdatedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,

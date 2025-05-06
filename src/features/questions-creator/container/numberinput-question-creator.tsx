@@ -30,8 +30,10 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
     id: question.id,
   });
 
-  const { control, formState } = form;
+  const { control, formState, watch } = form;
   const { isDirty } = formState;
+
+  console.log(formState.errors);
 
   return (
     <Form {...form}>
@@ -58,13 +60,7 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Value" />
                 <FormControl>
-                  <Input
-                    {...field}
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    type="number"
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
+                  <Input {...field} inputMode="decimal" type="number" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -78,13 +74,7 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Maximum Value" />
                 <FormControl>
-                  <Input
-                    {...field}
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    type="number"
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
+                  <Input {...field} inputMode="decimal" type="number" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

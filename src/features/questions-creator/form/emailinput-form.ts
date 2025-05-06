@@ -7,10 +7,9 @@ import { Question } from "@/types/questions";
 
 const { email: emailOptions } = defaultQuestionOptions;
 
-// new schema + form implementation
 export const emailQuestionSchema = z
   .object({
-    questionText: z.string().default("Lorem ipsum"),
+    questionText: z.string(),
     options: z.object({
       minEmailLength: z.coerce
         .number({ message: "Value must be a number" })
@@ -85,6 +84,9 @@ export const useEmailQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"email">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
+  const removeUpdatedQuestion = useQuestionStore(
+    (state) => state.removeUpdatedQuestion
+  );
   const addUpdatedQuestion = useQuestionStore(
     (state) => state.addUpdatedQuestion
   );
@@ -102,6 +104,7 @@ export const useEmailQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
+    removeUpdatedQuestion(questionInStore.id);
     addUpdatedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,

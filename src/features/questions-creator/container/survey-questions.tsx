@@ -29,6 +29,7 @@ export const SurveyQuestions = () => {
     ];
     setQuestions(newQuestions);
   }, [apiQuestions]);
+  
   return (
     <div className="flex flex-col gap-4 mt-4 w-full">
       <Link to="/answer">Answers</Link>

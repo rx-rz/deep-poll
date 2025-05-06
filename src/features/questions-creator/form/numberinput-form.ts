@@ -1,4 +1,3 @@
-// form/numberinput-form.ts
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -8,7 +7,6 @@ import { Question } from "@/types/questions";
 
 const numberOptions = defaultQuestionOptions.number;
 
-// new schema + form implementation
 export const numberQuestionSchema = z
   .object({
     questionText: z.string().default("Lorem ipsum"),
@@ -29,12 +27,16 @@ export const numberQuestionSchema = z
     path: ["options", "max"],
   })
   .refine(
-    (data) =>
-      data.options.allowDecimal === false &&
-      (!Number.isInteger(data.options.max) ||
-        !Number.isInteger(data.options.min)),
+    (data) => {
+      // With allowDecimal false, both min and max must be integers
+      return !(
+        data.options.allowDecimal === false &&
+        (!Number.isInteger(data.options.min) ||
+          !Number.isInteger(data.options.max))
+      );
+    },
     {
-      message: "Values cannot be decimals",
+      message: "Values cannot be decimals when 'Allow Decimals' is disabled",
       path: ["options", "max"],
     }
   );
@@ -51,14 +53,15 @@ export const useNumberQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"number">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
+  const removeUpdatedQuestion = useQuestionStore((state) => state.removeUpdatedQuestion)
   const addUpdatedQuestion = useQuestionStore(
     (state) => state.addUpdatedQuestion
   );
   const form = useForm<NumberQuestionDto>({
     resolver: zodResolver(numberQuestionSchema),
     defaultValues: {
-      questionText: question.questionText,
       options: question.options,
+      questionText: question.questionText,
     },
   });
 
@@ -68,6 +71,7 @@ export const useNumberQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
+    removeUpdatedQuestion(questionInStore.id)
     addUpdatedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,

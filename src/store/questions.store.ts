@@ -9,6 +9,7 @@ type QuestionStore = {
   addUpdatedQuestion: (id: string, question: Question) => void;
   setQuestions: (questions: Question[]) => void;
   resetUpdatedQuestions: () => void;
+  removeUpdatedQuestion: (id: string) => void;
   resetQuestions: () => void;
   addQuestion: <T extends QuestionType>(
     data: Omit<Question<T>, "createdAt" | "id" | "orderNumber">
@@ -79,7 +80,11 @@ export const useQuestionStore = create<QuestionStore>()(
         set((state) => ({
           questions: state.questions.filter((q) => q.id !== id),
         })),
-
+      removeUpdatedQuestion: (id) => {
+        set((state) => ({
+          updatedQuestions: state.updatedQuestions.filter((q) => q.id !== id),
+        }));
+      },
       /** Get a question by ID */
       getQuestion: (id) => {
         return get().questions.find((q) => q.id === id);

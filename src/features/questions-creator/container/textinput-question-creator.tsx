@@ -57,9 +57,9 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
                 <QuestionOptionLabel text="Minimum Answer Length" />
                 <FormControl>
                   <Input
-                    type="text"
+                    type="number"
                     {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
+
                   />
                 </FormControl>
                 <FormMessage />
@@ -76,9 +76,9 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
                 <FormControl>
                   <Input
                     min={form.getValues("options.maxAnswerLength")}
-                    type="text"
+                    type="number"
                     {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
+
                   />
                 </FormControl>
                 <FormMessage />

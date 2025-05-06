@@ -48,11 +48,7 @@ export const EmailInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Question Text" />
                 <FormControl>
-                  <Input
-                    type="text"
-                    {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
+                  <Input type="text" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -65,11 +61,7 @@ export const EmailInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Email Length" />
                 <FormControl>
-                  <Input
-                    type="text"
-                    {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
+                  <Input type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -82,11 +74,7 @@ export const EmailInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Maximum Email Length" />
                 <FormControl>
-                  <Input
-                    type="text"
-                    {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
+                  <Input type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

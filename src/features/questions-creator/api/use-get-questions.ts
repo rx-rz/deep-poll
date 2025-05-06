@@ -4,7 +4,7 @@ import { Question } from "@/types/questions";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
 
-type Response = {
+export type GetQuestionResponse = {
   success: boolean;
   message: string;
   data: {
@@ -14,7 +14,7 @@ type Response = {
 
 export const useGetQuestions = () => {
   const { surveyId } = useParams();
-  const getSurveyQuestions = async (): Promise<Response> => {
+  const getSurveyQuestions = async (): Promise<GetQuestionResponse> => {
     const response = await api.get(`/surveys/${surveyId}/questions`);
     return response.data;
   };

@@ -58,7 +58,7 @@ export const QuestionCreationCard = ({
             />
             <AlertDialog open={open} onOpenChange={setOpen}>
               <AlertDialogTrigger className="hover:cursor-pointer">
-                <TrashIcon size={19} strokeWidth={1.5} />
+                <TrashIcon size={19} strokeWidth={1.5} stroke="red"/>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <RemoveQuestionAlertCard id={id} setOpen={setOpen} />

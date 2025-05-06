@@ -1,6 +1,5 @@
 import { useQuestionStore } from "@/store/questions.store";
 
-import { Link } from "wouter";
 import { QuestionCreator } from "./question-creator";
 import { useEffect } from "react";
 import { useGetQuestions } from "../api/use-get-questions";
@@ -15,7 +14,6 @@ export const SurveyQuestions = () => {
 
   return (
     <div className="flex flex-col gap-4 mt-4 w-full">
-      <Link to="/answer">Answers</Link>
       <div className="w-fit  flex flex-col gap-3">
         {questions &&
           questions.map((question) => (

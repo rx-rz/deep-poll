@@ -1,4 +1,3 @@
-import { useQuestionStore } from "@/store/questions.store";
 import { Question, QuestionOptionsMap } from "@/types/questions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReactNode } from "react";
@@ -9,7 +8,7 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useSurveyOptionsStore } from "@/store/survey-options.store";
 import { EmailAnswer } from "./email-answer";
-import { Link } from "wouter";
+import { Link, useLocation, useParams } from "wouter";
 import { NumberAnswer } from "./number-answer";
 import { generateQuestionSchemas } from "@/lib/generate-question-schema";
 import { MultipleChoiceAnswer } from "./multiple-choice-answer";
@@ -23,6 +22,11 @@ import { DateAnswer } from "./date-answer";
 import { DateTimeAnswer } from "./datetime-answer";
 import { TimeAnswer } from "./time-answer";
 import { RatingAnswer } from "./rating-answer";
+import { useGetQuestions } from "@/features/questions-creator/api/use-get-questions";
+import { protectedRoutes } from "@/routes";
+import { useGetSurveyDetails } from "@/features/home/api/use-get-survey-details";
+import { useSurveyListStore } from "@/store/surveys.store";
+
 const renderAnswerComponent = ({
   question,
   control,
@@ -31,6 +35,7 @@ const renderAnswerComponent = ({
   control: Control<any>;
 }) => {
   let answerComponent: ReactNode;
+
   switch (question.questionType) {
     case "text":
       const textOptions = question.options as QuestionOptionsMap["text"];
@@ -225,9 +230,14 @@ const renderAnswerComponent = ({
   return answerComponent;
 };
 export const SurveyAnswers = () => {
-  const questions = useQuestionStore((state) => state.questions);
-  const survey = useSurveyOptionsStore((state) => state.options);
-  const surveyAnswersSchema = generateQuestionSchemas(questions);
+  const [location] = useLocation();
+  const { surveyId } = useParams();
+  const survey = useSurveyListStore((state) =>
+    state.fetchSurveyById(surveyId!)
+  );
+
+  const { questions } = useGetQuestions();
+  const surveyAnswersSchema = generateQuestionSchemas(questions ?? []);
 
   const form = useForm<z.infer<typeof surveyAnswersSchema>>({
     resolver: zodResolver(surveyAnswersSchema),
@@ -243,28 +253,32 @@ export const SurveyAnswers = () => {
     });
   };
 
-  console.log({ form: form.formState.errors });
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="max-w-lg w-[95%] flex flex-col my-4 mx-auto"
       >
-        <p className="text-2xl uppercase font-bold my-5">{survey.title}</p>
+        <p className="text-2xl uppercase font-bold my-5">{survey?.title}</p>
         <div className="">
-          <Link to="/">Questions</Link>
-          {questions.map((question) => (
-            <div key={question.id} className="my-4  p-4 rounded-md">
-              <div className="flex gap-1">
-                <p className=" font-medium mb-4">{question.orderNumber}.</p>
-                <p className="font-bold">{question.questionText}</p>
-              </div>
+          <Link to={protectedRoutes.SURVEY(surveyId ?? "")}>Questions</Link>
+          {questions &&
+            questions.map((question) => (
+              <div key={question.id} className="my-4  p-4 rounded-md">
+                <div className="flex gap-1">
+                  <p className=" font-medium mb-4">{question.orderNumber}.</p>
+                  <p className="font-bold">{question.questionText}</p>
+                </div>
 
-              {renderAnswerComponent({ control: form.control, question })}
-            </div>
-          ))}
+                {renderAnswerComponent({ control: form.control, question })}
+              </div>
+            ))}
         </div>
-        <Button className="mt-4">Submit</Button>
+        {location.includes("preview") ? (
+          <></>
+        ) : (
+          <Button className="mt-4">Submit</Button>
+        )}
       </form>
     </Form>
   );

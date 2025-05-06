@@ -25,15 +25,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Edit, Trash2Icon } from "lucide-react";
+import { Edit, Eye, Trash2Icon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { useUpdateSurvey } from "@/features/home/api/use-update-survey";
-import { useParams } from "wouter";
+import { Link, useParams } from "wouter";
 import { useSurveyListStore } from "@/store/surveys.store";
 import { useDeleteSurvey } from "@/features/home/api/use-delete-survey";
+import { protectedRoutes } from "@/routes";
 
 export const SurveyOptions = () => {
   const { surveyId } = useParams();
@@ -44,6 +45,12 @@ export const SurveyOptions = () => {
     <div className="border py-3 px-2 sticky top-0 z-50 justify-between flex w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <p>{survey?.title ?? "Untitled"}</p>
       <div className="space-x-3">
+        <Link
+          href={protectedRoutes.PREVIEW(surveyId ?? "")}
+          className="inline-block"
+        >
+          <Eye strokeWidth={0.9} />
+        </Link>
         <Dialog>
           <DialogTrigger>
             <Edit strokeWidth={0.9} />

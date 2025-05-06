@@ -17,9 +17,9 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 import { QuestionType } from "@/types/questions";
-import { useQuestionStore } from "@/store/questions.store";
 
 import { Checkbox } from "./ui/checkbox";
+import { useDeleteQuestion } from "@/features/questions-creator/api/use-delete-question";
 
 type Props = {
   icon: ReactNode | any;
@@ -61,10 +61,7 @@ export const QuestionCreationCard = ({
                 <TrashIcon size={19} strokeWidth={1.5} />
               </AlertDialogTrigger>
               <AlertDialogContent>
-                <RemoveQuestionAlertCard
-                  id={id}
-                  setOpen={setOpen}
-                />
+                <RemoveQuestionAlertCard id={id} setOpen={setOpen} />
               </AlertDialogContent>
             </AlertDialog>
           </div>
@@ -102,7 +99,7 @@ const RemoveQuestionAlertCard = ({
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   id: string;
 }) => {
-  const { removeQuestion } = useQuestionStore();
+  const { handleDeleteQuestion } = useDeleteQuestion();
   return (
     <>
       <AlertDialogHeader>
@@ -119,7 +116,7 @@ const RemoveQuestionAlertCard = ({
         <AlertDialogAction
           className="bg-gradient-to-br from-red-500 to-red-700 hover:bg-red-500 text-white"
           onClick={() => {
-            removeQuestion(id);
+            handleDeleteQuestion(id);
             setOpen(false);
           }}
         >

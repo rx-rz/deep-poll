@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "wouter";
 import { useSurveyListStore } from "@/store/surveys.store";
+import { toast } from "sonner";
 
 type Response = {
   success: boolean;
@@ -21,7 +22,6 @@ export const useUpdateSurvey = () => {
     state.fetchSurveyById(surveyId!)
   );
   const updateSurvey = async (dto: UpdateSurveyDto): Promise<Response> => {
-    console.log({ surveyId, dto });
     const response = await api.patch(`/surveys/${surveyId}`, dto);
     return response.data;
   };
@@ -45,6 +45,7 @@ export const useUpdateSurvey = () => {
   const handleSubmit = (values: UpdateSurveyDto) => {
     mutate(values, {
       onSuccess: () => {
+        toast.success("Survey updated successfully");
         form.reset(values);
         updateSurveyInStore(surveyId ?? "", values);
       },

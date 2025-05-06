@@ -1,4 +1,3 @@
-import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { Question } from "@/types/questions";
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
@@ -20,14 +19,9 @@ type Props = {
 };
 
 export const FileUploadInputQuestionCreator = memo(({ question }: Props) => {
-  const questionSettings = {
-    questionText: question.questionText ?? "",
-    options: question.options ?? defaultQuestionOptions.file,
-  };
 
   const { form, onSubmit } = useFileUploadQuestionCreationForm({
-    question: questionSettings,
-    id: question.id,
+    question,
   });
 
   const { control, formState } = form;

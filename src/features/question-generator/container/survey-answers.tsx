@@ -24,6 +24,7 @@ import { RatingAnswer } from "./rating-answer";
 import { useGetQuestions } from "@/features/questions-creator/api/use-get-questions";
 import { protectedRoutes } from "@/routes";
 import { useSurveyListStore } from "@/store/surveys.store";
+import { useCreateResponse } from "../api/use-create-response";
 
 const renderAnswerComponent = ({
   question,
@@ -233,6 +234,7 @@ export const SurveyAnswers = () => {
   const survey = useSurveyListStore((state) =>
     state.fetchSurveyById(surveyId!)
   );
+  const { submitResponse } = useCreateResponse();
 
   const { questions } = useGetQuestions();
   const surveyAnswersSchema = generateQuestionSchemas(questions ?? []);
@@ -247,9 +249,8 @@ export const SurveyAnswers = () => {
     const dto = {
       response: {
         accountId: userData.account_id ?? "",
-        surveyId,
       },
-      answer: Object.keys(values)
+      answers: Object.keys(values)
         .slice(0, 11)
         .map((key) => {
           const value = values[key];
@@ -264,7 +265,7 @@ export const SurveyAnswers = () => {
           };
         }),
     };
-    console.log(dto);
+    submitResponse(dto);
   };
 
   return (

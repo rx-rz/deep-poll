@@ -9,7 +9,7 @@ export const useCreateResponse = () => {
   const [_, navigate] = useLocation();
 
   const createResponse = async (dto: any) => {
-    const response = await api.post(`/surveys/${surveyId}/responses`);
+    const response = await api.post(`/surveys/${surveyId}/responses`, dto);
     return response.data;
   };
 
@@ -22,7 +22,7 @@ export const useCreateResponse = () => {
   });
 
   return {
-    mutate,
+    submitResponse: mutate,
     isPending,
   };
 };

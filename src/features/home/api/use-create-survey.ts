@@ -3,9 +3,7 @@ import { CreateSurveyDto } from "../schema";
 import { useMutation } from "@tanstack/react-query";
 import { handleAPIErrors } from "@/lib/errors";
 import { toast } from "sonner";
-import { queryClient } from "@/App";
-import { GetSurveyResponse } from "./use-get-surveys";
-import { useSurveyListStore } from "@/store/surveys.store";
+
 
 type Response = {
   success: boolean;

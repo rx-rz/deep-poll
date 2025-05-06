@@ -9,8 +9,6 @@ api.interceptors.request.use((request) => {
   return request;
 });
 
-
-
 api.interceptors.response.use(
   (response) => response,
   (error) => {

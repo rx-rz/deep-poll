@@ -6,7 +6,6 @@ import { z } from "zod";
 import { TextAnswer } from "./text-answer";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useSurveyOptionsStore } from "@/store/survey-options.store";
 import { EmailAnswer } from "./email-answer";
 import { Link, useLocation, useParams } from "wouter";
 import { NumberAnswer } from "./number-answer";
@@ -24,7 +23,6 @@ import { TimeAnswer } from "./time-answer";
 import { RatingAnswer } from "./rating-answer";
 import { useGetQuestions } from "@/features/questions-creator/api/use-get-questions";
 import { protectedRoutes } from "@/routes";
-import { useGetSurveyDetails } from "@/features/home/api/use-get-survey-details";
 import { useSurveyListStore } from "@/store/surveys.store";
 
 const renderAnswerComponent = ({
@@ -245,12 +243,28 @@ export const SurveyAnswers = () => {
   });
 
   const onSubmit = (values: Record<string, any>) => {
-    console.log(values);
-    console.log("here!");
-    console.log({
-      errors: form.formState.errors,
-      form: form.formState.dirtyFields,
-    });
+    const userData = JSON.parse(localStorage.getItem("deep-poll-user") || "{}");
+    const dto = {
+      response: {
+        accountId: userData.account_id ?? "",
+        surveyId,
+      },
+      answer: Object.keys(values)
+        .slice(0, 11)
+        .map((key) => {
+          const value = values[key];
+          return {
+            questionId: key,
+            answerText: typeof value === "string" ? value : null,
+            answerNumber: typeof value === "number" ? value : null,
+            answerJson:
+              typeof value !== "string" && typeof value !== "number"
+                ? value
+                : null,
+          };
+        }),
+    };
+    console.log(dto);
   };
 
   return (
@@ -261,7 +275,9 @@ export const SurveyAnswers = () => {
       >
         <p className="text-2xl uppercase font-bold my-5">{survey?.title}</p>
         <div className="">
-          <Link to={protectedRoutes.SURVEY(surveyId ?? "")}>Questions</Link>
+          <Link to={protectedRoutes.CREATE_SURVEY(surveyId ?? "")}>
+            Questions
+          </Link>
           {questions &&
             questions.map((question) => (
               <div key={question.id} className="my-4  p-4 rounded-md">

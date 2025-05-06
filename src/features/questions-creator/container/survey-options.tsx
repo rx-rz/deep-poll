@@ -46,7 +46,7 @@ export const SurveyOptions = () => {
       <p>{survey?.title ?? "Untitled"}</p>
       <div className="space-x-3">
         <Link
-          href={protectedRoutes.PREVIEW(surveyId ?? "")}
+          href={protectedRoutes.PREVIEW_SURVEY(surveyId ?? "")}
           className="inline-block"
         >
           <Eye strokeWidth={0.9} />

@@ -24,7 +24,7 @@ function App() {
         <Route path={"/login"}>
           <LoginPage />
         </Route>
-        <Route path={"/answer"}>
+        <Route path={"/survey/:surveyId"}>
           <AnswerSurvey />
         </Route>
         <Route path={"/survey/:surveyId/preview"}>

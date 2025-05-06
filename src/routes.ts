@@ -4,7 +4,8 @@ export const routes = {
 };
 
 export const protectedRoutes = {
-  SURVEY: (surveyId: string) => `/survey/${surveyId}/create`,
+  CREATE_SURVEY: (surveyId: string) => `/survey/${surveyId}/create`,
   HOME: "/",
-  PREVIEW: (surveyId: string) => `/survey/${surveyId}/preview`
+  PREVIEW_SURVEY: (surveyId: string) => `/survey/${surveyId}/preview`,
+  ANSWER_SURVEY: (surveyId: string) => `/survey/${surveyId}`,
 };

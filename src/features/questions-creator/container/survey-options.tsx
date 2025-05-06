@@ -14,7 +14,15 @@ import {
   DialogFooter,
   DialogHeader,
 } from "@/components/ui/dialog";
-import { Edit } from "lucide-react";
+import {
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Edit, Trash2Icon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
@@ -22,26 +30,63 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import { useUpdateSurvey } from "@/features/home/api/use-update-survey";
 import { useParams } from "wouter";
 import { useSurveyListStore } from "@/store/surveys.store";
+import { useDeleteSurvey } from "@/features/home/api/use-delete-survey";
 
 export const SurveyOptions = () => {
   const { surveyId } = useParams();
   const survey = useSurveyListStore((state) =>
     state.fetchSurveyById(surveyId!)
   );
-  console.log({survey})
-
   return (
     <div className="border py-3 px-2 sticky top-0 z-50 justify-between flex w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <p>{survey?.title ?? "Untitled"}</p>
-      <Dialog>
-        <DialogTrigger>
-          <Edit strokeWidth={0.9} />
-        </DialogTrigger>
-        <DialogContent>
-          <SurveyOptionsForm />
-        </DialogContent>
-      </Dialog>
+      <div>
+        <Dialog>
+          <DialogTrigger>
+            <Edit strokeWidth={0.9} />
+          </DialogTrigger>
+          <DialogContent>
+            <SurveyOptionsForm />
+          </DialogContent>
+        </Dialog>
+        <Dialog>
+          <DialogTrigger>
+            <Trash2Icon strokeWidth={0.9} />
+          </DialogTrigger>
+          <DialogContent>
+            <SurveyDeletionPrompt />
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
+  );
+};
+
+const SurveyDeletionPrompt = () => {
+  const { deleteSurvey } = useDeleteSurvey();
+  return (
+    <>
+      <AlertDialogHeader>
+        <AlertDialogTitle>
+          Are you sure you want to delete this survey?
+        </AlertDialogTitle>
+        <AlertDialogDescription>
+          This action cannot be undone. This will permanently delete your
+          survey.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction
+          className="bg-gradient-to-br from-red-500 to-red-700 hover:bg-red-500 text-white"
+          onClick={() => {
+            deleteSurvey();
+          }}
+        >
+          Delete
+        </AlertDialogAction>
+      </AlertDialogFooter>
+    </>
   );
 };
 

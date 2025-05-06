@@ -67,7 +67,7 @@ export const QuestionCreationCard = ({
           </div>
         </div>
         <div className="md:text-lg font-medium gap-3 flex mb-1">
-          <p>{orderNumber}</p>
+
           <p>{questionText}</p>
         </div>
         <div className="my-4">{questionOptionsIsOpen ? children : <></>}</div>

@@ -17,12 +17,6 @@ export const useDeleteQuestion = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: deleteQuestion,
-    onSuccess: () => {
-      location.reload();
-    },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 
   const handleDeleteQuestion = (id: string) => {
@@ -33,7 +27,6 @@ export const useDeleteQuestion = () => {
       },
       onError: (error) => handleAPIErrors(error),
     });
-    deleteQuestionInStore(id);
   };
 
   return {

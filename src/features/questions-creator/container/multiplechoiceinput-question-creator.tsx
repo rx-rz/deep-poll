@@ -1,4 +1,3 @@
-import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { Question } from "@/types/questions";
 import { memo } from "react";
 import {
@@ -23,14 +22,8 @@ type Props = {
 
 export const MultipleChoiceInputQuestionCreator = memo(
   ({ question }: Props) => {
-    const questionSettings = {
-      questionText: question.questionText ?? "",
-      options: question.options ?? defaultQuestionOptions.multiple_choice,
-    };
-
     const { form, onSubmit } = useMultipleChoiceQuestionCreationForm({
-      question: questionSettings,
-      id: question.id
+      question,
     });
 
     const { control, watch, setValue, formState } = form;

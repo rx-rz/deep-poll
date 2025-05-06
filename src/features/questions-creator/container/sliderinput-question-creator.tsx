@@ -1,4 +1,3 @@
-import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { Question } from "@/types/questions";
 import { memo } from "react";
 import {
@@ -20,14 +19,9 @@ type Props = {
 };
 
 export const SliderInputQuestionCreator = memo(({ question }: Props) => {
-  const questionSettings = {
-    questionText: question.questionText ?? "",
-    options: question.options ?? defaultQuestionOptions.slider,
-  };
 
   const { form, onSubmit } = useSliderQuestionCreationForm({
-    question: questionSettings,
-    id: question.id
+    question,
   });
 
   const { control, formState } = form;

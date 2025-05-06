@@ -1,4 +1,3 @@
-import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { Question } from "@/types/questions";
 import { memo } from "react";
 import { Input } from "@/components/ui/input";
@@ -29,14 +28,10 @@ type Props = {
 };
 
 export const DateTimeInputQuestionCreator = memo(({ question }: Props) => {
-  const questionSettings = {
-    questionText: question.questionText ?? "",
-    options: question.options ?? defaultQuestionOptions.datetime,
-  };
+  
 
   const { form, onSubmit } = useDateTimeQuestionCreationForm({
-    question: questionSettings,
-    id: question.id,
+  question
   });
 
   const { control, formState, reset } = form;

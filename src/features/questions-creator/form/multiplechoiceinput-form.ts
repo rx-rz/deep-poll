@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { useQuestionStore } from "@/store/questions.store";
 import { Question } from "@/types/questions";
+import { useCreateQuestion } from "../api/use-create-question";
+import { handleAPIErrors } from "@/lib/errors";
+import { toast } from "sonner";
 
 const multipleChoiceOptions = defaultQuestionOptions.multiple_choice;
 
@@ -36,21 +39,11 @@ export type MultipleChoiceQuestionDto = z.infer<
 
 export const useMultipleChoiceQuestionCreationForm = ({
   question,
-  id,
 }: {
-  question: MultipleChoiceQuestionDto;
-  id: string;
+  question: Question<"multiple_choice">;
 }) => {
-  const questionInStore = useQuestionStore((state) =>
-    state.getQuestion(id)
-  ) as Question<"multiple_choice">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const removeApiQueuedQuestion = useQuestionStore(
-    (state) => state.removeApiQueuedQuestion
-  );
-  const addApiQueuedQuestion = useQuestionStore(
-    (state) => state.addApiQueuedQuestion
-  );
+  const { mutate } = useCreateQuestion();
   const form = useForm<MultipleChoiceQuestionDto>({
     resolver: zodResolver(multipleChoiceQuestionSchema),
     defaultValues: {
@@ -60,17 +53,29 @@ export const useMultipleChoiceQuestionCreationForm = ({
   });
 
   const onSubmit = (values: MultipleChoiceQuestionDto) => {
-    updateQuestion(id, {
-      questionType: "multiple_choice",
-      questionText: values.questionText,
-      options: values.options,
-    });
-    removeApiQueuedQuestion(questionInStore.id)
-    addApiQueuedQuestion(id, {
-      ...questionInStore,
-      questionText: values.questionText,
-      options: values.options,
-    });
+    const loadingToast = toast.loading("Saving changes");
+    mutate(
+      {
+        ...question,
+        options: values.options,
+        questionText: values.questionText,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Survey updated successfully");
+          updateQuestion(question.id, {
+            questionText: values.questionText,
+            options: values.options,
+          });
+        },
+        onError: (error) => {
+          handleAPIErrors(error);
+        },
+        onSettled: () => {
+          toast.dismiss(loadingToast);
+        },
+      }
+    );
     form.reset(values);
   };
 

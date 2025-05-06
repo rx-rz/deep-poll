@@ -4,6 +4,9 @@ import { Question } from "@/types/questions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useCreateQuestion } from "../api/use-create-question";
+import { toast } from "sonner";
+import { handleAPIErrors } from "@/lib/errors";
 
 export const timeFormats = {
   "24-hour with seconds e.g 14:30:45": "HH:mm:ss",
@@ -55,18 +58,11 @@ export type TimeQuestionDto = z.infer<typeof timeQuestionSchema>;
 
 export const useTimeQuestionCreationForm = ({
   question,
-  id,
 }: {
-  question: TimeQuestionDto;
-  id: string;
+  question: Question<"time">;
 }) => {
-  const questionInStore = useQuestionStore((state) =>
-    state.getQuestion(id)
-  ) as Question<"time">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addApiQueuedQuestion = useQuestionStore(
-    (state) => state.addApiQueuedQuestion
-  );
+  const { mutate } = useCreateQuestion();
   const form = useForm<TimeQuestionDto>({
     resolver: zodResolver(timeQuestionSchema),
     defaultValues: {
@@ -76,15 +72,29 @@ export const useTimeQuestionCreationForm = ({
   });
 
   const onSubmit = (values: TimeQuestionDto) => {
-    updateQuestion(id, {
-      questionText: values.questionText,
-      options: values.options,
-    });
-    addApiQueuedQuestion(id, {
-      ...questionInStore,
-      questionText: values.questionText,
-      options: values.options,
-    });
+    const loadingToast = toast.loading("Saving changes");
+    mutate(
+      {
+        ...question,
+        options: values.options,
+        questionText: values.questionText,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Survey updated successfully");
+          updateQuestion(question.id, {
+            questionText: values.questionText,
+            options: values.options,
+          });
+        },
+        onError: (error) => {
+          handleAPIErrors(error);
+        },
+        onSettled: () => {
+          toast.dismiss(loadingToast);
+        },
+      }
+    );
     form.reset(values);
   };
 

@@ -4,6 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { useQuestionStore } from "@/store/questions.store";
 import { Question } from "@/types/questions";
+import { useCreateQuestion } from "../api/use-create-question";
+import { toast } from "sonner";
+import { handleAPIErrors } from "@/lib/errors";
 
 const { email: emailOptions } = defaultQuestionOptions;
 
@@ -75,21 +78,11 @@ export const emailQuestionSchema = z
 type EmailQuestionDto = z.infer<typeof emailQuestionSchema>;
 export const useEmailQuestionCreationForm = ({
   question,
-  id,
 }: {
-  id: string;
-  question: EmailQuestionDto;
+  question: Question<"email">;
 }) => {
-  const questionInStore = useQuestionStore((state) =>
-    state.getQuestion(id)
-  ) as Question<"email">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const removeApiQueuedQuestion = useQuestionStore(
-    (state) => state.removeApiQueuedQuestion
-  );
-  const addApiQueuedQuestion = useQuestionStore(
-    (state) => state.addApiQueuedQuestion
-  );
+  const { mutate } = useCreateQuestion();
   const form = useForm<EmailQuestionDto>({
     resolver: zodResolver(emailQuestionSchema),
     defaultValues: {
@@ -99,17 +92,29 @@ export const useEmailQuestionCreationForm = ({
   });
 
   const onSubmit = (values: EmailQuestionDto) => {
-    updateQuestion(id, {
-      questionType: "email",
-      questionText: values.questionText,
-      options: values.options,
-    });
-    removeApiQueuedQuestion(questionInStore.id);
-    addApiQueuedQuestion(id, {
-      ...questionInStore,
-      questionText: values.questionText,
-      options: values.options,
-    });
+    const loadingToast = toast.loading("Saving changes");
+    mutate(
+      {
+        ...question,
+        options: values.options,
+        questionText: values.questionText,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Survey updated successfully");
+          updateQuestion(question.id, {
+            questionText: values.questionText,
+            options: values.options,
+          });
+        },
+        onError: (error) => {
+          handleAPIErrors(error);
+        },
+        onSettled: () => {
+          toast.dismiss(loadingToast);
+        },
+      }
+    );
     form.reset(values);
   };
 

@@ -20,13 +20,8 @@ type Props = {
   question: Question<"text">;
 };
 export const TextInputQuestionCreator = memo(({ question }: Props) => {
-  const questionSettings = {
-    questionText: question.questionText ?? "",
-    options: question.options ?? defaultQuestionOptions.text,
-  };
   const { form, onSubmit } = useTextQuestionCreationForm({
-    id: question.id,
-    question: questionSettings,
+    question,
   });
 
   const { control, formState } = form;
@@ -56,11 +51,7 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Answer Length" />
                 <FormControl>
-                  <Input
-                    type="number"
-                    {...field}
-
-                  />
+                  <Input type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -78,7 +69,6 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
                     min={form.getValues("options.maxAnswerLength")}
                     type="number"
                     {...field}
-
                   />
                 </FormControl>
                 <FormMessage />

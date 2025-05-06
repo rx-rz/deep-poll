@@ -4,6 +4,9 @@ import { Question } from "@/types/questions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useCreateQuestion } from "../api/use-create-question";
+import { toast } from "sonner";
+import { handleAPIErrors } from "@/lib/errors";
 
 // new schema + form implementation
 export const fileUploadQuestionSchema = z.object({
@@ -30,18 +33,11 @@ export type FileUploadQuestionDto = z.infer<typeof fileUploadQuestionSchema>;
 
 export const useFileUploadQuestionCreationForm = ({
   question,
-  id,
 }: {
-  question: FileUploadQuestionDto;
-  id: string;
+  question: Question<"file">;
 }) => {
-  const questionInStore = useQuestionStore((state) =>
-    state.getQuestion(id)
-  ) as Question<"file">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addApiQueuedQuestion = useQuestionStore(
-    (state) => state.addApiQueuedQuestion
-  );
+  const { mutate } = useCreateQuestion();
   const form = useForm<FileUploadQuestionDto>({
     resolver: zodResolver(fileUploadQuestionSchema),
     defaultValues: {
@@ -51,15 +47,29 @@ export const useFileUploadQuestionCreationForm = ({
   });
 
   const onSubmit = (values: FileUploadQuestionDto) => {
-    updateQuestion(id, {
-      questionText: values.questionText,
-      options: values.options,
-    });
-    addApiQueuedQuestion(id, {
-      ...questionInStore,
-      questionText: values.questionText,
-      options: values.options,
-    });
+    const loadingToast = toast.loading("Saving changes");
+    mutate(
+      {
+        ...question,
+        options: values.options,
+        questionText: values.questionText,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Survey updated successfully");
+          updateQuestion(question.id, {
+            questionText: values.questionText,
+            options: values.options,
+          });
+        },
+        onError: (error) => {
+          handleAPIErrors(error);
+        },
+        onSettled: () => {
+          toast.dismiss(loadingToast);
+        },
+      }
+    );
     form.reset(values);
   };
 

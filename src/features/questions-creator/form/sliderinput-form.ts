@@ -3,11 +3,13 @@ import { useQuestionStore } from "@/store/questions.store";
 import { Question } from "@/types/questions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
+import { useCreateQuestion } from "../api/use-create-question";
+import { handleAPIErrors } from "@/lib/errors";
 
 const sliderOptions = defaultQuestionOptions.slider;
 
-// new schema + form implementation
 export const sliderQuestionSchema = z
   .object({
     questionText: z.string().default("Lorem ipsum"),
@@ -68,38 +70,39 @@ export type SliderQuestionDto = z.infer<typeof sliderQuestionSchema>;
 
 export const useSliderQuestionCreationForm = ({
   question,
-  id,
 }: {
-  question: SliderQuestionDto;
-  id: string;
+  question: Question<"slider">;
 }) => {
-  const questionInStore = useQuestionStore((state) =>
-    state.getQuestion(id)
-  ) as Question<"slider">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addApiQueuedQuestion = useQuestionStore(
-    (state) => state.addApiQueuedQuestion
-  );
+  const { mutate } = useCreateQuestion();
   const form = useForm<SliderQuestionDto>({
     resolver: zodResolver(sliderQuestionSchema),
-    defaultValues: {
-      questionText: question.questionText,
-      options: { ...question.options, defaultValue: question.options.min },
-    },
   });
 
   const onSubmit = (values: SliderQuestionDto) => {
-    console.log("values", { values });
-    updateQuestion(id, {
-      questionType: "slider",
-      questionText: values.questionText,
-      options: values.options,
-    });
-    addApiQueuedQuestion(id, {
-      ...questionInStore,
-      questionText: values.questionText,
-      options: values.options,
-    });
+    const loadingToast = toast.loading("Saving changes");
+    mutate(
+      {
+        ...question,
+        options: values.options,
+        questionText: values.questionText,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Survey updated successfully");
+          updateQuestion(question.id, {
+            questionText: values.questionText,
+            options: values.options,
+          });
+        },
+        onError: (error) => {
+          handleAPIErrors(error);
+        },
+        onSettled: () => {
+          toast.dismiss(loadingToast);
+        },
+      }
+    );
     form.reset(values);
   };
 

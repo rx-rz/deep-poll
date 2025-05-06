@@ -5,6 +5,9 @@ import dayjs from "dayjs";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { useQuestionStore } from "@/store/questions.store";
 import { Question } from "@/types/questions";
+import { useCreateQuestion } from "../api/use-create-question";
+import { toast } from "sonner";
+import { handleAPIErrors } from "@/lib/errors";
 
 export const dateFormats = {
   "ISO e.g 2023-04-05": "YYYY-MM-DD",
@@ -78,18 +81,11 @@ export type DateQuestionDto = z.infer<typeof dateQuestionSchema>;
 
 export const useDateQuestionCreationForm = ({
   question,
-  id,
 }: {
-  question: DateQuestionDto;
-  id: string;
+  question: Question<"date">;
 }) => {
-  const questionInStore = useQuestionStore((state) =>
-    state.getQuestion(id)
-  ) as Question<"date">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addApiQueuedQuestion = useQuestionStore(
-    (state) => state.addApiQueuedQuestion
-  );
+  const { mutate } = useCreateQuestion();
   const form = useForm<DateQuestionDto>({
     resolver: zodResolver(dateQuestionSchema),
     defaultValues: {
@@ -99,101 +95,29 @@ export const useDateQuestionCreationForm = ({
   });
 
   const onSubmit = (values: DateQuestionDto) => {
-    updateQuestion(id, {
-      questionText: values.questionText,
-      options: values.options,
-    });
-    addApiQueuedQuestion(id, {
-      ...questionInStore,
-      questionText: values.questionText,
-      options: values.options,
-    });
-    form.reset(values);
-  };
-
-  return {
-    form,
-    onSubmit: form.handleSubmit(onSubmit),
-  };
-};
-
-// old schema + form implementation
-export const dateQuestionOptionsSchema = z
-  .object({
-    format: z
-      .enum([
-        "ISO e.g 2023-04-05",
-        "MM/DD/YYYY (US Format) e.g 04/15/2023",
-        "DD/MM/YYYY (UK/European Format)  e.g 15/04/2023",
-        "Month name, day and year e.g April 15, 2023",
-      ])
-      .default(dateOptions.format),
-    minDate: z.string().default(dateOptions.minDate),
-    maxDate: z.string().default(dateOptions.maxDate),
-  })
-  .refine(
-    (data) => {
-      if (!data.minDate || !data.maxDate) return true;
-      const format = dateFormats[data.format];
-      if (data.minDate) {
-        const minDateObj = dayjs(data.minDate, format);
-        return minDateObj.isValid();
-      }
-      if (data.maxDate) {
-        const maxDateObj = dayjs(data.maxDate, format);
-        return maxDateObj.isValid();
-      }
-      return true;
-    },
-    {
-      message: "Date must be valid date according to the specified format",
-      path: ["minDate"],
-    }
-  )
-  .superRefine(({ minDate, maxDate, format }, ctx) => {
-    if (minDate && maxDate) {
-      const parsedMinDate = dayjs(minDate, dateFormats[format]);
-      const parsedMaxDate = dayjs(maxDate, dateFormats[format]);
-      if (parsedMinDate.isValid() && parsedMaxDate.isValid()) {
-        if (parsedMinDate.isAfter(parsedMaxDate)) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Minimum date cannot be higher than maximum date",
-            path: ["minDate"],
+    const loadingToast = toast.loading("Saving changes");
+    mutate(
+      {
+        ...question,
+        options: values.options,
+        questionText: values.questionText,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Survey updated successfully");
+          updateQuestion(question.id, {
+            questionText: values.questionText,
+            options: values.options,
           });
-        }
-        if (parsedMaxDate.isBefore(parsedMinDate)) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Maximum date cannot be lower than minimum date",
-            path: ["maxDate"],
-          });
-        }
+        },
+        onError: (error) => {
+          handleAPIErrors(error);
+        },
+        onSettled: () => {
+          toast.dismiss(loadingToast);
+        },
       }
-    }
-  });
-
-export type DateQuestionOptionsDto = z.infer<typeof dateQuestionOptionsSchema>;
-
-type FormValidatorProps = {
-  questionOptions: DateQuestionOptionsDto;
-  setQuestionOptions: React.Dispatch<
-    React.SetStateAction<DateQuestionOptionsDto>
-  >;
-};
-
-export const useDateQuestionOptionsForm = ({
-  questionOptions,
-  setQuestionOptions,
-}: FormValidatorProps) => {
-  const form = useForm<DateQuestionOptionsDto>({
-    resolver: zodResolver(dateQuestionOptionsSchema),
-    defaultValues: questionOptions,
-    mode: "onChange",
-  });
-
-  const onSubmit = (values: DateQuestionOptionsDto) => {
-    setQuestionOptions(values);
+    );
     form.reset(values);
   };
 

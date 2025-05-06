@@ -1,4 +1,3 @@
-import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { Question } from "@/types/questions";
 import { memo } from "react";
 import {
@@ -20,20 +19,12 @@ type Props = {
 };
 
 export const NumberInputQuestionCreator = memo(({ question }: Props) => {
-  const questionSettings = {
-    questionText: question.questionText ?? "",
-    options: question.options ?? defaultQuestionOptions.number,
-  };
-
   const { form, onSubmit } = useNumberQuestionCreationForm({
-    question: questionSettings,
-    id: question.id,
+    question,
   });
 
-  const { control, formState, watch } = form;
+  const { control, formState } = form;
   const { isDirty } = formState;
-
-  console.log(formState.errors);
 
   return (
     <Form {...form}>

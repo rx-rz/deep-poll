@@ -3,7 +3,10 @@ import { useQuestionStore } from "@/store/questions.store";
 import { Question } from "@/types/questions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
+import { useCreateQuestion } from "../api/use-create-question";
+import { handleAPIErrors } from "@/lib/errors";
 
 const textOptions = defaultQuestionOptions.text;
 export const textQuestionSchema = z
@@ -48,20 +51,12 @@ export const textQuestionSchema = z
 
 type TextQuestionDto = z.infer<typeof textQuestionSchema>;
 export const useTextQuestionCreationForm = ({
-  id,
   question,
 }: {
-  id: string;
-  question: TextQuestionDto;
+  question: Question<"text">;
 }) => {
-  const questionInStore = useQuestionStore((state) =>
-    state.getQuestion(id)
-  ) as Question<"text">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const removeApiQueuedQuestion = useQuestionStore((state) => state.removeApiQueuedQuestion)
-  const addApiQueuedQuestion = useQuestionStore(
-    (state) => state.addApiQueuedQuestion
-  );
+  const { mutate } = useCreateQuestion();
   const form = useForm<TextQuestionDto>({
     resolver: zodResolver(textQuestionSchema),
     defaultValues: {
@@ -71,17 +66,29 @@ export const useTextQuestionCreationForm = ({
   });
 
   const onSubmit = (values: TextQuestionDto) => {
-    updateQuestion(id, {
-      questionType: "text",
-      questionText: values.questionText,
-      options: values.options,
-    });
-    removeApiQueuedQuestion(questionInStore.id)
-    addApiQueuedQuestion(id, {
-      ...questionInStore,
-      questionText: values.questionText,
-      options: values.options,
-    });
+    const loadingToast = toast.loading("Saving changes");
+    mutate(
+      {
+        ...question,
+        options: values.options,
+        questionText: values.questionText,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Survey updated successfully");
+          updateQuestion(question.id, {
+            questionText: values.questionText,
+            options: values.options,
+          });
+        },
+        onError: (error) => {
+          handleAPIErrors(error);
+        },
+        onSettled: () => {
+          toast.dismiss(loadingToast);
+        },
+      }
+    );
     form.reset(values);
   };
 

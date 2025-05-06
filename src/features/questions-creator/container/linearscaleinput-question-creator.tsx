@@ -1,4 +1,3 @@
-import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { Question } from "@/types/questions";
 import { memo } from "react";
 import {
@@ -18,14 +17,9 @@ type Props = {
 };
 
 export const LinearScaleInputQuestionCreator = memo(({ question }: Props) => {
-  const questionSettings = {
-    questionText: question.questionText ?? "",
-    options: question.options ?? defaultQuestionOptions.linear_scale,
-  };
-
+ 
   const { form, onSubmit } = useLinearScaleQuestionCreationForm({
-    question: questionSettings,
-    id: question.id
+    question,
   });
 
   const { formState, control } = form;

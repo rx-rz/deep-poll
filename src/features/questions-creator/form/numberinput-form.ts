@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { useQuestionStore } from "@/store/questions.store";
 import { Question } from "@/types/questions";
+import { toast } from "sonner";
+import { useCreateQuestion } from "../api/use-create-question";
+import { handleAPIErrors } from "@/lib/errors";
 
 const numberOptions = defaultQuestionOptions.number;
 
@@ -44,19 +47,11 @@ export const numberQuestionSchema = z
 type NumberQuestionDto = z.infer<typeof numberQuestionSchema>;
 export const useNumberQuestionCreationForm = ({
   question,
-  id,
 }: {
-  question: NumberQuestionDto;
-  id: string;
+  question: Question<"number">;
 }) => {
-  const questionInStore = useQuestionStore((state) =>
-    state.getQuestion(id)
-  ) as Question<"number">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const removeApiQueuedQuestion = useQuestionStore((state) => state.removeApiQueuedQuestion)
-  const addApiQueuedQuestion = useQuestionStore(
-    (state) => state.addApiQueuedQuestion
-  );
+  const { mutate } = useCreateQuestion();
   const form = useForm<NumberQuestionDto>({
     resolver: zodResolver(numberQuestionSchema),
     defaultValues: {
@@ -66,17 +61,29 @@ export const useNumberQuestionCreationForm = ({
   });
 
   const onSubmit = (values: NumberQuestionDto) => {
-    updateQuestion(id, {
-      questionType: "number",
-      questionText: values.questionText,
-      options: values.options,
-    });
-    removeApiQueuedQuestion(questionInStore.id)
-    addApiQueuedQuestion(id, {
-      ...questionInStore,
-      questionText: values.questionText,
-      options: values.options,
-    });
+    const loadingToast = toast.loading("Saving changes");
+    mutate(
+      {
+        ...question,
+        options: values.options,
+        questionText: values.questionText,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Survey updated successfully");
+          updateQuestion(question.id, {
+            questionText: values.questionText,
+            options: values.options,
+          });
+        },
+        onError: (error) => {
+          handleAPIErrors(error);
+        },
+        onSettled: () => {
+          toast.dismiss(loadingToast);
+        },
+      }
+    );
     form.reset(values);
   };
 

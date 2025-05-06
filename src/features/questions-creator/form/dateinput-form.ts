@@ -87,8 +87,8 @@ export const useDateQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"date">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<DateQuestionDto>({
     resolver: zodResolver(dateQuestionSchema),
@@ -103,7 +103,7 @@ export const useDateQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    addUpdatedQuestion(id, {
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,
       options: values.options,

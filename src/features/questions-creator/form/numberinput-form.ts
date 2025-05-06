@@ -53,9 +53,9 @@ export const useNumberQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"number">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const removeUpdatedQuestion = useQuestionStore((state) => state.removeUpdatedQuestion)
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const removeApiQueuedQuestion = useQuestionStore((state) => state.removeApiQueuedQuestion)
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<NumberQuestionDto>({
     resolver: zodResolver(numberQuestionSchema),
@@ -71,8 +71,8 @@ export const useNumberQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    removeUpdatedQuestion(questionInStore.id)
-    addUpdatedQuestion(id, {
+    removeApiQueuedQuestion(questionInStore.id)
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,
       options: values.options,

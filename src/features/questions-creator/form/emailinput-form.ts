@@ -84,11 +84,11 @@ export const useEmailQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"email">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const removeUpdatedQuestion = useQuestionStore(
-    (state) => state.removeUpdatedQuestion
+  const removeApiQueuedQuestion = useQuestionStore(
+    (state) => state.removeApiQueuedQuestion
   );
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<EmailQuestionDto>({
     resolver: zodResolver(emailQuestionSchema),
@@ -104,8 +104,8 @@ export const useEmailQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    removeUpdatedQuestion(questionInStore.id);
-    addUpdatedQuestion(id, {
+    removeApiQueuedQuestion(questionInStore.id);
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,
       options: values.options,

@@ -64,8 +64,8 @@ export const useTimeQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"time">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<TimeQuestionDto>({
     resolver: zodResolver(timeQuestionSchema),
@@ -80,7 +80,7 @@ export const useTimeQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    addUpdatedQuestion(id, {
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,
       options: values.options,

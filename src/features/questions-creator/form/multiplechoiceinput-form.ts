@@ -7,7 +7,6 @@ import { Question } from "@/types/questions";
 
 const multipleChoiceOptions = defaultQuestionOptions.multiple_choice;
 
-// new schema + form implementation
 export const multipleChoiceQuestionSchema = z
   .object({
     questionText: z.string().default("Lorem ipsum"),
@@ -46,8 +45,11 @@ export const useMultipleChoiceQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"multiple_choice">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const removeApiQueuedQuestion = useQuestionStore(
+    (state) => state.removeApiQueuedQuestion
+  );
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<MultipleChoiceQuestionDto>({
     resolver: zodResolver(multipleChoiceQuestionSchema),
@@ -63,64 +65,12 @@ export const useMultipleChoiceQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    addUpdatedQuestion(id, {
+    removeApiQueuedQuestion(questionInStore.id)
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,
       options: values.options,
     });
-    form.reset(values);
-  };
-
-  return {
-    form,
-    onSubmit: form.handleSubmit(onSubmit),
-  };
-};
-
-// old schema + form implementation
-export const multipleChoiceQuestionOptionsSchema = z
-  .object({
-    choices: z
-      .array(
-        z
-          .string({ required_error: "A choice is required" })
-          .min(1, { message: "Choice cannot be empty" })
-      )
-      .default(multipleChoiceOptions.choices),
-    maxLengthForOtherParameter: z.coerce
-      .number()
-      .default(multipleChoiceOptions.maxLengthForOtherParameter),
-    allowOther: z.boolean().default(multipleChoiceOptions.allowOther),
-    randomizeOrder: z.boolean().default(multipleChoiceOptions.randomizeOrder),
-  })
-  .refine((data) => data.choices.length > 0, {
-    message: "Choices must have at least one option",
-    path: ["choices"],
-  });
-
-export type MultipleChoiceQuestionOptionsDto = z.infer<
-  typeof multipleChoiceQuestionOptionsSchema
->;
-
-type FormValidatorProps = {
-  questionOptions: MultipleChoiceQuestionOptionsDto;
-  setQuestionOptions: React.Dispatch<
-    React.SetStateAction<MultipleChoiceQuestionOptionsDto>
-  >;
-};
-
-export const useMultipleChoiceQuestionOptionsForm = ({
-  questionOptions,
-  setQuestionOptions,
-}: FormValidatorProps) => {
-  const form = useForm<MultipleChoiceQuestionOptionsDto>({
-    resolver: zodResolver(multipleChoiceQuestionOptionsSchema),
-    defaultValues: questionOptions,
-    mode: "onChange",
-  });
-
-  const onSubmit = (values: MultipleChoiceQuestionOptionsDto) => {
-    setQuestionOptions(values);
     form.reset(values);
   };
 

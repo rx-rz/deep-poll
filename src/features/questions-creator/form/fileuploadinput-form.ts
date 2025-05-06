@@ -39,8 +39,8 @@ export const useFileUploadQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"file">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<FileUploadQuestionDto>({
     resolver: zodResolver(fileUploadQuestionSchema),
@@ -55,7 +55,7 @@ export const useFileUploadQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    addUpdatedQuestion(id, {
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,
       options: values.options,

@@ -58,9 +58,9 @@ export const useTextQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"text">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const removeUpdatedQuestion = useQuestionStore((state) => state.removeUpdatedQuestion)
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const removeApiQueuedQuestion = useQuestionStore((state) => state.removeApiQueuedQuestion)
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<TextQuestionDto>({
     resolver: zodResolver(textQuestionSchema),
@@ -76,8 +76,8 @@ export const useTextQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    removeUpdatedQuestion(questionInStore.id)
-    addUpdatedQuestion(id, {
+    removeApiQueuedQuestion(questionInStore.id)
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,
       options: values.options,

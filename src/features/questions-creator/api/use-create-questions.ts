@@ -12,7 +12,7 @@ type Response = {
 
 export const useCreateQuestions = () => {
   const { surveyId } = useParams();
-  const { resetUpdatedQuestions } = useQuestionStore();
+  const { resetApiQueuedQuestions } = useQuestionStore();
   const createQuestions = async (dto: Question[]): Promise<Response> => {
     const response = await api.post(`/surveys/${surveyId}/questions`, dto);
     return response.data;
@@ -22,7 +22,7 @@ export const useCreateQuestions = () => {
     mutationFn: createQuestions,
     onSuccess: (data) => {
       console.log({ data });
-      resetUpdatedQuestions();
+      resetApiQueuedQuestions();
       toast.success("Survey successfully updated");
     },
     onError: (error) => {

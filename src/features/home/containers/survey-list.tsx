@@ -6,7 +6,7 @@ import { queryClient } from "@/App";
 
 export const SurveyList = () => {
   const { surveys, loading, error } = useGetSurveys();
-  const { resetQuestions, resetUpdatedQuestions } = useQuestionStore();
+  const { resetQuestions, resetApiQueuedQuestions } = useQuestionStore();
 
   if (loading) {
     return <div>Loading...</div>;
@@ -28,7 +28,7 @@ export const SurveyList = () => {
                 <Link
                   onClick={() => {
                     resetQuestions();
-                    resetUpdatedQuestions();
+                    resetApiQueuedQuestions();
                   }}
                   href={protectedRoutes.SURVEY(survey.id)}
                   className="block w-full px-4 py-4 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"

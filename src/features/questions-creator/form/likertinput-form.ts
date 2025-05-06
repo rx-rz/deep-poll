@@ -39,8 +39,8 @@ export const useLikertQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"likert">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<LikertQuestionDto>({
     resolver: zodResolver(likertQuestionSchema),
@@ -55,7 +55,7 @@ export const useLikertQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    addUpdatedQuestion(id, {
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,
       options: values.options,

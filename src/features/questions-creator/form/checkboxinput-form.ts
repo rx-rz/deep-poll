@@ -47,8 +47,8 @@ export const useCheckboxQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"checkbox">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<CheckboxQuestionDto>({
     resolver: zodResolver(checkboxQuestionSchema),
@@ -63,7 +63,7 @@ export const useCheckboxQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    addUpdatedQuestion(id, {
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionType: "checkbox",
       questionText: values.questionText,

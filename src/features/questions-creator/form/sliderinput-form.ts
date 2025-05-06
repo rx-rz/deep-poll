@@ -77,8 +77,8 @@ export const useSliderQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"slider">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<SliderQuestionDto>({
     resolver: zodResolver(sliderQuestionSchema),
@@ -95,7 +95,7 @@ export const useSliderQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    addUpdatedQuestion(id, {
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,
       options: values.options,

@@ -47,8 +47,8 @@ export const useLinearScaleQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"linear_scale">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<LinearScaleQuestionDto>({
     resolver: zodResolver(linearScaleQuestionSchema),
@@ -64,7 +64,7 @@ export const useLinearScaleQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    addUpdatedQuestion(id, {
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,
       options: values.options,

@@ -5,11 +5,11 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 type QuestionStore = {
   questions: Question[];
-  updatedQuestions: Question[];
-  addUpdatedQuestion: (id: string, question: Question) => void;
+  apiQueuedQuestions: Question[];
+  addApiQueuedQuestion: (id: string, question: Question) => void;
   setQuestions: (questions: Question[]) => void;
-  resetUpdatedQuestions: () => void;
-  removeUpdatedQuestion: (id: string) => void;
+  resetApiQueuedQuestions: () => void;
+  removeApiQueuedQuestion: (id: string) => void;
   resetQuestions: () => void;
   addQuestion: <T extends QuestionType>(
     data: Omit<Question<T>, "createdAt" | "id" | "orderNumber">
@@ -26,7 +26,7 @@ export const useQuestionStore = create<QuestionStore>()(
   persist(
     (set, get) => ({
       questions: [],
-      updatedQuestions: [],
+      apiQueuedQuestions: [],
       setQuestions: (q) =>
         set(() => ({
           questions: q,
@@ -43,24 +43,24 @@ export const useQuestionStore = create<QuestionStore>()(
             },
           ],
         })),
-      addUpdatedQuestion: (id, data) => {
-        const existingUpdatedQuestion = get().updatedQuestions.find(
+      addApiQueuedQuestion: (id, data) => {
+        const existingUpdatedQuestion = get().apiQueuedQuestions.find(
           (question) => question.id === id
         );
         set((state) => ({
-          updatedQuestions: existingUpdatedQuestion
+          apiQueuedQuestions: existingUpdatedQuestion
             ? [
-                ...state.updatedQuestions.filter(
+                ...state.apiQueuedQuestions.filter(
                   (question) => question.id === existingUpdatedQuestion.id
                 ),
                 { ...data },
               ]
-            : [...state.updatedQuestions, { ...data }],
+            : [...state.apiQueuedQuestions, { ...data }],
         }));
       },
-      resetUpdatedQuestions: () =>
+      resetApiQueuedQuestions: () =>
         set(() => ({
-          updatedQuestions: [],
+          apiQueuedQuestions: [],
         })),
       resetQuestions: () =>
         set(() => ({
@@ -80,9 +80,9 @@ export const useQuestionStore = create<QuestionStore>()(
         set((state) => ({
           questions: state.questions.filter((q) => q.id !== id),
         })),
-      removeUpdatedQuestion: (id) => {
+      removeApiQueuedQuestion: (id) => {
         set((state) => ({
-          updatedQuestions: state.updatedQuestions.filter((q) => q.id !== id),
+          apiQueuedQuestions: state.apiQueuedQuestions.filter((q) => q.id !== id),
         }));
       },
       /** Get a question by ID */

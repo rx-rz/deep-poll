@@ -34,8 +34,8 @@ export const useDropdownQuestionCreationForm = ({
     state.getQuestion(id)
   ) as Question<"dropdown">;
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const addUpdatedQuestion = useQuestionStore(
-    (state) => state.addUpdatedQuestion
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
   );
   const form = useForm<DropdownQuestionDto>({
     resolver: zodResolver(dropdownQuestionSchema),
@@ -50,7 +50,7 @@ export const useDropdownQuestionCreationForm = ({
       questionText: values.questionText,
       options: values.options,
     });
-    addUpdatedQuestion(id, {
+    addApiQueuedQuestion(id, {
       ...questionInStore,
       questionText: values.questionText,
       options: values.options,

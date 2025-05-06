@@ -7,23 +7,23 @@ import { useCreateQuestions } from "../api/use-create-questions";
 import { useGetQuestions } from "../api/use-get-questions";
 
 export const SurveyQuestions = () => {
-  const { questions, setQuestions, updatedQuestions } = useQuestionStore();
+  const { questions, setQuestions, apiQueuedQuestions } = useQuestionStore();
   const { mutate: createOrUpdateQuestions } = useCreateQuestions();
   const { questions: apiQuestions } = useGetQuestions();
 
   useEffect(() => {
-    if (updatedQuestions && Object.keys(updatedQuestions).length > 0) {
-      createOrUpdateQuestions(updatedQuestions);
+    if (apiQueuedQuestions && Object.keys(apiQueuedQuestions).length > 0) {
+      createOrUpdateQuestions(apiQueuedQuestions);
     }
-  }, [updatedQuestions]);
+  }, [apiQueuedQuestions]);
 
   useEffect(() => {
     const merged = [...(apiQuestions ?? [])].map(
-      (q) => updatedQuestions?.find((u) => u.id === q.id) ?? q
+      (q) => apiQueuedQuestions?.find((u) => u.id === q.id) ?? q
     );
     const newQuestions = [
       ...merged,
-      ...(updatedQuestions?.filter(
+      ...(apiQueuedQuestions?.filter(
         (u) => !apiQuestions?.some((q) => q.id === u.id)
       ) ?? []),
     ];

@@ -196,7 +196,7 @@ const renderAnswerComponent = ({
           required={question.required}
         />
       );
-      break;
+      break;  
     case "time":
       const timeOptions = question.options as QuestionOptionsMap["time"];
       answerComponent = (

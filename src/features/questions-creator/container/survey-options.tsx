@@ -51,6 +51,12 @@ export const SurveyOptions = () => {
         >
           <Eye strokeWidth={0.9} />
         </Link>
+        <Link
+          href={protectedRoutes.ANSWER_SURVEY(surveyId ?? "")}
+          className="inline-block"
+        >
+          <Eye strokeWidth={0.9} />
+        </Link>
         <Dialog>
           <DialogTrigger>
             <Edit strokeWidth={0.9} />

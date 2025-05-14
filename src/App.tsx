@@ -1,7 +1,7 @@
 import { Route, Switch } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
-import { CreateSurveyQuestions } from "./features/questions/pages/create-survey-questions";
+import { CreateQuestionsPage } from "./features/questions/pages/create-questions-page";
 import { AnswerSurvey } from "./features/answer/pages/answer-survey";
 import { RegisterPage } from "./features/auth/pages/register";
 import { LoginPage } from "./features/auth/pages/login";
@@ -18,7 +18,7 @@ function App() {
       <>
         <Switch>
           <Route path={"/survey/:surveyId/create"}>
-            <CreateSurveyQuestions />
+            <CreateQuestionsPage />
           </Route>
           <Route path={"/register"}>
             <RegisterPage />

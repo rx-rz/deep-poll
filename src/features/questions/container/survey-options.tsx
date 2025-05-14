@@ -25,7 +25,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Combine, Edit, Eye, Pen, PenBox, Trash2Icon } from "lucide-react";
+import { Combine, Edit, Eye, PenBox, Trash2Icon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";

@@ -22,7 +22,6 @@ type Props = {
 
 export const CheckboxInputQuestionCreator = memo(({ question }: Props) => {
 
-
   const { form, onSubmit } = useCheckboxQuestionCreationForm({
     question,
   });

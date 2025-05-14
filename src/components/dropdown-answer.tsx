@@ -88,6 +88,10 @@ export const DropdownAnswer = ({
                               setOpen(false);
                               setAnswer(id, currentValue);
                             }}
+                            // onChange={(currentValue) => {
+                            //   field.onChange(currentValue);
+                            //   setAnswer(id, currentValue);
+                            // }}
                           >
                             {choice}
                           </CommandItem>

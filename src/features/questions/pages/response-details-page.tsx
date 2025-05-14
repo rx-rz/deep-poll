@@ -1,5 +1,10 @@
 import { ResponseDetails } from "../../questions/container/response-details";
+import { QuestionsLayout } from "../question-creator-layout";
 
 export const ResponseDetailsPage = () => {
-  return <ResponseDetails />;
+  return (
+    <QuestionsLayout>
+      <ResponseDetails />
+    </QuestionsLayout>
+  );
 };

@@ -1,7 +1,5 @@
 import { Question } from "@/types/questions";
 import { memo } from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -9,18 +7,19 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { OptionsButton } from "../components/options-button";
-import { QuestionOptionLabel } from "../components/question-option-label";
-import { useFileUploadQuestionCreationForm } from "../form/fileuploadinput-form";
+import { OptionsButton } from "./options-button";
+import { QuestionOptionLabel } from "./question-option-label";
+import { useNumberQuestionCreationForm } from "../form/numberinput-form";
 
 type Props = {
-  question: Question<"file">;
+  question: Question<"number">;
 };
 
-export const FileUploadInputQuestionCreator = memo(({ question }: Props) => {
-
-  const { form, onSubmit } = useFileUploadQuestionCreationForm({
+export const NumberInputQuestionCreator = memo(({ question }: Props) => {
+  const { form, onSubmit } = useNumberQuestionCreationForm({
     question,
   });
 
@@ -44,78 +43,70 @@ export const FileUploadInputQuestionCreator = memo(({ question }: Props) => {
               </FormItem>
             )}
           />
+
           <FormField
             control={control}
-            name="options.acceptedFormats"
+            name="options.min"
             render={({ field }) => (
               <FormItem>
-                <Label className="text-xs">
-                  Accepted Formats (comma-separated)
-                </Label>
+                <QuestionOptionLabel text="Minimum Value" />
                 <FormControl>
-                  <Input
-                    {...field}
-                    value={(field.value as string[])?.join(", ") || ""}
-                    onChange={(e) =>
-                      field.onChange(
-                        e.target.value.split(",").map((item) => item.trim())
-                      )
-                    }
-                    placeholder="e.g., pdf, docx, jpg, png"
-                  />
+                  <Input {...field} inputMode="decimal" type="number" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <FormField
             control={control}
-            name="options.maxSizeMB"
+            name="options.max"
             render={({ field }) => (
               <FormItem>
-                <Label className="text-xs">Max Size (MB)</Label>
+                <QuestionOptionLabel text="Maximum Value" />
                 <FormControl>
-                  <Input type="number" {...field} />
+                  <Input {...field} inputMode="decimal" type="number" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <FormField
             control={control}
-            name="options.maxFiles"
+            name="options.placeholder"
             render={({ field }) => (
               <FormItem>
-                <Label className="text-xs">Max Files</Label>
+                <QuestionOptionLabel text="Placeholder" />
                 <FormControl>
-                  <Input type="number" {...field} />
+                  <Input type="text" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <FormField
             control={control}
-            name="options.allowMultiple"
+            name="options.allowDecimal"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="allowMultiple">Allow Multiple Files</Label>
-                </div>
-                <FormControl>
+              <FormItem>
+                <div className="flex items-center border-2 rounded-md p-4 justify-between gap-2 mt-5 mb-4">
+                  <Label className="text-xs">Allow Decimals</Label>
                   <Checkbox
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
-                </FormControl>
+                </div>
+                <FormMessage />
               </FormItem>
             )}
           />
-        </div>
 
-        <OptionsButton type="submit" disabled={!isDirty}>
-          Save
-        </OptionsButton>
+          <OptionsButton disabled={!isDirty} type="submit">
+            Save
+          </OptionsButton>
+        </div>
       </form>
     </Form>
   );

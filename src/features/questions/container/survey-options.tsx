@@ -25,7 +25,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Combine, Edit, Eye, PenBox, Trash2Icon } from "lucide-react";
+import {
+  ClipboardList,
+  Edit3,
+  Eye,
+  ListPlus,
+
+  Pen,
+
+  Settings,
+  Trash2Icon,
+} from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
@@ -45,34 +55,43 @@ export const SurveyOptions = () => {
     <div className="border py-3 px-2 sticky top-0 z-50 justify-between flex w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <p>{survey?.title ?? "Untitled"}</p>
       <div className="space-x-3">
+                <Link
+          href={protectedRoutes.PREVIEW_SURVEY(surveyId ?? "")}
+          className="inline-block"
+          title="Preview"
+        >
+          <Eye strokeWidth={0.9} />
+        </Link>
         <Link
           href={protectedRoutes.VIEW_SURVEY_RESPONSES(surveyId ?? "")}
           className="inline-block"
+          title="Responses"
         >
-          <Combine strokeWidth={0.9} />
+          <ClipboardList strokeWidth={0.9} />
         </Link>
         <Link
-          href={protectedRoutes.PREVIEW_SURVEY(surveyId ?? "")}
+          href={protectedRoutes.CREATE_SURVEY(surveyId ?? "")}
           className="inline-block"
+          title="Edit Survey Questions"
         >
-          <Eye strokeWidth={0.9} />
+          <Edit3 strokeWidth={0.9} />
         </Link>
         <Link
           href={protectedRoutes.ANSWER_SURVEY(surveyId ?? "")}
           className="inline-block"
         >
-          <PenBox strokeWidth={0.9} />
+          <Pen strokeWidth={0.9} />
         </Link>
-        <Dialog>
-          <DialogTrigger>
-            <Edit strokeWidth={0.9} />
+        <Dialog >
+          <DialogTrigger title="Survey Options">
+            <Settings  strokeWidth={0.9} />
           </DialogTrigger>
           <DialogContent>
             <SurveyOptionsForm />
           </DialogContent>
         </Dialog>
         <AlertDialog>
-          <AlertDialogTrigger>
+          <AlertDialogTrigger title="Delete Survey">
             <Trash2Icon strokeWidth={0.9} stroke="red" />
           </AlertDialogTrigger>
           <AlertDialogContent>

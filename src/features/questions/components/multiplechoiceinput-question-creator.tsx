@@ -10,8 +10,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { OptionsButton } from "../components/options-button";
-import { QuestionOptionLabel } from "../components/question-option-label";
+import { OptionsButton } from "./options-button";
+import { QuestionOptionLabel } from "./question-option-label";
 import { useMultipleChoiceQuestionCreationForm } from "../form/multiplechoiceinput-form";
 import { Plus, Trash2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";

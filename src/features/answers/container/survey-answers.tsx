@@ -48,6 +48,7 @@ export const SurveyAnswers = () => {
           };
         }),
     };
+    console.log(values)
     submitResponse(dto);
   };
 
@@ -62,10 +63,10 @@ export const SurveyAnswers = () => {
             Questions
           </Link>
           {questions &&
-            questions.map((question) => (
+            questions.map((question, index) => (
               <div key={question.id} className="my-4  p-4 rounded-md">
                 <div className="flex gap-1">
-                  <p className=" font-medium mb-4">{question.orderNumber}.</p>
+                  <p className=" font-medium mb-4">{index + 1}.</p>
                   <p className="font-bold">{question.questionText}</p>
                 </div>
 

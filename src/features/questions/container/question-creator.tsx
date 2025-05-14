@@ -1,25 +1,27 @@
 import { Question } from "@/types/questions";
 import { ReactNode } from "react";
-import { TextInputQuestionCreator } from "./textinput-question-creator";
+import { TextInputQuestionCreator } from "../components/textinput-question-creator";
 import { QuestionCreationCard } from "@/components/question-creation-card";
 import { QuestionIcon } from "@/lib/question-editor-props";
-import { EmailInputQuestionCreator } from "./emailinput-question-creator";
-import { NumberInputQuestionCreator } from "./numberinput-question-creator";
-import { MultipleChoiceInputQuestionCreator } from "./multiplechoiceinput-question-creator";
-import { CheckboxInputQuestionCreator } from "./checkboxinput-question-creator";
-import { DropdownInputQuestionCreator } from "./dropdowninput-question-creator";
-import { LinearScaleInputQuestionCreator } from "./linearscaleinput-question-creator";
-import { SliderInputQuestionCreator } from "./sliderinput-question-creator";
-import { LikertInputQuestionCreator } from "./likertinput-question-creator";
-import { DateInputQuestionCreator } from "./dateinput-question-creator";
-import { TimeInputQuestionCreator } from "./timeinput-question-creator";
-import { DateTimeInputQuestionCreator } from "./datetimeinput-question-creator";
-import { FileUploadInputQuestionCreator } from "./fileuploadinput-question-creator";
+import { EmailInputQuestionCreator } from "../components/emailinput-question-creator";
+import { NumberInputQuestionCreator } from "../components/numberinput-question-creator";
+import { MultipleChoiceInputQuestionCreator } from "../components/multiplechoiceinput-question-creator";
+import { CheckboxInputQuestionCreator } from "../components/checkboxinput-question-creator";
+import { DropdownInputQuestionCreator } from "../components/dropdowninput-question-creator";
+import { LinearScaleInputQuestionCreator } from "../components/linearscaleinput-question-creator";
+import { SliderInputQuestionCreator } from "../components/sliderinput-question-creator";
+import { LikertInputQuestionCreator } from "../components/likertinput-question-creator";
+import { DateInputQuestionCreator } from "../components/dateinput-question-creator";
+import { TimeInputQuestionCreator } from "../components/timeinput-question-creator";
+import { DateTimeInputQuestionCreator } from "../components/datetimeinput-question-creator";
+import { FileUploadInputQuestionCreator } from "../components/fileuploadinput-question-creator";
 
 type Props = {
   question: Question;
+  index: number
 };
-export const QuestionCreator = ({ question }: Props) => {
+
+export const QuestionCreator = ({ question, index }: Props) => {
   let questionInputSettings: ReactNode;
   switch (question.questionType) {
     case "text":
@@ -104,7 +106,7 @@ export const QuestionCreator = ({ question }: Props) => {
   return (
     <QuestionCreationCard
       icon={QuestionIcon[question.questionType]}
-      orderNumber={question.orderNumber ?? 1}
+      orderNumber={index + 1}
       id={question.id}
       questionText={question.questionText ?? ""}
       questionType={question.questionType}

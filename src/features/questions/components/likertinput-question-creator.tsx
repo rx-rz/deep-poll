@@ -11,10 +11,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, Trash2Icon } from "lucide-react";
-import { QuestionOptionLabel } from "../components/question-option-label";
+import { QuestionOptionLabel } from "./question-option-label";
 import { useLikertQuestionCreationForm } from "../form/likertinput-form";
 import { Label } from "@/components/ui/label";
-import { OptionsButton } from "../components/options-button";
+import { OptionsButton } from "./options-button";
 
 type Props = {
   question: Question<"likert">;

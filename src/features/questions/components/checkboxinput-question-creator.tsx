@@ -10,18 +10,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { OptionsButton } from "../components/options-button";
-import { QuestionOptionLabel } from "../components/question-option-label";
-import { useDropdownQuestionCreationForm } from "../form/dropdowninput-form";
+import { OptionsButton } from "./options-button";
+import { QuestionOptionLabel } from "./question-option-label";
+import { useCheckboxQuestionCreationForm } from "../form/checkboxinput-form";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type Props = {
-  question: Question<"dropdown">;
+  question: Question<"checkbox">;
 };
 
-export const DropdownInputQuestionCreator = memo(({ question }: Props) => {
-  const { form, onSubmit } = useDropdownQuestionCreationForm({
+export const CheckboxInputQuestionCreator = memo(({ question }: Props) => {
+
+  const { form, onSubmit } = useCheckboxQuestionCreationForm({
     question,
   });
 
@@ -32,7 +33,7 @@ export const DropdownInputQuestionCreator = memo(({ question }: Props) => {
   return (
     <Form {...form}>
       <form onSubmit={onSubmit}>
-        <div className="grid gap-4 mb-4">
+        <div className="flex flex-col gap-4 mb-4">
           <FormField
             control={control}
             name="questionText"
@@ -47,10 +48,11 @@ export const DropdownInputQuestionCreator = memo(({ question }: Props) => {
             )}
           />
 
-          <div className="p-4 border">
-            <div className="flex justify-between items-center mb-4">
-              <Label className="text-xs"> Choices</Label>
+          <div className="border p-4 shadow-xs mt-4">
+            <div className="flex justify-between mb-2">
+              <Label className="text-xs">Choices</Label>
               <Button
+                size={"sm"}
                 className="text-xs border-none mt-1 w-fit bg-gradient-to-br from-blue-500 to-blue-700 rounded-md overflow-hidden shadow-lg"
                 onClick={() => {
                   setValue("options.choices", [...choices, ""], {
@@ -61,19 +63,18 @@ export const DropdownInputQuestionCreator = memo(({ question }: Props) => {
                 <Plus size={19} />
               </Button>
             </div>
-            {getValues("options.choices")?.map((_, index) => (
-              <div key={index} className="flex items-center w-full gap-2 mb-2">
+            <div className="mt-4">
+              {getValues("options.choices")?.map((_, index) => (
                 <FormField
                   key={index}
                   control={control}
                   name={`options.choices.${index}`}
                   render={({ field }) => (
-                    <FormItem className="w-full">
-                      <div className="flex items-center gap-2 mb-4">
+                    <FormItem>
+                      <div className="flex items-center gap-2  mb-4">
                         <FormControl>
                           <Input
                             type="text"
-                            className="w-full"
                             placeholder={`Choice ${index + 1}`}
                             {...field}
                           />
@@ -97,16 +98,55 @@ export const DropdownInputQuestionCreator = memo(({ question }: Props) => {
                     </FormItem>
                   )}
                 />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           <FormField
             control={control}
-            name="options.allowSearch"
+            name="options.minSelections"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-2 border p-4 justify-between">
-                <Label className="text-xs">Allow Search</Label>
+              <FormItem>
+                <Label className="text-xs">Minimum Selections</Label>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min={0}
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="options.maxSelections"
+            render={({ field }) => (
+              <FormItem>
+                <Label className="text-xs">Maximum Selections</Label>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min={1}
+                    max={choices.length}
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="options.randomizeOrder"
+            render={({ field }) => (
+              <FormItem className="flex items-center gap-2 border p-4 my-4 justify-between">
+                <Label className="text-xs">Randomize Order of Choices</Label>
                 <FormControl>
                   <Checkbox
                     checked={field.value}

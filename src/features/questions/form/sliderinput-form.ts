@@ -28,43 +28,12 @@ export const sliderQuestionSchema = z
         end: z.string().default(sliderOptions.labels.end),
       }),
       range: z.boolean().default(sliderOptions.range),
-      defaultValue: z
-        .union([
-          z.coerce.number(),
-          z.tuple([z.coerce.number(), z.coerce.number()]),
-        ])
-        .optional(),
     }),
   })
   .refine((data) => data.options.max > data.options.min, {
     message: "Maximum value must be greater than minimum value",
     path: ["options", "max"],
-  })
-  .refine(
-    (data) => {
-      if (data.options.range && Array.isArray(data.options.defaultValue)) {
-        return (
-          data.options.defaultValue[0] >= data.options.min &&
-          data.options.defaultValue[1] <= data.options.max &&
-          data.options.defaultValue[0] <= data.options.defaultValue[1]
-        );
-      }
-      if (
-        !data.options.range &&
-        typeof data.options.defaultValue === "number"
-      ) {
-        return (
-          data.options.defaultValue >= data.options.min &&
-          data.options.defaultValue <= data.options.max
-        );
-      }
-      return true;
-    },
-    {
-      message: "Default value(s) must be within the min and max range.",
-      path: ["options", "defaultValue"],
-    }
-  );
+  });
 
 export type SliderQuestionDto = z.infer<typeof sliderQuestionSchema>;
 
@@ -77,7 +46,12 @@ export const useSliderQuestionCreationForm = ({
   const { mutate } = useCreateQuestion();
   const form = useForm<SliderQuestionDto>({
     resolver: zodResolver(sliderQuestionSchema),
+    defaultValues: {
+      options: question.options,
+      questionText: question.questionText,
+    },
   });
+  console.log(form.formState.errors);
 
   const onSubmit = (values: SliderQuestionDto) => {
     const loadingToast = toast.loading("Saving changes");

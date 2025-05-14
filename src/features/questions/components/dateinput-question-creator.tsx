@@ -19,9 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { QuestionOptionLabel } from "../components/question-option-label";
-import { OptionsButton } from "../components/options-button";
-import { ResetButton } from "../components/reset-button";
+import { QuestionOptionLabel } from "./question-option-label";
+import { OptionsButton } from "./options-button";
+import { ResetButton } from "./reset-button";
 
 type Props = {
   question: Question<"date">;

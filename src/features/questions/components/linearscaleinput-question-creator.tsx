@@ -2,34 +2,32 @@ import { Question } from "@/types/questions";
 import { memo } from "react";
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
+  FormControl,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { OptionsButton } from "../components/options-button";
-import { QuestionOptionLabel } from "../components/question-option-label";
-import { useNumberQuestionCreationForm } from "../form/numberinput-form";
+import { OptionsButton } from "./options-button";
+import { QuestionOptionLabel } from "./question-option-label";
+import { useLinearScaleQuestionCreationForm } from "../form/linearscaleinput-form";
 
 type Props = {
-  question: Question<"number">;
+  question: Question<"linear_scale">;
 };
 
-export const NumberInputQuestionCreator = memo(({ question }: Props) => {
-  const { form, onSubmit } = useNumberQuestionCreationForm({
+export const LinearScaleInputQuestionCreator = memo(({ question }: Props) => {
+ 
+  const { form, onSubmit } = useLinearScaleQuestionCreationForm({
     question,
   });
 
-  const { control, formState } = form;
+  const { formState, control } = form;
   const { isDirty } = formState;
-
   return (
     <Form {...form}>
       <form onSubmit={onSubmit}>
-        <div className="grid gap-4 mb-4">
+        <div className="flex flex-col gap-4 mb-4">
           <FormField
             control={control}
             name="questionText"
@@ -43,7 +41,6 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
               </FormItem>
             )}
           />
-
           <FormField
             control={control}
             name="options.min"
@@ -51,13 +48,16 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Value" />
                 <FormControl>
-                  <Input {...field} inputMode="decimal" type="number" />
+                  <Input
+                    type="number"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             control={control}
             name="options.max"
@@ -65,19 +65,22 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Maximum Value" />
                 <FormControl>
-                  <Input {...field} inputMode="decimal" type="number" />
+                  <Input
+                    type="number"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             control={control}
-            name="options.placeholder"
+            name="options.labels.start"
             render={({ field }) => (
               <FormItem>
-                <QuestionOptionLabel text="Placeholder" />
+                <QuestionOptionLabel text="Start Label" />
                 <FormControl>
                   <Input type="text" {...field} />
                 </FormControl>
@@ -85,25 +88,20 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
               </FormItem>
             )}
           />
-
           <FormField
             control={control}
-            name="options.allowDecimal"
+            name="options.labels.end"
             render={({ field }) => (
-              <FormItem>
-                <div className="flex items-center border-2 rounded-md p-4 justify-between gap-2 mt-5 mb-4">
-                  <Label className="text-xs">Allow Decimals</Label>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </div>
+              <FormItem className="mb-4">
+                <QuestionOptionLabel text="End Label" />
+                <FormControl>
+                  <Input type="text" {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <OptionsButton disabled={!isDirty} type="submit">
+          <OptionsButton type="submit" disabled={!isDirty}>
             Save
           </OptionsButton>
         </div>

@@ -7,6 +7,8 @@ import { RegisterPage } from "./features/auth/pages/register";
 import { LoginPage } from "./features/auth/pages/login";
 import { Homepage } from "./features/home/pages/homepage";
 import { Toaster } from "./components/ui/sonner";
+import { SurveyResponsesPage } from "./features/responses/pages/survey-responses-page";
+import { ResponseDetailsPage } from "./features/responses/pages/response-details-page";
 
 export const queryClient = new QueryClient();
 
@@ -14,31 +16,36 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <>
-      <Switch>
-        <Route path={"/survey/:surveyId/create"}>
-          <CreateSurveyQuestions />
-        </Route>
-        <Route path={"/register"}>
-          <RegisterPage />
-        </Route>
-        <Route path={"/login"}>
-          <LoginPage />
-        </Route>
-        <Route path={"/survey/:surveyId"}>
-          <AnswerSurvey />
-        </Route>
-        <Route path={"/survey/:surveyId/preview"}>
-          <AnswerSurvey />
-        </Route>
-        <Route path={"/"}>
-          <Homepage />
-        </Route>
-        {/* <Route path={"/design"}>
+        <Switch>
+          <Route path={"/survey/:surveyId/create"}>
+            <CreateSurveyQuestions />
+          </Route>
+          <Route path={"/register"}>
+            <RegisterPage />
+          </Route>
+          <Route path={"/login"}>
+            <LoginPage />
+          </Route>
+          <Route path={"/survey/:surveyId"}>
+            <AnswerSurvey />
+          </Route>
+          <Route path={"/survey/:surveyId/preview"}>
+            <AnswerSurvey />
+          </Route>
+          <Route path={"/survey/:surveyId/responses"}>
+            <SurveyResponsesPage />
+          </Route>
+          <Route path={"/survey/:surveyId/responses/:responseId"}>
+            <ResponseDetailsPage />
+          </Route>
+          <Route path={"/"}>
+            <Homepage />
+          </Route>
+          {/* <Route path={"/design"}>
           <DesignSystem />
         </Route> */}
-
-      </Switch>
-      <Toaster richColors visibleToasts={1}/>
+        </Switch>
+        <Toaster richColors visibleToasts={1} />
       </>
     </QueryClientProvider>
   );

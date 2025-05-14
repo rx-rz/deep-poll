@@ -10,7 +10,7 @@ type Response = {
       id: string;
       surveyId: string | null;
       accountId: string | null;
-      submittedAt: Date;
+      submittedAt: string;
       idempotencyKey: string | null;
     }[];
   };

@@ -25,7 +25,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Edit, Eye, Trash2Icon } from "lucide-react";
+import { Combine, Edit, Eye, Pen, PenBox, Trash2Icon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
@@ -46,6 +46,12 @@ export const SurveyOptions = () => {
       <p>{survey?.title ?? "Untitled"}</p>
       <div className="space-x-3">
         <Link
+          href={protectedRoutes.VIEW_SURVEY_RESPONSES(surveyId ?? "")}
+          className="inline-block"
+        >
+          <Combine strokeWidth={0.9} />
+        </Link>
+        <Link
           href={protectedRoutes.PREVIEW_SURVEY(surveyId ?? "")}
           className="inline-block"
         >
@@ -55,7 +61,7 @@ export const SurveyOptions = () => {
           href={protectedRoutes.ANSWER_SURVEY(surveyId ?? "")}
           className="inline-block"
         >
-          <Eye strokeWidth={0.9} />
+          <PenBox strokeWidth={0.9} />
         </Link>
         <Dialog>
           <DialogTrigger>

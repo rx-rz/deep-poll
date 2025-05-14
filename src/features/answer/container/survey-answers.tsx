@@ -21,7 +21,7 @@ import { DateAnswer } from "./date-answer";
 import { DateTimeAnswer } from "./datetime-answer";
 import { TimeAnswer } from "./time-answer";
 import { RatingAnswer } from "./rating-answer";
-import { useGetQuestions } from "@/features/questions-creator/api/use-get-questions";
+import { useGetQuestions } from "@/features/questions/api/use-get-questions";
 import { protectedRoutes } from "@/routes";
 import { useSurveyListStore } from "@/store/surveys.store";
 import { useCreateResponse } from "../api/use-create-response";

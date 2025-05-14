@@ -7,22 +7,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { dateTimeFormats } from "@/features/questions-creator/form/datetimeinput-form";
 import dayjs from "dayjs";
+import { dateFormats } from "@/features/questions/form/dateinput-form";
 
-type DateTimeAnswerProps = {
+type DateAnswerProps = {
   id: string;
   questionText: string;
-  options: QuestionOptionsMap["datetime"];
+  options: QuestionOptionsMap["date"];
   required: boolean;
   control: Control<any>;
 };
 
-export const DateTimeAnswer = ({
+export const DateAnswer = ({
   id,
-  options,
   control,
-}: DateTimeAnswerProps) => {
+  options,
+}: DateAnswerProps) => {
   const { format } = options;
   return (
     <FormField
@@ -31,9 +31,9 @@ export const DateTimeAnswer = ({
       render={({ field }) => (
         <FormItem>
           <FormControl>
-            <div className="relative">
+            <div className="relative ">
               <Input
-                type="datetime-local"
+                type="date"
                 {...field}
                 onChange={(e) => {
                   field.onChange(e.target.value);
@@ -41,9 +41,7 @@ export const DateTimeAnswer = ({
               />
               <p className="absolute right-2 top-1/2 -translate-y-1/2 text-sm font-medium">
                 {field.value
-                  ? `Shown as ${dayjs(field.value).format(
-                      dateTimeFormats[format]
-                    )}`
+                  ? `Shown as ${dayjs(field.value).format(dateFormats[format])}`
                   : ""}
               </p>
             </div>

@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 import { z } from "zod";
-import { surveyOptionsSchema } from "@/features/questions-creator/form/survey-options-form";
+import { surveyOptionsSchema } from "@/features/questions/form/survey-options-form";
 
 type SurveyOptions = z.infer<typeof surveyOptionsSchema>;
 type SurveyOptionsStore = {

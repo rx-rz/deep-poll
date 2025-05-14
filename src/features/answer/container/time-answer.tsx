@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import dayjs from "dayjs";
-import { timeFormats } from "@/features/questions-creator/form/timeinput-form";
+import { timeFormats } from "@/features/questions/form/timeinput-form";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
 type TimeAnswerProps = {

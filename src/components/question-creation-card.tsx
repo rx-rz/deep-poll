@@ -19,7 +19,7 @@ import {
 import { QuestionType } from "@/types/questions";
 
 import { Checkbox } from "./ui/checkbox";
-import { useDeleteQuestion } from "@/features/questions-creator/api/use-delete-question";
+import { useDeleteQuestion } from "@/features/questions/api/use-delete-question";
 
 type Props = {
   icon: ReactNode | any;

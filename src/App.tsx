@@ -2,7 +2,7 @@ import { Route, Switch } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import { CreateQuestionsPage } from "./features/questions/pages/create-questions-page";
-import { AnswerSurvey } from "./features/answer/pages/answer-survey";
+import { AnswerSurvey } from "./features/answers/pages/answer-survey";
 import { RegisterPage } from "./features/auth/pages/register";
 import { LoginPage } from "./features/auth/pages/login";
 import { Homepage } from "./features/home/pages/homepage";

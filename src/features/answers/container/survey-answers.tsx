@@ -29,12 +29,13 @@ export const SurveyAnswers = () => {
 
   const onSubmit = (values: Record<string, any>) => {
     const userData = JSON.parse(localStorage.getItem("deep-poll-user") || "{}");
+
     const dto = {
       response: {
         accountId: userData.account_id ?? "",
       },
       answers: Object.keys(values)
-        .slice(0, 11)
+        .slice(0, Object.keys(values).length)
         .map((key) => {
           const value = values[key];
           return {
@@ -48,7 +49,6 @@ export const SurveyAnswers = () => {
           };
         }),
     };
-    console.log(values)
     submitResponse(dto);
   };
 

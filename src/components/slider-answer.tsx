@@ -2,6 +2,7 @@ import { QuestionOptionsMap } from "@/types/questions";
 import { Control } from "react-hook-form";
 import { FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Slider } from "@/components/ui/slider";
+import { useDetermineWhetherAnswerInputIsForResponseViewingOnly } from "@/hooks/use-determine-whether-answer-input-is-for-response-viewing-only";
 
 type SliderAnswerProps = {
   id: string;
@@ -11,11 +12,7 @@ type SliderAnswerProps = {
   control: Control<any>;
 };
 
-export const SliderAnswer = ({
-  id,
-  options,
-  control,
-}: SliderAnswerProps) => {
+export const SliderAnswer = ({ id, options, control }: SliderAnswerProps) => {
   const { min, max, step, labels, range } = options;
 
   return (
@@ -23,6 +20,7 @@ export const SliderAnswer = ({
       control={control}
       name={id}
       render={({ field }) => {
+        
         const sliderValue =
           field.value !== undefined
             ? range

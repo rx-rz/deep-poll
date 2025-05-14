@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { Question } from "@/types/questions";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
 
@@ -15,6 +16,7 @@ type Response = {
         id: string;
         createdAt: Date;
         responseId: string | null;
+        question: Question;
       }[];
       submittedAt: Date;
       account: {
@@ -40,6 +42,8 @@ export const useGetResponse = () => {
 
   return {
     response: data?.data.response,
+    questions: data?.data.response.answers.map((answer) => answer.question),
+    answers: data?.data.response.answers.map((answer) => answer),
     error,
     loading: isLoading,
   };

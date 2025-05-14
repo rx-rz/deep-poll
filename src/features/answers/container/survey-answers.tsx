@@ -9,7 +9,7 @@ import { useSurveyListStore } from "@/store/surveys.store";
 import { useCreateResponse } from "../api/use-create-response";
 import { useGetQuestions } from "@/features/questions/api/use-get-questions";
 import { protectedRoutes } from "@/routes";
-import { getAnswersUI } from "../get-answer-ui";
+import { getAnswersUI } from "@/lib/get-answer-ui";
 
 export const SurveyAnswers = () => {
   const [location] = useLocation();

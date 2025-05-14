@@ -1,20 +1,20 @@
 import { Question, QuestionOptionsMap } from "@/types/questions";
 import { Control } from "react-hook-form";
 import { ReactNode } from "react";
-import { TextAnswer } from "../../components/text-answer";
-import { EmailAnswer } from "../../components/email-answer";
-import { NumberAnswer } from "../../components/number-answer";
-import { MultipleChoiceAnswer } from "../../components/multiple-choice-answer";
-import { CheckboxAnswer } from "../../components/checkbox-answer";
-import { DropdownAnswer } from "../../components/dropdown-answer";
-import { LinearScaleAnswer } from "../../components/linear-scale-answer";
-import { SliderAnswer } from "../../components/slider-answer";
-import { LikertAnswer } from "../../components/likert-answer";
-import { FileAnswer } from "../../components/file-answer";
-import { DateAnswer } from "../../components/date-answer";
-import { DateTimeAnswer } from "../../components/datetime-answer";
-import { TimeAnswer } from "../../components/time-answer";
-import { RatingAnswer } from "../../components/rating-answer";
+import { EmailAnswer } from "@/components/email-answer";
+import { NumberAnswer } from "@/components/number-answer";
+import { MultipleChoiceAnswer } from "@/components/multiple-choice-answer";
+import { CheckboxAnswer } from "@/components/checkbox-answer";
+import { DropdownAnswer } from "@/components/dropdown-answer";
+import { LinearScaleAnswer } from "@/components/linear-scale-answer";
+import { SliderAnswer } from "@/components/slider-answer";
+import { LikertAnswer } from "@/components/likert-answer";
+import { FileAnswer } from "@/components/file-answer";
+import { DateAnswer } from "@/components/date-answer";
+import { DateTimeAnswer } from "@/components/datetime-answer";
+import { TimeAnswer } from "@/components/time-answer";
+import { RatingAnswer } from "@/components/rating-answer";
+import { TextAnswer } from "@/components/text-answer";
 
 export const getAnswersUI = ({
   question,

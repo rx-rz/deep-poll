@@ -2,13 +2,13 @@ import { Route, Switch } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import { CreateQuestionsPage } from "./features/questions/pages/create-questions-page";
-import { AnswerSurvey } from "./features/answers/pages/answer-survey-page";
+import { AnswerSurveyPage } from "./features/answers/pages/answer-survey-page";
 import { RegisterPage } from "./features/auth/pages/register";
 import { LoginPage } from "./features/auth/pages/login";
 import { Homepage } from "./features/home/pages/homepage";
 import { Toaster } from "./components/ui/sonner";
-import { SurveyResponsesPage } from "./features/responses/pages/survey-responses-page";
-import { ResponseDetailsPage } from "./features/responses/pages/response-details-page";
+import { SurveyResponsesPage } from "./features/questions/pages/survey-responses-page";
+import { ResponseDetailsPage } from "./features/questions/pages/response-details-page";
 
 export const queryClient = new QueryClient();
 
@@ -27,10 +27,10 @@ function App() {
             <LoginPage />
           </Route>
           <Route path={"/survey/:surveyId"}>
-            <AnswerSurvey />
+            <AnswerSurveyPage />
           </Route>
           <Route path={"/survey/:surveyId/preview"}>
-            <AnswerSurvey />
+            <AnswerSurveyPage />
           </Route>
           <Route path={"/survey/:surveyId/responses"}>
             <SurveyResponsesPage />

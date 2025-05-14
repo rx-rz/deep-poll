@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 type Props = {
   children: ReactNode;
 };
-export const QuestionCreatorLayout = ({ children }: Props) => {
+export const QuestionsLayout = ({ children }: Props) => {
 
   return (
     <div className="w-full border">

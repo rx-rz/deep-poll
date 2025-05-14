@@ -1,4 +1,4 @@
-import { SurveyResponses } from "../containers/survey-responses";
+import { SurveyResponses } from "../../questions/container/survey-responses";
 
 export const SurveyResponsesPage = () => {
   return (

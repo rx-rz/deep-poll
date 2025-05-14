@@ -1,12 +1,12 @@
 import { QuestionTypeTrigger } from "../container/question-type-trigger";
 import { SurveyQuestions } from "../container/survey-questions";
-import { QuestionCreatorLayout } from "../question-creator-layout";
+import { QuestionsLayout } from "../question-creator-layout";
 
 export const CreateQuestionsPage = () => {
   return (
-    <QuestionCreatorLayout>
+    <QuestionsLayout>
       <SurveyQuestions />
       <QuestionTypeTrigger />
-    </QuestionCreatorLayout>
+    </QuestionsLayout>
   );
 };

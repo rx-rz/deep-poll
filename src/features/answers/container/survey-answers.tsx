@@ -55,7 +55,6 @@ export const SurveyAnswers = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-lg w-[95%] flex flex-col my-4 mx-auto"
       >
         <p className="text-2xl uppercase font-bold my-5">{survey?.title}</p>
         <div className="">

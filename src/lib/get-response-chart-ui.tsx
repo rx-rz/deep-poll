@@ -17,6 +17,7 @@ type Question = {
 };
 
 export const getResponseChartUI = (questionAnswersData: Question) => {
+  console.log(questionAnswersData.questionType);
   let chartComponent: ReactNode;
   const { answers, id, questionText, questionType } = questionAnswersData;
   switch (questionType) {
@@ -29,13 +30,14 @@ export const getResponseChartUI = (questionAnswersData: Question) => {
           questionType={questionType}
         />
       );
-    break;
+      break;
     default:
       chartComponent = (
         <p className="text-red-500">
           Chart not available for this question type.
         </p>
       );
-    return chartComponent;
+
   }
+  return chartComponent
 };

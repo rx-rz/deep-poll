@@ -4,6 +4,7 @@ import { protectedRoutes } from "@/routes";
 import { useGetQuestionAnswers } from "../api/use-get-question-answers";
 import { BarChartHorizontal } from "../components/bar-chart-horizontal";
 import { Fragment } from "react/jsx-runtime";
+import { getResponseChartUI } from "@/lib/get-response-chart-ui";
 
 export const SurveyResponses = () => {
   const { responses } = useGetSurveyResponses();
@@ -15,6 +16,11 @@ export const SurveyResponses = () => {
       <p className="text-xl font-bold">
         {responses ? responses.length : 0} responses
       </p>
+      <div>
+        {questionAnswers?.questions.map((question) => (
+          <Fragment key={question.id}>{getResponseChartUI(question)}</Fragment>
+        ))}
+      </div>
       {/* {responses?.map((response) => (
         <Link
           key={response.id}
@@ -27,7 +33,6 @@ export const SurveyResponses = () => {
           <p></p>
         </Link>
       ))} */}
-
     </div>
   );
 };

@@ -212,7 +212,7 @@ export const getAnswersUI = ({
           required={question.required}
         />
       );
-      break;
+    break;
     default:
       answerComponent = null;
   }

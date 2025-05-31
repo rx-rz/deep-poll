@@ -1,9 +1,12 @@
 import { Link, useParams } from "wouter";
 import { useGetSurveyResponses } from "../api/use-get-survey-responses";
 import { protectedRoutes } from "@/routes";
+import { useGetQuestionAnswers } from "../api/use-get-question-answers";
 
 export const SurveyResponses = () => {
   const { responses } = useGetSurveyResponses();
+  const { questionAnswers } = useGetQuestionAnswers();
+  console.log({ questionAnswers });
   const { surveyId } = useParams();
   return (
     <div>

@@ -189,7 +189,7 @@ export const TextCharts = ({ answers, id, questionText }: Props) => {
                 <LabelList
                   dataKey="answer"
                   position="inside"
-                  className="text-red-400 font-medium" 
+                  className="text-red-400 font-medium  text-sm [writing-mode:vertical-lr]" 
                   fontSize={16}
                   offset={10}
                 />

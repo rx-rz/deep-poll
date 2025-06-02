@@ -1,5 +1,5 @@
 import { api } from "@/lib/axios";
-import { QuestionType } from "@/types/questions";
+import { QuestionOptionsMap, QuestionType } from "@/types/questions";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
 
@@ -9,6 +9,7 @@ type Response = {
       questionType: QuestionType;
       questionText: string;
       id: string;
+      options?: QuestionOptionsMap[QuestionType] | null;
       answers: {
         id: string;
         questionId: string | null;

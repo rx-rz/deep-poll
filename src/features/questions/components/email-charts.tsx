@@ -53,7 +53,6 @@ const PIE_CHART_COLORS = [
   "hsl(var(--chart-4))",
   "hsl(var(--chart-5))",
   "hsl(var(--chart-6))",
-  // Add more colors if you expect many segments
 ];
 
 const getDomainFromEmail = (email: string): string | null => {
@@ -82,7 +81,6 @@ export const EmailCharts = ({ answers, id, questionText }: Props) => {
     mode: EmailProcessMode = "domain"
   ) => {
     const counts: Record<string, number> = {};
-
     data.forEach((item) => {
       if (item.answerText !== null) {
         let key: string | null = null;
@@ -102,7 +100,7 @@ export const EmailCharts = ({ answers, id, questionText }: Props) => {
     });
 
     return Object.entries(counts).map(([value, count]) => ({
-      value, // Renamed 'answer' to 'value' for more generic output
+      value,
       count,
     }));
   };

@@ -117,7 +117,6 @@ export const LinearScaleCharts = ({
         });
       }
     } else {
-      // Fallback if no options provided (though less ideal for linear scale)
       processedData = Object.entries(counts)
         .map(([valueStr, count]) => ({
           value: parseInt(valueStr, 10),
@@ -128,6 +127,10 @@ export const LinearScaleCharts = ({
     }
     return processedData;
   };
+
+  const processAnswerData = (data: typeof answers) => {
+    
+  }
 
   const processedAnswers = processLinearScaleAnswerData(answers, questionOptions);
   const totalCount = processedAnswers.reduce(
@@ -166,189 +169,6 @@ export const LinearScaleCharts = ({
         </Select>
       </div>
 
-      {chartType === "table" && (
-        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-          <Table>
-            <TableCaption>Responses for: {questionText}</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[50%]">Scale Point</TableHead>
-                <TableHead className="text-right">Count</TableHead>
-                <TableHead className="text-right">Percentage</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {processedAnswers.length > 0 ? (
-                processedAnswers.map((item) => (
-                  <TableRow key={item.value}>
-                    <TableCell className="font-medium">
-                      {item.label || item.value}
-                    </TableCell>
-                    <TableCell className="text-right">{item.count}</TableCell>
-                    <TableCell className="text-right">
-                      {totalCount > 0
-                        ? ((item.count / totalCount) * 100).toFixed(1)
-                        : 0}
-                      %
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={3} className="text-center">
-                    No data available.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </ChartContainer>
-      )}
-
-      {chartType === "bar-vertical" && processedAnswers.length > 0 && (
-        <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
-          <BarChart
-            accessibilityLayer
-            data={processedAnswers}
-            margin={{
-                top: 20, // Space for labels on top of bars
-                right: 20,
-                left: 10,
-                bottom: questionOptions?.labels?.start || questionOptions?.labels?.end ? 80 : 40, // More space if labels are long
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="label" // Use the generated label (e.g., "1 (Start)", "2", "3 (End)")
-              type="category"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              angle={ (processedAnswers.length > 7 && (questionOptions?.labels?.start || questionOptions?.labels?.end)) ? -45 : 0}
-              textAnchor={ (processedAnswers.length > 7 && (questionOptions?.labels?.start || questionOptions?.labels?.end)) ? "end" : "middle"}
-              interval={0} // Show all scale points
-              height={ (processedAnswers.length > 7 && (questionOptions?.labels?.start || questionOptions?.labels?.end)) ? 70 : 30}
-            />
-            <YAxis dataKey="count" type="number" allowDecimals={false} />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent />}
-            />
-            <Bar dataKey="count" fill="var(--color-count)" radius={[4, 4, 0, 0]}>
-              <LabelList
-                dataKey="count"
-                position="top"
-                offset={8}
-                className="fill-foreground"
-                fontSize={12}
-                formatter={(value: number) => (value > 0 ? value : "")} // Hide label if count is 0
-              />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
-      )}
-
-      {chartType === "bar-horizontal" && processedAnswers.length > 0 && (
-        <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
-          <BarChart
-            accessibilityLayer
-            data={processedAnswers}
-            layout="vertical"
-            margin={{
-              left: questionOptions?.labels?.start || questionOptions?.labels?.end ? 120 : 80, // More space for labels
-              right: 30,
-              top: 10,
-              bottom: 10,
-            }}
-          >
-            <CartesianGrid horizontal={false} />
-            <YAxis
-              dataKey="label" // Use the generated label
-              type="category"
-              tickLine={false}
-              tickMargin={5}
-              axisLine={false}
-              width={questionOptions?.labels?.start || questionOptions?.labels?.end ? 110 : 70}
-              interval={0}
-            />
-            <XAxis dataKey="count" type="number" hide />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <Bar dataKey="count" fill="var(--color-count)" radius={4}>
-              <LabelList
-                dataKey="count"
-                position="right"
-                offset={8}
-                className="fill-foreground"
-                fontSize={12}
-                formatter={(value: number) => (value > 0 ? value : "")} // Hide label if count is 0
-              />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
-      )}
-
-
-      {chartType === "pie" && pieChartData.length > 0 && (
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[350px]" // Increased max-h for pie
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent nameKey="label" hideLabel />} // Use label for tooltip
-            />
-            <Pie
-              data={pieChartData} // Use filtered data for pie
-              dataKey="count"
-              nameKey="label" // Use the generated label for slices
-              cx="50%"
-              cy="50%"
-              outerRadius={100}
-              innerRadius={60}
-              strokeWidth={2}
-              paddingAngle={1}
-            >
-              {pieChartData.map((entry, index) => (
-                <Cell
-                  key={`cell-${entry.value}`}
-                  fill={PIE_CHART_COLORS[index % PIE_CHART_COLORS.length]}
-                />
-              ))}
-              <LabelList
-                position="outside" // 'outside' can sometimes work better for pie charts
-                // formatter={(value: any, entry: any) => {
-                //   const scalePointLabel = entry.payload.label || entry.payload.value;
-                //   const currentCount = entry.payload.count;
-                //   const percentage = totalCount > 0 ? ((currentCount / totalCount) * 100).toFixed(0) : 0;
-                //   if (parseInt(percentage) < 3 && pieChartData.length > 5) return null; // Hide for very small slices if many items
-                //   return `${scalePointLabel}: ${percentage}%`;
-                // }}
-                className="fill-foreground text-xs"
-                stroke="none"
-                offset={12} // Adjust offset for 'outside' labels
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      )}
-
-      {processedAnswers.length === 0 && chartType !== "table" && (
-         <div className="text-center py-10 text-gray-500">
-           No response data available to render the selected chart.
-         </div>
-      )}
-      {chartType === "pie" && pieChartData.length === 0 && processedAnswers.length > 0 && (
-         <div className="text-center py-10 text-gray-500">
-           No responses with counts greater than zero to display in Pie chart.
-         </div>
-      )}
-      { (chartType === "bar-vertical" || chartType === "bar-horizontal") && processedAnswers.length === 0 && (
-          <div className="text-center py-10 text-gray-500">No data to display for Bar chart.</div>
-      )}
 
     </div>
   );

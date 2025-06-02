@@ -11,6 +11,15 @@ type Props = {
   }[];
 };
 import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   Bar,
   BarChart,
   CartesianGrid,
@@ -35,7 +44,6 @@ const PIE_CHART_COLORS = [
   "hsl(var(--chart-4))",
   "hsl(var(--chart-5))",
   "hsl(var(--chart-6))",
-
 ];
 
 import {
@@ -47,7 +55,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 
-export const MultipleChoiceCharts = ({ answers, id, questionText }: Props) => {
+export const MultipleChoiceCharts = ({ answers }: Props) => {
   const [chartType, setChartType] = useState<
     "table" | "bar-horizontal" | "bar-vertical" | "pie"
   >("table");
@@ -100,6 +108,27 @@ export const MultipleChoiceCharts = ({ answers, id, questionText }: Props) => {
           </SelectContent>
         </Select>
       </div>
+      {chartType === "table" && (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Selected Option</TableHead>
+              <TableHead>Count</TableHead>
+              <TableHead>Percentage</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {processedAnswers.map(({ answer, count }, index) => (
+              <TableRow key={index}>
+                <TableCell>{answer}</TableCell>
+                <TableCell>{count}</TableCell>
+                <TableCell>{((count / answers.length) * 100).toFixed(1) ?? 0 }%</TableCell>
+
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
       {chartType === "bar-horizontal" && (
         <ChartContainer config={chartConfig}>
           <BarChart

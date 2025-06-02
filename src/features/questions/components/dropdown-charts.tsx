@@ -127,9 +127,9 @@ export const DropdownCharts = ({ answers, id, questionText }: Props) => {
             <TableCaption>Responses for: {questionText}</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[70%]">Selected Option</TableHead>
-                <TableHead className="text-right">Count</TableHead>
-                <TableHead className="text-right">Percentage</TableHead>
+                <TableHead >Selected Option</TableHead>
+                <TableHead >Count</TableHead>
+                <TableHead >Percentage</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -139,8 +139,8 @@ export const DropdownCharts = ({ answers, id, questionText }: Props) => {
                     <TableCell className="font-medium">
                       {item.answer}
                     </TableCell>
-                    <TableCell className="text-right">{item.count}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell >{item.count}</TableCell>
+                    <TableCell >
                       {totalCount > 0
                         ? ((item.count / totalCount) * 100).toFixed(1)
                         : 0}
@@ -272,7 +272,6 @@ export const DropdownCharts = ({ answers, id, questionText }: Props) => {
               cx="50%"
               cy="50%"
               outerRadius={80}
- // For a donut-like pie
               strokeWidth={2}
               paddingAngle={2}
             >

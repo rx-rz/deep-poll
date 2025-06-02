@@ -19,9 +19,9 @@ export const SurveyList = () => {
   console.log({surveys: queryClient.getQueryData(["surveys"])})
   return (
     <div className="">
-      <div className=" mx-auto">
+      <div className=" mx-auto mt-4">
 
-        <ul className="space-y-4 grid grid-cols-2">
+        <ul className="space-y-8 grid">
           {surveys &&
             surveys.map((survey) => (
               <li key={survey.id} className="border ">

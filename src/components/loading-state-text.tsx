@@ -6,11 +6,8 @@ type Props = {
 export const LoadingStateText = ({ text }: Props) => {
   return (
     <p className="inline-flex gap-2 items-center">
-      <span>
-        <Loader2 className="animate-spin h-4 w-4 text-gray-500" />
-        {text}
-      </span>
-      <span></span>
+      <Loader2 className="animate-spin h-4 w-4 text-white" />
+      {text}
     </p>
   );
 };

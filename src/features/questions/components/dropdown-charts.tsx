@@ -100,7 +100,6 @@ export const DropdownCharts = ({ answers, id, questionText }: Props) => {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">{questionText}</h3>
         <Select
           value={chartType}
           onValueChange={(value) =>
@@ -122,9 +121,8 @@ export const DropdownCharts = ({ answers, id, questionText }: Props) => {
       </div>
 
       {chartType === "table" && (
-        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+
           <Table>
-            <TableCaption>Responses for: {questionText}</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead >Selected Option</TableHead>
@@ -157,7 +155,6 @@ export const DropdownCharts = ({ answers, id, questionText }: Props) => {
               )}
             </TableBody>
           </Table>
-        </ChartContainer>
       )}
 
       {chartType === "bar-horizontal" && processedAnswers.length > 0 && (

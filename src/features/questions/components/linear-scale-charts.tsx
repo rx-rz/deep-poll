@@ -50,9 +50,9 @@ type Props = {
   questionText: string;
   id: string; // question ID
   // Pass the specific options for this linear scale question
-  questionOptions?: QuestionOptionsMap['linear_scale'];
+  questionOptions?: QuestionOptionsMap["linear_scale"];
   answers: AnswerEntry[];
-};  
+};
 
 const PIE_CHART_COLORS = [
   "hsl(var(--chart-1))",
@@ -68,87 +68,49 @@ const PIE_CHART_COLORS = [
 ];
 
 const chartConfig = {
-  value: { // For the scale point (e.g., 1, 2, 3, 4, 5)
+  value: {
+    // For the scale point (e.g., 1, 2, 3, 4, 5)
     label: "Scale Point",
   },
-  count: { // For the frequency of each scale point
+  count: {
+    // For the frequency of each scale point
     label: "Count",
     color: "hsl(var(--chart-1))", // Default color for bars
   },
 } satisfies ChartConfig;
 
-export const LinearScaleCharts = ({
-  answers,
-  id,
-  questionText,
-  questionOptions,
-}: Props) => {
+export const LinearScaleCharts = ({ answers, id, questionText }: Props) => {
   const [chartType, setChartType] = useState<
     "table" | "bar-vertical" | "bar-horizontal" | "pie"
   >("table");
 
-  const processLinearScaleAnswerData = (
-    data: typeof answers,
-    options?: QuestionOptionsMap['linear_scale']
-  ) => {
+  const processAnswerData = (data: typeof answers) => {
     const counts = data.reduce((acc, item) => {
-      const value = item.answerNumber;
-      if (value !== null && typeof value === 'number') {
-        const key = value.toString();
-        acc[key] = (acc[key] || 0) + 1;
+      const answer = item.answerText ?? item.answerNumber;
+      if (answer) {
+        acc[answer] = (acc[answer] || 0) + 1;
       }
       return acc;
     }, {} as Record<string, number>);
-
-    let processedData: { value: number; count: number; label?: string }[] = [];
-
-    if (options && typeof options.min === 'number' && typeof options.max === 'number') {
-      for (let i = options.min; i <= options.max; i++) {
-        let pointLabel = i.toString();
-        if (i === options.min && options.labels?.start) {
-          pointLabel = `${i} (${options.labels.start})`;
-        } else if (i === options.max && options.labels?.end) {
-          pointLabel = `${i} (${options.labels.end})`;
-        }
-        processedData.push({
-          value: i,
-          count: counts[i.toString()] || 0,
-          label: pointLabel, // For display on axes
-        });
-      }
-    } else {
-      processedData = Object.entries(counts)
-        .map(([valueStr, count]) => ({
-          value: parseInt(valueStr, 10),
-          count,
-          label: valueStr,
-        }))
-        .sort((a, b) => a.value - b.value);
-    }
-    return processedData;
+    return Object.entries(counts).map(([answer, count]) => ({
+      answer,
+      count,
+    }));
   };
 
-  const processAnswerData = (data: typeof answers) => {
-    
-  }
-
-  const processedAnswers = processLinearScaleAnswerData(answers, questionOptions);
+  const processedAnswers = processAnswerData(answers);
   const totalCount = processedAnswers.reduce(
     (sum, entry) => sum + entry.count,
     0
   );
 
-  // Filter out zero-count items for Pie chart to avoid clutter, unless it's the only item
-  const pieChartData = processedAnswers.filter(entry => entry.count > 0);
+  const pieChartData = processedAnswers.filter((entry) => entry.count > 0);
   if (pieChartData.length === 0 && processedAnswers.length > 0) {
-    // If all are zero, pie chart will be empty, which is fine
   }
-
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">{questionText}</h3>
         <Select
           value={chartType}
           onValueChange={(value) =>
@@ -164,12 +126,161 @@ export const LinearScaleCharts = ({
             <SelectItem value="table">Table</SelectItem>
             <SelectItem value="bar-vertical">Bar (Vertical)</SelectItem>
             <SelectItem value="bar-horizontal">Bar (Horizontal)</SelectItem>
-            {pieChartData.length > 0 && <SelectItem value="pie">Pie Chart</SelectItem>}
+            {pieChartData.length > 0 && (
+              <SelectItem value="pie">Pie Chart</SelectItem>
+            )}
           </SelectContent>
         </Select>
       </div>
-
-
+      {chartType === "table" && (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Selected Option</TableHead>
+              <TableHead>Count</TableHead>
+              <TableHead>Percentage</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {processedAnswers.map(({ answer, count }, index) => (
+              <TableRow key={index}>
+                <TableCell>{answer}</TableCell>
+                <TableCell>{count}</TableCell>
+                <TableCell>
+                  {((count / answers.length) * 100).toFixed(1) ?? 0}%
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+      {chartType === "bar-horizontal" && (
+        <ChartContainer config={chartConfig}>
+          <BarChart
+            accessibilityLayer
+            data={processedAnswers}
+            layout="vertical"
+          >
+            <CartesianGrid horizontal={false} />
+            <YAxis
+              dataKey="answer"
+              type="category"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              width={40}
+              tick={{ fontSize: 12 }}
+            />
+            <XAxis dataKey="count" type="number" />
+            <ChartTooltip
+              cursor={false}
+              content={({ payload }) => (
+                <div className="bg-white border px-2 py-1 rounded shadow text-sm">
+                  {payload?.[0] && (
+                    <>
+                      <div>
+                        <strong>{payload[0].payload.answer}</strong>
+                      </div>
+                      <div>Count: {payload[0].value}</div>
+                    </>
+                  )}
+                </div>
+              )}
+            />
+            <Bar dataKey="count" layout="vertical">
+              <LabelList
+                dataKey="value"
+                position="insideLeft"
+                className="text-lg"
+                offset={8}
+                fontSize={12}
+              />
+            </Bar>
+          </BarChart>
+        </ChartContainer>
+      )}
+      {chartType === "bar-vertical" && (
+        <ChartContainer config={chartConfig} className="min-h-[250px] w-full">
+          <BarChart
+            accessibilityLayer
+            data={processedAnswers}
+            margin={{
+              top: 10,
+              right: 10,
+              left: 10,
+              bottom: 60, // Increased bottom margin for rotated labels
+            }}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="answer"
+              type="category"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              angle={-45} // Rotate labels
+              textAnchor="end" // Anchor rotated labels correctly
+              interval={0} // Show all labels
+              tickFormatter={(value) =>
+                value.length > 10 ? `${value.slice(0, 10)}...` : value
+              }
+            />
+            <YAxis dataKey="count" type="number" />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
+            <Bar
+              dataKey="count"
+              fill="var(--color-count)"
+              radius={[4, 4, 0, 0]}
+            >
+              <LabelList
+                dataKey="count"
+                position="top"
+                offset={8}
+                className="fill-foreground"
+                fontSize={12}
+              />
+            </Bar>
+          </BarChart>
+        </ChartContainer>
+      )}
+      {chartType === "pie" && processedAnswers.length > 0 && (
+        <ChartContainer
+          config={chartConfig}
+          className="mx-auto aspect-square max-h-[300px]"
+        >
+          <PieChart>
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent nameKey="answer" hideLabel />}
+            />
+            <Pie
+              data={processedAnswers}
+              dataKey="count"
+              nameKey="answer"
+              cx="50%"
+              cy="50%"
+              outerRadius={80}
+              strokeWidth={2}
+              paddingAngle={2}
+            >
+              {processedAnswers.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={PIE_CHART_COLORS[index % PIE_CHART_COLORS.length]}
+                />
+              ))}
+              <LabelList
+                dataKey="answer"
+                className="fill-background text-xs"
+                stroke="none"
+              />
+            </Pie>
+          </PieChart>
+        </ChartContainer>
+      )}
     </div>
   );
 };

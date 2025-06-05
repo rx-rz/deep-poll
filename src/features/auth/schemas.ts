@@ -1,8 +1,7 @@
 import { z } from "zod";
 
 const passwordSchema = z
-  .string()
-  .nonempty()
+  .string({ message: "Please enter your password" })
   .min(8, "Password must be at least 8 characters long")
   .max(100, "Password must be at most 100 characters long");
 // .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
@@ -10,8 +9,11 @@ const passwordSchema = z
 // .regex(/\d{1,}/, "Password must contain at least one digit")
 // .regex(/^\S*$/, "Password must not contain spaces");
 
-const emailSchema = z.string().email().max(255).nonempty()
-
+const emailSchema = z
+  .string({ message: "Please enter your email" })
+  .email({ message: "Enter a valid email" })
+  .max(255)
+  .nonempty();
 
 export type EmailDto = z.infer<typeof emailSchema>;
 
@@ -25,8 +27,7 @@ export type RegisterUserDto = z.infer<typeof registerUserSchema>;
 
 export const loginUserSchema = z.object({
   email: emailSchema,
-  password: passwordSchema
-})
-
+  password: passwordSchema,
+});
 
 export type LoginUserDto = z.infer<typeof loginUserSchema>;

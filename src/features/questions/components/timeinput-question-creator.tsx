@@ -12,8 +12,8 @@ import {
   timeFormats,
   useTimeQuestionCreationForm,
 } from "../form/timeinput-form";
-import { QuestionOptionLabel } from "../components/question-option-label";
-import { OptionsButton } from "../components/options-button";
+import { QuestionOptionLabel } from "./question-option-label";
+import { OptionsButton } from "./options-button";
 import {
   Select,
   SelectContent,
@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ResetButton } from "../components/reset-button";
+import { ResetButton } from "./reset-button";
 
 type Props = {
   question: Question<"time">;

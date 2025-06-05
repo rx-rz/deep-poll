@@ -17,7 +17,7 @@ export const SurveyQuestions = () => {
       <div className="w-fit  flex flex-col gap-3">
         {questions &&
           questions.map((question, i) => (
-            <QuestionCreator question={question} key={question.id} index={i}/>
+            <QuestionCreator question={question} key={question.id} index={i} />
           ))}
       </div>
     </div>

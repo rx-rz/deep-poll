@@ -12,8 +12,8 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { QuestionOptionLabel } from "../components/question-option-label";
-import { OptionsButton } from "../components/options-button";
+import { QuestionOptionLabel } from "./question-option-label";
+import { OptionsButton } from "./options-button";
 import { Checkbox } from "@/components/ui/checkbox";
 
 type Props = {

@@ -8,8 +8,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { OptionsButton } from "../components/options-button";
-import { QuestionOptionLabel } from "../components/question-option-label";
+import { OptionsButton } from "./options-button";
+import { QuestionOptionLabel } from "./question-option-label";
 import { useSliderQuestionCreationForm } from "../form/sliderinput-form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";

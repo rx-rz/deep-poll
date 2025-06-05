@@ -12,6 +12,7 @@ import {
   CalendarClock,
   File,
   Sliders,
+  PlusSquare,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,8 +30,16 @@ export const QuestionTypeTrigger = () => {
   const { addQuestion } = useQuestionStore();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="w-full h-12 border mt-3 hover:cursor-pointer ">
-        Click here to create a question
+      <DialogTrigger className="border-4  border-secondary hover:bg-secondary/20 transition-colors duration-150 border-dashed p-4 w-full mt-4 shadow-sm  hover:cursor-pointer ">
+        <div className="flex  gap-3  w-fit mx-auto">
+          <PlusSquare
+            className="mx-auto"
+
+            strokeWidth={1}
+            stroke="#3b82f6"
+          />
+          <p className=""> Add Survey Question</p>
+        </div>
       </DialogTrigger>
       <DialogContent className="max-h-[600px] py-5 overflow-y-scroll border-4  border-black rounded-none">
         <DialogHeader className="text-lg font-medium ">

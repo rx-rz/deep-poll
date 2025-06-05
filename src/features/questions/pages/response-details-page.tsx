@@ -1,4 +1,4 @@
-import { ResponseDetails } from "../../questions/container/response-details";
+import { ResponseDetails } from "../container/response-details";
 import { QuestionsLayout } from "../question-creator-layout";
 
 export const ResponseDetailsPage = () => {

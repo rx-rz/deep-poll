@@ -30,9 +30,7 @@ import {
   Edit3,
   Eye,
   ListPlus,
-
   Pen,
-
   Settings,
   Trash2Icon,
 } from "lucide-react";
@@ -52,47 +50,59 @@ export const SurveyOptions = () => {
     state.fetchSurveyById(surveyId!)
   );
   return (
-    <div className="border py-3 px-2 sticky top-0 z-50 justify-between flex w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <p>{survey?.title ?? "Untitled"}</p>
-      <div className="space-x-3">
-                <Link
+    <div className=" py-3 px-2 sticky top-0 z-50 justify-between flex w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="flex items-center gap-3">
+        <p>{survey?.title ?? "Untitled Survey"}</p>
+        <Dialog>
+          <DialogTrigger
+            title="Survey Settings"
+            className="hover:cursor-pointer focus:cursor-pointer"
+          >
+            <Settings strokeWidth={1.3} />
+          </DialogTrigger>
+          <DialogContent>
+            <SurveyOptionsForm />
+          </DialogContent>
+        </Dialog>
+      </div>
+      <div className="flex gap-x-6 items-center">
+        <Link
           href={protectedRoutes.PREVIEW_SURVEY(surveyId ?? "")}
           className="inline-block"
           title="Preview"
         >
-          <Eye strokeWidth={0.9} />
+          <div className="flex text-xs items-center gap-2">
+            <p>Preview</p>
+            <Eye strokeWidth={1.3} />
+          </div>
         </Link>
         <Link
           href={protectedRoutes.VIEW_SURVEY_RESPONSES(surveyId ?? "")}
           className="inline-block"
           title="Responses"
         >
-          <ClipboardList strokeWidth={0.9} />
+          <div className="flex text-xs items-center gap-2">
+            <p>Responses</p>
+            <ClipboardList strokeWidth={1.3} />
+          </div>
         </Link>
-        <Link
+        {/* <Link
           href={protectedRoutes.CREATE_SURVEY(surveyId ?? "")}
           className="inline-block"
           title="Edit Survey Questions"
         >
-          <Edit3 strokeWidth={0.9} />
-        </Link>
-        <Link
+          <Edit3 strokeWidth={1.3} />
+        </Link> */}
+        {/* <Link
           href={protectedRoutes.ANSWER_SURVEY(surveyId ?? "")}
           className="inline-block"
         >
-          <Pen strokeWidth={0.9} />
-        </Link>
-        <Dialog >
-          <DialogTrigger title="Survey Options">
-            <Settings  strokeWidth={0.9} />
-          </DialogTrigger>
-          <DialogContent>
-            <SurveyOptionsForm />
-          </DialogContent>
-        </Dialog>
+          <Pen strokeWidth={1.3} />
+        </Link> */}
+
         <AlertDialog>
-          <AlertDialogTrigger title="Delete Survey">
-            <Trash2Icon strokeWidth={0.9} stroke="red" />
+          <AlertDialogTrigger title="Delete Survey" className="focus:cursor-pointer hover:cursor-pointer">
+            <Trash2Icon strokeWidth={1.3} stroke="red" />
           </AlertDialogTrigger>
           <AlertDialogContent>
             <SurveyDeletionPrompt />

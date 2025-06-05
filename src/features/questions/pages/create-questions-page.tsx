@@ -5,8 +5,8 @@ import { QuestionsLayout } from "../question-creator-layout";
 export const CreateQuestionsPage = () => {
   return (
     <QuestionsLayout>
-      <SurveyQuestions />
       <QuestionTypeTrigger />
+      <SurveyQuestions />
     </QuestionsLayout>
   );
 };

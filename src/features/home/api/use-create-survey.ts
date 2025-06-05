@@ -3,7 +3,8 @@ import { CreateSurveyDto } from "../schema";
 import { useMutation } from "@tanstack/react-query";
 import { handleAPIErrors } from "@/lib/errors";
 import { toast } from "sonner";
-
+import { useLocation } from "wouter";
+import { protectedRoutes } from "@/routes";
 
 type Response = {
   success: boolean;
@@ -14,6 +15,7 @@ type Response = {
 };
 
 export const useCreateSurvey = () => {
+  const [_, navigate] = useLocation();
   const userData = JSON.parse(localStorage.getItem("deep-poll-user") || "{}");
   const newSurvey = {
     accountId: userData.account_id ?? "",
@@ -32,9 +34,9 @@ export const useCreateSurvey = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: createSurvey,
-    onSuccess: ({ message }) => {
+    onSuccess: ({ message, data }) => {
       toast.success(message);
-      location.reload();
+      navigate(protectedRoutes.CREATE_SURVEY(data.id));
       //   ...old,
       //   {
       //     id: data.id,
@@ -54,7 +56,7 @@ export const useCreateSurvey = () => {
   const handleSubmit = () => {
     mutate(newSurvey);
   };
-  
+
   return {
     handleSubmit,
     loading: isPending,

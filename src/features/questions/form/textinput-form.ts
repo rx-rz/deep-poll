@@ -4,7 +4,6 @@ import { Question } from "@/types/questions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useCreateQuestion } from "../api/use-create-question";
 
 const textOptions = defaultQuestionOptions.text;
 export const textQuestionSchema = z

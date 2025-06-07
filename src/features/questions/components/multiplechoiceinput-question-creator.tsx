@@ -52,12 +52,12 @@ export const MultipleChoiceInputQuestionCreator = memo(
               control={control}
               name="options.choices"
               render={() => (
-                <FormItem className="border p-4 mt-4 shadow-sm">
+                <FormItem className=" mt-4 border four-border p-4 mx-1 rounded-sm">
                   <div className="flex justify-between mb-2">
                     <Label className="text-xs">Choices</Label>
                     <Button
                       size={"sm"}
-                      className="text-xs border-none mt-1 w-fit bg-gradient-to-br from-blue-500 to-blue-700 rounded-md overflow-hidden shadow-lg"
+                      className="text-xs border-none mt-1 w-fit bg-primary"
                       onClick={() =>
                         setValue("options.choices", [...choices, ""], {
                           shouldDirty: true,
@@ -103,27 +103,7 @@ export const MultipleChoiceInputQuestionCreator = memo(
               )}
             />
 
-            <FormField
-              control={control}
-              name="options.maxLengthForOtherParameter"
-              disabled={form.getValues("options.allowOther") === false}
-              render={({ field }) => (
-                <FormItem>
-                  <QuestionOptionLabel text="Maximum Length For Other Value" />
-                  <FormControl>
-                    <Input
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      type="number"
-                      {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="p-4 flex-col my-4 flex gap-6 border rounded-md shadow-xs">
+            <div className="p-4 flex-col bg-muted my-4 flex gap-6 border rounded-md shadow-xs">
               <FormField
                 control={control}
                 name="options.allowOther"
@@ -140,7 +120,27 @@ export const MultipleChoiceInputQuestionCreator = memo(
                   </FormItem>
                 )}
               />
-
+              <FormField
+                control={control}
+                name="options.maxLengthForOtherParameter"
+                disabled={form.getValues("options.allowOther") === false}
+                render={({ field }) => (
+                  <FormItem className="flex justify-between items-center">
+                    <QuestionOptionLabel text="Maximum Length For Other Value" />
+                    <FormControl>
+                      <Input
+                        inputMode="numeric"
+                        className="w-fit"
+                        pattern="[0-9]*"
+                        type="number"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={control}
                 name="options.randomizeOrder"

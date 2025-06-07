@@ -56,7 +56,6 @@ export const QuestionTypeTrigger = () => {
               variant={"ghost"}
               onClick={() => {
                 setOpen(false);
-
                 addQuestion({
                   questionType: "text",
                   questionText:

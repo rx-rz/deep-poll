@@ -4,10 +4,6 @@ import { useForm } from "react-hook-form";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { useQuestionStore } from "@/store/questions.store";
 import { Question } from "@/types/questions";
-import { toast } from "sonner";
-import { useCreateQuestion } from "../api/use-create-question";
-import { handleAPIErrors } from "@/lib/errors";
-
 const checkboxOptions = defaultQuestionOptions.checkbox;
 
 export const checkboxQuestionSchema = z
@@ -44,7 +40,9 @@ export const useCheckboxQuestionCreationForm = ({
   question: Question<"checkbox">;
 }) => {
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const { mutate } = useCreateQuestion();
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
+  );
   const form = useForm<CheckboxQuestionDto>({
     resolver: zodResolver(checkboxQuestionSchema),
     defaultValues: {
@@ -54,29 +52,8 @@ export const useCheckboxQuestionCreationForm = ({
   });
 
   const onSubmit = (values: CheckboxQuestionDto) => {
-    const loadingToast = toast.loading("Saving changes");
-    mutate(
-      {
-        ...question,
-        options: values.options,
-        questionText: values.questionText,
-      },
-      {
-        onSuccess: () => {
-          toast.success("Survey updated successfully");
-          updateQuestion(question.id, {
-            questionText: values.questionText,
-            options: values.options,
-          });
-        },
-        onError: (error) => {
-          handleAPIErrors(error);
-        },
-        onSettled: () => {
-          toast.dismiss(loadingToast);
-        },
-      }
-    );
+    updateQuestion(question.id, { ...question, ...values });
+    addApiQueuedQuestion(question.id, { ...question, ...values });
     form.reset(values);
   };
 

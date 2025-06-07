@@ -14,6 +14,7 @@ import {
 import { QuestionOptionLabel } from "./question-option-label";
 import { OptionsButton } from "./options-button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ResetButton } from "./reset-button";
 
 type Props = {
   question: Question<"text">;
@@ -23,7 +24,7 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
     question,
   });
 
-  const { control, formState } = form;
+  const { control, formState, reset } = form;
   const { isDirty } = formState;
 
   return (
@@ -54,7 +55,21 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Answer Length" />
                 <FormControl>
-                  <Input type="number" min={1} {...field} />
+                  <div className="flex">
+                    <Input {...field} inputMode="decimal" type="number" />
+                    <ResetButton
+                      disabled={isDirty === false}
+                      onClick={() => {
+                        reset({
+                          ...form.getValues(),
+                          options: {
+                            ...form.getValues("options"),
+                            minAnswerLength: undefined,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -68,11 +83,21 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Answer Length" />
                 <FormControl>
-                  <Input
-                    min={form.getValues("options.maxAnswerLength")}
-                    type="number"
-                    {...field}
-                  />
+                  <div className="flex">
+                    <Input {...field} inputMode="decimal" type="number" />
+                    <ResetButton
+                      disabled={isDirty === false}
+                      onClick={() => {
+                        reset({
+                          ...form.getValues(),
+                          options: {
+                            ...form.getValues("options"),
+                            maxAnswerLength: undefined,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

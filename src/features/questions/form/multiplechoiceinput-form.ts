@@ -4,9 +4,6 @@ import { useForm } from "react-hook-form";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
 import { useQuestionStore } from "@/store/questions.store";
 import { Question } from "@/types/questions";
-import { useCreateQuestion } from "../api/use-create-question";
-import { handleAPIErrors } from "@/lib/errors";
-import { toast } from "sonner";
 
 const multipleChoiceOptions = defaultQuestionOptions.multiple_choice;
 
@@ -42,8 +39,11 @@ export const useMultipleChoiceQuestionCreationForm = ({
 }: {
   question: Question<"multiple_choice">;
 }) => {
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
+  );
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const { mutate } = useCreateQuestion();
+
   const form = useForm<MultipleChoiceQuestionDto>({
     resolver: zodResolver(multipleChoiceQuestionSchema),
     defaultValues: {
@@ -53,30 +53,10 @@ export const useMultipleChoiceQuestionCreationForm = ({
   });
 
   const onSubmit = (values: MultipleChoiceQuestionDto) => {
-    const loadingToast = toast.loading("Saving changes");
-    mutate(
-      {
-        ...question,
-        options: values.options,
-        questionText: values.questionText,
-      },
-      {
-        onSuccess: () => {
-          toast.success("Survey updated successfully");
-          updateQuestion(question.id, {
-            questionText: values.questionText,
-            options: values.options,
-          });
-        },
-        onError: (error) => {
-          handleAPIErrors(error);
-        },
-        onSettled: () => {
-          toast.dismiss(loadingToast);
-        },
-      }
-    );
+    updateQuestion(question.id, { ...question, ...values });
+    addApiQueuedQuestion(question.id, { ...question, ...values });
     form.reset(values);
+
   };
 
   return {

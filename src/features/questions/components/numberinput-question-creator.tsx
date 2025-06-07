@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { OptionsButton } from "./options-button";
 import { QuestionOptionLabel } from "./question-option-label";
 import { useNumberQuestionCreationForm } from "../form/numberinput-form";
+import { ResetButton } from "./reset-button";
 
 type Props = {
   question: Question<"number">;
@@ -23,7 +24,7 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
     question,
   });
 
-  const { control, formState } = form;
+  const { control, formState, reset } = form;
   const { isDirty } = formState;
 
   return (
@@ -51,7 +52,21 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Value" />
                 <FormControl>
-                  <Input {...field} inputMode="decimal" type="number" />
+                  <div className="flex">
+                    <Input {...field} inputMode="decimal" type="number" />
+                    <ResetButton
+                      disabled={isDirty === false}
+                      onClick={() => {
+                        reset({
+                          ...form.getValues(),
+                          options: {
+                            ...form.getValues("options"),
+                            min: undefined,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -65,7 +80,21 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Maximum Value" />
                 <FormControl>
-                  <Input {...field} inputMode="decimal" type="number" />
+                  <div className="flex">
+                    <Input {...field} inputMode="decimal" type="number" />
+                    <ResetButton
+                      disabled={isDirty === false}
+                      onClick={() => {
+                        reset({
+                          ...form.getValues(),
+                          options: {
+                            ...form.getValues("options"),
+                            max: undefined,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,7 +120,7 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
             name="options.allowDecimal"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center border-2 rounded-md p-4 justify-between gap-2 mt-5 mb-4">
+                <div className="flex items-center border bg-muted rounded-md p-4 justify-between gap-2 mt-5 mb-4">
                   <Label className="text-xs">Allow Decimals</Label>
                   <Checkbox
                     checked={field.value}

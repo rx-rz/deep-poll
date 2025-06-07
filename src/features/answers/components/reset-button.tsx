@@ -3,12 +3,14 @@ import { RefreshCcw } from "lucide-react";
 
 type Props = {
   onClick: () => void;
+  disabled?: boolean;
 };
-export const ResetButton = ({ onClick }: Props) => {
+export const ResetButton = ({ onClick, disabled }: Props) => {
   return (
     <Button
-      className=" bg-gradient-to-br  h-8 w-8 from-blue-500 to-blue-700"
+      className=" h-9 w-9 bg-primary"
       title="Reset"
+      disabled={disabled}
       onClick={onClick}
     >
       <RefreshCcw />

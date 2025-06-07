@@ -13,6 +13,7 @@ import {
 import { QuestionOptionLabel } from "./question-option-label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { OptionsButton } from "./options-button";
+import { ResetButton } from "./reset-button";
 
 type Props = {
   question: Question<"email">;
@@ -23,7 +24,7 @@ export const EmailInputQuestionCreator = memo(({ question }: Props) => {
     question,
   });
 
-  const { control, formState, watch } = form;
+  const { control, formState, watch, reset } = form;
   const { isDirty } = formState;
 
   const [allowedDomainsList, disallowedDomainList] = [
@@ -55,7 +56,21 @@ export const EmailInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Email Length" />
                 <FormControl>
-                  <Input type="number" min={1} {...field} />
+                  <div className="flex">
+                    <Input {...field} min={3} inputMode="decimal" type="number" />
+                    <ResetButton
+                      disabled={isDirty === false}
+                      onClick={() => {
+                        reset({
+                          ...form.getValues(),
+                          options: {
+                            ...form.getValues("options"),
+                            minEmailLength: undefined,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -68,11 +83,21 @@ export const EmailInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Maximum Email Length" />
                 <FormControl>
-                  <Input
-                    type="number"
-                    min={form.getValues("options.minEmailLength")}
-                    {...field}
-                  />
+                  <div className="flex">
+                    <Input {...field} inputMode="decimal" type="number" min={form.getValues("options.minEmailLength")}/>
+                    <ResetButton
+                      disabled={isDirty === false}
+                      onClick={() => {
+                        reset({
+                          ...form.getValues(),
+                          options: {
+                            ...form.getValues("options"),
+                            minEmailLength: undefined,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

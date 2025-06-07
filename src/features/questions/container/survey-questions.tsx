@@ -23,8 +23,8 @@ export const SurveyQuestions = () => {
   }, [apiQuestions]);
 
   useEffect(() => {
-    if (apiQueuedQuestions && apiQueuedQuestions.length > 0) {
-      mutate(apiQueuedQuestions, {
+    if (debouncedApiQueuedQuestions && debouncedApiQueuedQuestions.length > 0) {
+      mutate(debouncedApiQueuedQuestions, {
         onSuccess: () => {
           resetApiQueuedQuestions();
         },
@@ -40,7 +40,7 @@ export const SurveyQuestions = () => {
             <div className="my-2">
               <QuestionCreator
                 question={question}
-                key={question.id}
+                key={i}
                 index={i}
               />
             </div>

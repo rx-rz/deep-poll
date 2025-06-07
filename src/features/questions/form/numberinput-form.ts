@@ -25,21 +25,20 @@ export const numberQuestionSchema = z
   .refine((data) => data.options.max >= data.options.min, {
     message: "Maximum value must be greater than or equal to minimum value",
     path: ["options", "max"],
-  })
-  .refine(
-    (data) => {
-      // With allowDecimal false, both min and max must be integers
-      return !(
-        data.options.allowDecimal === false &&
-        (!Number.isInteger(data.options.min) ||
-          !Number.isInteger(data.options.max))
-      );
-    },
-    {
-      message: "Values cannot be decimals when 'Allow Decimals' is disabled",
-      path: ["options", "max"],
-    }
-  );
+  });
+// .refine(
+//   (data) => {
+//     return !(
+//       data.options.allowDecimal === false &&
+//       (!Number.isInteger(data.options.min) ||
+//         !Number.isInteger(data.options.max))
+//     );
+//   },
+//   {
+//     message: "Values cannot be decimals when 'Allow Decimals' is disabled",
+//     path: ["options", "max"],
+//   }
+// );
 
 type NumberQuestionDto = z.infer<typeof numberQuestionSchema>;
 export const useNumberQuestionCreationForm = ({
@@ -61,7 +60,11 @@ export const useNumberQuestionCreationForm = ({
 
   const onSubmit = (values: NumberQuestionDto) => {
     updateQuestion(question.id, { ...question, ...values });
-    addApiQueuedQuestion(question.id, { ...question, ...values });
+    addApiQueuedQuestion(question.id, {
+      ...question,
+      ...values,
+      questionType: "number",
+    });
     form.reset(values);
   };
 

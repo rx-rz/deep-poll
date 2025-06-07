@@ -21,7 +21,7 @@ type Props = {
   index: number
 };
 
-export const QuestionCreator = ({ question, index }: Props) => {
+export const QuestionCreator = ({ question }: Props) => {
   let questionInputSettings: ReactNode;
   switch (question.questionType) {
     case "text":

@@ -14,9 +14,14 @@ export const SurveyQuestions = () => {
     resetApiQueuedQuestions,
   } = useQuestionStore();
   const { questions: apiQuestions } = useGetQuestions();
+
   const { mutate } = useCreateQuestion();
   const debouncedApiQueuedQuestions = useDebounce(apiQueuedQuestions, 3000);
-  console.log(apiQueuedQuestions);
+
+  useEffect(() => {
+    setQuestions(apiQuestions ?? []);
+  }, [apiQuestions]);
+
   useEffect(() => {
     if (apiQueuedQuestions && apiQueuedQuestions.length > 0) {
       mutate(apiQueuedQuestions, {
@@ -32,7 +37,13 @@ export const SurveyQuestions = () => {
       <div className="w-fit  flex flex-col gap-3">
         {questions &&
           questions.map((question, i) => (
-            <QuestionCreator question={question} key={question.id} index={i} />
+            <div className="my-2">
+              <QuestionCreator
+                question={question}
+                key={question.id}
+                index={i}
+              />
+            </div>
           ))}
       </div>
     </div>

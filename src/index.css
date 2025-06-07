@@ -168,6 +168,10 @@
 }
 
 @layer components {
+  .eight-border {
+    @apply border-dotted outline-offset-8 outline;
+    box-shadow: 0 0 0 8px var(--color-input); /* Uses your CSS custom property */
+  }
   .four-border {
     @apply border-dotted outline-offset-4 outline;
     box-shadow: 0 0 0 4px var(--color-input); /* Uses your CSS custom property */

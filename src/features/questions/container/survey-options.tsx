@@ -66,7 +66,7 @@ export const SurveyOptions = () => {
         </Link> */
   }
   return (
-    <div className=" py-3 px-2 sticky top-0 z-50 justify-between flex w-full  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="bg-black py-3   px-2 sticky top-0 z-50 justify-between flex mx-auto   backdrop-blur supports-[backdrop-filter]:bg-input w-10/12">
       <div className="flex items-center gap-3">
         <p className="font-medium text-lg">
           {survey?.title ?? "Untitled Survey"}

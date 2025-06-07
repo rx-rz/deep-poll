@@ -1,4 +1,4 @@
-  import { Question } from "@/types/questions";
+import { Question } from "@/types/questions";
 import { memo } from "react";
 import { useEmailQuestionCreationForm } from "../form/emailinput-form";
 import { Label } from "@/components/ui/label";
@@ -55,7 +55,7 @@ export const EmailInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Email Length" />
                 <FormControl>
-                  <Input type="number" {...field} />
+                  <Input type="number" min={1} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -68,7 +68,11 @@ export const EmailInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Maximum Email Length" />
                 <FormControl>
-                  <Input type="number" {...field} />
+                  <Input
+                    type="number"
+                    min={form.getValues("options.minEmailLength")}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -138,7 +142,7 @@ export const EmailInputQuestionCreator = memo(({ question }: Props) => {
             control={control}
             name="options.allowDuplicates"
             render={({ field }) => (
-              <div className="flex items-center border-2 rounded-md p-4 justify-between gap-2 mt-5 mb-4">
+              <div className="flex items-center border bg-muted rounded-md p-4 justify-between gap-2 mt-5 mb-4">
                 <Label className="text-xs">Allow Duplicates</Label>
                 <Checkbox
                   checked={field.value}

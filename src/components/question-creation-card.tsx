@@ -16,7 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
-import { Question, QuestionType } from "@/types/questions";
+import { Question } from "@/types/questions";
 
 import { Checkbox } from "./ui/checkbox";
 import { useDeleteQuestion } from "@/features/questions/api/use-delete-question";
@@ -30,12 +30,10 @@ type Props = {
 
 export const QuestionCreationCard = ({ icon, question, children }: Props) => {
   const {
-    createdAt,
     id,
     orderNumber,
     questionType,
-    required,
-    surveyId,
+
     questionText,
   } = question;
   const [questionOptionsIsOpen, setQuestionOptionsIsOpen] = useState(false);

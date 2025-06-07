@@ -35,10 +35,10 @@ import { useParams } from "wouter";
 export const QuestionTypeTrigger = () => {
   const { surveyId } = useParams();
   const [open, setOpen] = useState(false);
-  const { addQuestion, updateApiQueuedQuestion } = useQuestionStore();
+  const { addQuestion } = useQuestionStore();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className=" sticky top-10  border-secondary hover:bg-muted transition-colors duration-150 border-dashed p-4 w-full mt-4 shadow-sm  hover:cursor-pointer ">
+      <DialogTrigger className=" bg-input four-border  border-secondary hover:bg-muted transition-colors duration-150 border-dashed p-4 w-full mt-6 shadow-sm  hover:cursor-pointer ">
         <div className="flex  gap-3  w-fit mx-auto">
           <PlusSquare className="mx-auto text-primary" strokeWidth={1.3} />
           <p> Add Survey Question</p>
@@ -56,6 +56,7 @@ export const QuestionTypeTrigger = () => {
               variant={"ghost"}
               onClick={() => {
                 setOpen(false);
+
                 addQuestion({
                   questionType: "text",
                   questionText:
@@ -66,7 +67,6 @@ export const QuestionTypeTrigger = () => {
                     ...defaultQuestionOptions.text,
                   },
                 });
-
               }}
             >
               <Type size={30} />

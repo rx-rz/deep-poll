@@ -48,6 +48,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { LoadingStateText } from "@/components/loading-state-text";
 
 export const SurveyOptions = () => {
   const { surveyId } = useParams();
@@ -123,7 +124,7 @@ export const SurveyOptions = () => {
         <AlertDialog>
           <AlertDialogTrigger
             title="Delete Survey"
-            className="focus:cursor-pointer hover:cursor-pointer"
+            className="focus:cursor-pointer hover:cursor-pointer mb-1"
           >
             <Trash2Icon strokeWidth={1.3} stroke="red" />
           </AlertDialogTrigger>
@@ -165,13 +166,13 @@ const SurveyDeletionPrompt = () => {
 };
 
 const SurveyOptionsForm = () => {
-  const { form, handleSubmit } = useUpdateSurvey();
+  const { form, handleSubmit, loading } = useUpdateSurvey();
 
   return (
-    <>
-      <DialogHeader className="mb-4">
-        <DialogTitle className="font-medium text-lg">
-          Survey Options
+    <div>
+      <DialogHeader className="mb-12">
+        <DialogTitle className="font-medium text-lg absolute top-3">
+          Survey Settings
         </DialogTitle>
       </DialogHeader>
       <Form {...form}>
@@ -184,9 +185,13 @@ const SurveyOptionsForm = () => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel className="text-xs">Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter survey title" {...field} />
+                  <Input
+                    placeholder="Enter survey title"
+                    className="border-muted"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -197,11 +202,11 @@ const SurveyOptionsForm = () => {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel className="text-xs">Description</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Enter survey description"
-                    className="rounded-none"
+                    className=" bg-transparent"
                     {...field}
                   />
                 </FormControl>
@@ -209,64 +214,73 @@ const SurveyOptionsForm = () => {
               </FormItem>
             )}
           />
-          <div className="flex flex-col gap-8 py-4 border px-3 -lg">
-            <FormField
-              control={form.control}
-              name="requiresSignIn"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between ">
-                  <div className="space-y-0.5">
-                    <FormLabel>Requires Sign In</FormLabel>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="showProgressBar"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between ">
-                  <div className="space-y-0.5">
-                    <FormLabel>Show Progress Bar</FormLabel>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="showLinkToSubmitAnother"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between ">
-                  <div className="space-y-0.5">
-                    <FormLabel>Show Link to Submit Another</FormLabel>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+          <div className="border two-border p-4 mt-4 rounded-md">
+            <p className="text-xs opacity-60 font-medium">Options</p>
+            <div className="flex flex-col gap-6 py-4">
+              <FormField
+                control={form.control}
+                name="requiresSignIn"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between ">
+                    <div className="space-y-0.5">
+                      <FormLabel>Requires Sign In</FormLabel>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="showProgressBar"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between ">
+                    <div className="space-y-0.5">
+                      <FormLabel>Show Progress Bar</FormLabel>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="showLinkToSubmitAnother"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between ">
+                    <div className="space-y-0.5">
+                      <FormLabel>Show Link to Submit Another</FormLabel>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
           <DialogFooter className="mt-4">
-            <Button>Save</Button>
+            <Button
+              className="border two-border w-full"
+              disabled={!form.formState.isDirty || loading}
+            >
+              {" "}
+              {loading ? <LoadingStateText text="Saving" /> : "Save"}
+            </Button>
           </DialogFooter>
         </form>
       </Form>
-    </>
+    </div>
   );
 };

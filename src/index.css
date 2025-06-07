@@ -10,11 +10,25 @@
 /*#0127f0 primary buttons*/
 /*#152478 dark shade text*/
 
+::selection {
+  background-color: rgba(
+    195,
+    205,
+    253,
+    0.6
+  ) !important;  /* Your light blue with transparency */
+  color: #152478 !important;
+}
+
+::-moz-selection {
+  background-color: rgba(195, 205, 253, 0.6) !important;
+  color: #152478 !important;
+}
 :root {
   --radius: 0.3rem;
 
   --background: #d8dcf2; /* Your background color */
-  --foreground: #152478; /* Your dark shade text */
+  --foreground: black; /* Your dark shade text */
   --card: #ffffff;
   --card-foreground: #152478;
   --popover: #ffffff;
@@ -150,5 +164,16 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .four-border {
+    @apply border-dotted outline-offset-4 outline;
+    box-shadow: 0 0 0 4px var(--color-input); /* Uses your CSS custom property */
+  }
+  .two-border {
+    @apply border-dotted outline-offset-2 outline;
+    box-shadow: 0 0 0 2px var(--color-input); /* Uses your CSS custom property */
   }
 }

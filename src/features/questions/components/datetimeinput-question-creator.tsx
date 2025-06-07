@@ -28,10 +28,8 @@ type Props = {
 };
 
 export const DateTimeInputQuestionCreator = memo(({ question }: Props) => {
-  
-
   const { form, onSubmit } = useDateTimeQuestionCreationForm({
-  question
+    question,
   });
 
   const { control, formState, reset } = form;
@@ -92,15 +90,16 @@ export const DateTimeInputQuestionCreator = memo(({ question }: Props) => {
                 <FormItem>
                   <QuestionOptionLabel text="Minimum Datetime" />
                   <FormControl>
-                    <div className="relative border">
-                      <Input type="datetime-local" {...field} />
+                    <div className="flex">
+                      <Input {...field} type="datetime-local" />
                       <ResetButton
+                        disabled={isDirty === false}
                         onClick={() => {
                           reset({
                             ...form.getValues(),
                             options: {
-                              ...form.getValues().options,
-                              minDatetime: "",
+                              ...form.getValues("options"),
+                              minDatetime: undefined,
                             },
                           });
                         }}
@@ -120,15 +119,16 @@ export const DateTimeInputQuestionCreator = memo(({ question }: Props) => {
                 <FormItem>
                   <QuestionOptionLabel text="Maximum Datetime" />
                   <FormControl>
-                    <div className="relative border">
-                      <Input type="datetime-local" {...field} />
+                    <div className="flex">
+                      <Input {...field} type="datetime-local" />
                       <ResetButton
+                        disabled={isDirty === false}
                         onClick={() => {
                           reset({
                             ...form.getValues(),
                             options: {
-                              ...form.getValues().options,
-                              maxDatetime: "",
+                              ...form.getValues("options"),
+                              maxDatetime: undefined,
                             },
                           });
                         }}

@@ -23,7 +23,7 @@ export const SurveyList = () => {
         surveys.map((survey) => (
           <li
             key={survey.id}
-            className="border border-secondary transition-colors duration-150 hover:text-white hover:bg-secondary  h-fit  rounded-md items-center"
+            className="hover:bg-primary hover:text-white bg-input border  h-fit  rounded-md items-center"
           >
             <Link
               onClick={() => {
@@ -31,7 +31,7 @@ export const SurveyList = () => {
                 resetApiQueuedQuestions();
               }}
               href={protectedRoutes.CREATE_SURVEY(survey.id)}
-              className="inline-block  relative w-full px-4 py-4  h-48 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+              className="inline-block  relative w-full px-4 py-4  h-48 focus:outline-none  transition duration-150 ease-in-out"
             >
               <div>
                 <h2 className="text-xl font-medium ">{survey.title}</h2>
@@ -44,8 +44,8 @@ export const SurveyList = () => {
                     <Badge variant={"outline"}>Published</Badge>
                   ) : (
                     <Badge
-                      variant={"outline"}
-                      className="p-1 bg-gray-400 border-0 text-white text-xs px-2 rounded-md"
+                      variant={"default"}
+                      className="p-1 border-0 text-white text-xs px-2"
                     >
                       Not Published
                     </Badge>

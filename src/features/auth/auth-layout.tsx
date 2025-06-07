@@ -8,8 +8,8 @@ export const AuthLayout = ({ children }: Props) => {
     <main className="">
       <div className="flex justify-between h-screen">
         <div className="w-3/5  sticky h-screen top-0 overflow-y-clip">
-          <div className="relative">
-            <img src="/auth-splash.jpeg" alt="" />
+          <div className="relative min-h-screen">
+            <img src="/auth-splash.jpg" alt="" className="h-screen object-cover" />
             <div className="absolute z-10 top-6 left-6 max-w-xl text-left text-white">
               <p className="font-extrabold mb-4 ml-1">Qore.</p>
               <p className="text-6xl font-medium">

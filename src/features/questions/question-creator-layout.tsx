@@ -7,7 +7,7 @@ type Props = {
 export const QuestionsLayout = ({ children }: Props) => {
 
   return (
-    <div className="w-full border">
+    <div className="md:w-[90%] mx-auto ">
       <SurveyOptions />
       <div className="max-w-lg mx-auto w-[96%] mb-16">{children}</div>
     </div>

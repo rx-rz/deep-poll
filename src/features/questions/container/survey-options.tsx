@@ -43,27 +43,41 @@ import { Link, useParams } from "wouter";
 import { useSurveyListStore } from "@/store/surveys.store";
 import { useDeleteSurvey } from "@/features/home/api/use-delete-survey";
 import { protectedRoutes } from "@/routes";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const SurveyOptions = () => {
   const { surveyId } = useParams();
   const survey = useSurveyListStore((state) =>
     state.fetchSurveyById(surveyId!)
   );
+
+  {
+    /* <Link
+          href={protectedRoutes.CREATE_SURVEY(surveyId ?? "")}
+          className="inline-block"
+          title="Edit Survey Questions"
+        >
+          <Edit3 strokeWidth={1.3} />
+        </Link> */
+  }
+  {
+    /* <Link
+          href={protectedRoutes.ANSWER_SURVEY(surveyId ?? "")}
+          className="inline-block"
+        >
+          <Pen strokeWidth={1.3} />
+        </Link> */
+  }
   return (
-    <div className=" py-3 px-2 sticky top-0 z-50 justify-between flex w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className=" py-3 px-2 sticky top-0 z-50 justify-between flex w-full  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex items-center gap-3">
-        <p>{survey?.title ?? "Untitled Survey"}</p>
-        <Dialog>
-          <DialogTrigger
-            title="Survey Settings"
-            className="hover:cursor-pointer focus:cursor-pointer"
-          >
-            <Settings strokeWidth={1.3} />
-          </DialogTrigger>
-          <DialogContent>
-            <SurveyOptionsForm />
-          </DialogContent>
-        </Dialog>
+        <p className="font-medium text-lg">
+          {survey?.title ?? "Untitled Survey"}
+        </p>
       </div>
       <div className="flex gap-x-6 items-center">
         <Link
@@ -71,37 +85,46 @@ export const SurveyOptions = () => {
           className="inline-block"
           title="Preview"
         >
-          <div className="flex text-xs items-center gap-2">
-            <p>Preview</p>
-            <Eye strokeWidth={1.3} />
-          </div>
+          <Tooltip>
+            <TooltipTrigger>
+              <Eye strokeWidth={1.3} />
+            </TooltipTrigger>
+            <TooltipContent>Preview Survey</TooltipContent>
+          </Tooltip>
         </Link>
         <Link
           href={protectedRoutes.VIEW_SURVEY_RESPONSES(surveyId ?? "")}
           className="inline-block"
           title="Responses"
         >
-          <div className="flex text-xs items-center gap-2">
-            <p>Responses</p>
-            <ClipboardList strokeWidth={1.3} />
-          </div>
+          <Tooltip>
+            <TooltipTrigger>
+              <ClipboardList strokeWidth={1.3} />
+            </TooltipTrigger>
+            <TooltipContent>Survey Responses</TooltipContent>
+          </Tooltip>
         </Link>
-        {/* <Link
-          href={protectedRoutes.CREATE_SURVEY(surveyId ?? "")}
-          className="inline-block"
-          title="Edit Survey Questions"
-        >
-          <Edit3 strokeWidth={1.3} />
-        </Link> */}
-        {/* <Link
-          href={protectedRoutes.ANSWER_SURVEY(surveyId ?? "")}
-          className="inline-block"
-        >
-          <Pen strokeWidth={1.3} />
-        </Link> */}
-
+        <Dialog>
+          <DialogTrigger
+            title="Survey Settings"
+            className="hover:cursor-pointer focus:cursor-pointer"
+          >
+            <Tooltip>
+              <TooltipTrigger>
+                <Settings strokeWidth={1.3} />
+              </TooltipTrigger>
+              <TooltipContent>Survey Settings</TooltipContent>
+            </Tooltip>{" "}
+          </DialogTrigger>
+          <DialogContent>
+            <SurveyOptionsForm />
+          </DialogContent>
+        </Dialog>
         <AlertDialog>
-          <AlertDialogTrigger title="Delete Survey" className="focus:cursor-pointer hover:cursor-pointer">
+          <AlertDialogTrigger
+            title="Delete Survey"
+            className="focus:cursor-pointer hover:cursor-pointer"
+          >
             <Trash2Icon strokeWidth={1.3} stroke="red" />
           </AlertDialogTrigger>
           <AlertDialogContent>

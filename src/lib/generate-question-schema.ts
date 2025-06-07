@@ -4,6 +4,7 @@ import { z } from "zod";
 export const generateQuestionSchemas = (
   questions: Question[]
 ): z.ZodObject<any> => {
+  console.log(questions);
   const schemaShape: Record<string, z.ZodSchema> = {};
   questions.forEach((question) => {
     let schema: z.ZodSchema = z.any();
@@ -23,7 +24,7 @@ export const generateQuestionSchemas = (
           });
         }
         schema = question.required
-          ? textSchema.nonempty({ message: "Required!" })
+          ? textSchema.min(1, { message: "This field is required." })
           : textSchema.optional();
         break;
       case "email":
@@ -67,12 +68,12 @@ export const generateQuestionSchemas = (
           return true;
         };
         schema = question.required
-          ? emailSchema.nonempty({ message: "Required!" }).refine(
+          ? emailSchema.nonempty({ message: "This field is required" }).refine(
               (email) => {
                 const val = validateEmailDomain(email);
                 return val;
               },
-              { message: `Domain not valid.` }
+              { message: `Email domain not valid` }
             )
           : emailSchema.optional().refine(
               (email) => {
@@ -82,7 +83,7 @@ export const generateQuestionSchemas = (
                 }
               },
               {
-                message: "Domain issue",
+                message: "Email domain not valid",
               }
             );
         break;
@@ -110,16 +111,15 @@ export const generateQuestionSchemas = (
           question.options as QuestionOptionsMap["multiple_choice"];
 
         z.enum([...choices] as any, {
-          required_error: "You need to select one",
+          required_error: "You need to select at least one",
         });
         let multipleChoiceSchema = z.enum(
           [...choices] as [string, ...string[]],
           {
-            required_error: "You need to select one",
+            required_error: "You need to select at least one",
           }
         );
         schema = multipleChoiceSchema;
-
         if (allowOther) {
           schema = z.string({
             required_error: "Choose an option or enter value",
@@ -163,9 +163,7 @@ export const generateQuestionSchemas = (
               message: `Select at most ${checkboxOptions.maxSelections} choices`,
             }
           );
-
         schema = question.required ? checkboxSchema : checkboxSchema.optional();
-
         break;
       case "dropdown":
         const dropdownOptions =

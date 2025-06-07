@@ -14,12 +14,14 @@ import { OptionsButton } from "./options-button";
 import { QuestionOptionLabel } from "./question-option-label";
 import { useNumberQuestionCreationForm } from "../form/numberinput-form";
 import { ResetButton } from "./reset-button";
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 
 type Props = {
   question: Question<"number">;
 };
 
 export const NumberInputQuestionCreator = memo(({ question }: Props) => {
+  const options = defaultQuestionOptions.number;
   const { form, onSubmit } = useNumberQuestionCreationForm({
     question,
   });
@@ -58,11 +60,7 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
                       disabled={isDirty === false}
                       onClick={() => {
                         reset({
-                          ...form.getValues(),
-                          options: {
-                            ...form.getValues("options"),
-                            min: undefined,
-                          },
+                          options: { min: options.min },
                         });
                       }}
                     />
@@ -86,11 +84,7 @@ export const NumberInputQuestionCreator = memo(({ question }: Props) => {
                       disabled={isDirty === false}
                       onClick={() => {
                         reset({
-                          ...form.getValues(),
-                          options: {
-                            ...form.getValues("options"),
-                            max: undefined,
-                          },
+                          options: { max: options.max },
                         });
                       }}
                     />

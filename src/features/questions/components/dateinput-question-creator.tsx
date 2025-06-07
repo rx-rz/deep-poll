@@ -99,7 +99,7 @@ export const DateInputQuestionCreator = memo(({ question }: Props) => {
                           ...form.getValues(),
                           options: {
                             ...form.getValues("options"),
-                            minDate: undefined,
+                            minDate: "",
                           },
                         });
                       }}
@@ -129,7 +129,7 @@ export const DateInputQuestionCreator = memo(({ question }: Props) => {
                           ...form.getValues(),
                           options: {
                             ...form.getValues("options"),
-                            maxDate: undefined,
+                            maxDate: "",
                           },
                         });
                       }}

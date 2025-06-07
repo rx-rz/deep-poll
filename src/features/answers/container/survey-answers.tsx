@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -54,20 +54,20 @@ export const SurveyAnswers = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <p className="text-2xl uppercase font-bold my-5">{survey?.title}</p>
         <div className="">
-          <Link to={protectedRoutes.CREATE_SURVEY(surveyId ?? "")}>
-            Questions
-          </Link>
+          {location.includes("preview") && (
+            <Link to={protectedRoutes.CREATE_SURVEY(surveyId ?? "")}>
+              Questions
+            </Link>
+          )}
           {questions &&
             questions.map((question, index) => (
               <div key={question.id} className="my-4  p-4 rounded-md">
-                <div className="flex gap-1">
-                  <p className=" font-medium mb-4">{index + 1}.</p>
-                  <p className="font-bold">{question.questionText}</p>
+                <div className="flex gap-3 mb-4">
+                  <p className="opacity-50 font-medium">{index + 1}.</p>
+                  <p className="font-medium text-base">{question.questionText}</p>
                 </div>
 
                 {getAnswersUI({ control: form.control, question })}

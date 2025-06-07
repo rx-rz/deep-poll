@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ResetButton } from "./reset-button";
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 
 type Props = {
   question: Question<"time">;
@@ -34,6 +35,7 @@ export const TimeInputQuestionCreator = memo(({ question }: Props) => {
 
   const { control, formState, reset } = form;
   const { isDirty } = formState;
+  const options = defaultQuestionOptions.time;
 
   return (
     <Form {...form}>
@@ -90,21 +92,17 @@ export const TimeInputQuestionCreator = memo(({ question }: Props) => {
                 <FormItem>
                   <QuestionOptionLabel text="Minimum Time" />
                   <FormControl>
-                 <div className="flex">
-                    <Input {...field} type="date" />
-                    <ResetButton
-                      disabled={isDirty === false}
-                      onClick={() => {
-                        reset({
-                          ...form.getValues(),
-                          options: {
-                            ...form.getValues("options"),
-                            minTime: undefined,
-                          },
-                        });
-                      }}
-                    />
-                  </div>
+                    <div className="flex">
+                      <Input {...field} type="date" />
+                      <ResetButton
+                        disabled={isDirty === false}
+                        onClick={() => {
+                          reset({
+                            options: { minTime: options.minTime },
+                          });
+                        }}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -125,11 +123,7 @@ export const TimeInputQuestionCreator = memo(({ question }: Props) => {
                         disabled={isDirty === false}
                         onClick={() => {
                           reset({
-                            ...form.getValues(),
-                            options: {
-                              ...form.getValues("options"),
-                              maxTime: undefined,
-                            },
+                            options: { maxTime: options.maxTime },
                           });
                         }}
                       />

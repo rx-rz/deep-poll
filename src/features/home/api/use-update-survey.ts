@@ -36,7 +36,7 @@ export const useUpdateSurvey = () => {
       title: surveyInStore?.title,
       description: surveyInStore?.description ?? "",
       isPublished: surveyInStore?.isPublished ?? false,
-      requiresSignIn: surveyInStore?.requiresSignIn ?? false,
+      requiresSignIn: surveyInStore?.requiresSignIn,
       showLinkToSubmitAnother: surveyInStore?.showLinkToSubmitAnother ?? false,
       showProgressBar: surveyInStore?.showProgressBar ?? false,
     },

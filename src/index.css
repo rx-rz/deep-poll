@@ -4,11 +4,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* #d8dcf2 background*/
+/* #ffffff white backgrounds */
 /* #0127f0 borders */
-/*#c3cdfd unpopulated inputs*/
-/*#0127f0 primary buttons*/
-/*#152478 dark shade text*/
+/* #c3cdfd unpopulated inputs*/
+/* #0127f0 primary buttons*/
+/* #152478 dark shade text*/
 
 ::selection {
   background-color: rgba(
@@ -27,20 +27,20 @@
 :root {
   --radius: 0.3rem;
 
-  --background: #d8dcf2; /* Your background color */
-  --foreground: black; /* Your dark shade text */
-  --card: #ffffff;
+  --background: #ffffff; /* Pure white background */
+  --foreground: #152478; /* Your dark shade text */
+  --card: #ffffff; /* White cards */
   --card-foreground: #152478;
-  --popover: #ffffff;
+  --popover: #ffffff; /* White popovers */
   --popover-foreground: #152478;
 
   --primary: #0127f0; /* Your primary buttons/borders */
   --primary-foreground: #ffffff;
 
-  --secondary: #c3cdfd; /* Your unpopulated inputs color works well here */
+  --secondary: #f8f9fe; /* Very light purple tint */
   --secondary-foreground: #152478;
 
-  --muted: #c3cdfd; /* Using your unpopulated inputs color */
+  --muted: #f1f3fc; /* Lightest purple tint */
   --muted-foreground: #152478;
 
   --accent: #0127f0; /* Your primary blue */
@@ -48,8 +48,8 @@
 
   --destructive: #dc2626; /* Keep existing red for errors */
 
-  --border: #6d82f1; /* Your borders color */
-  --input: #c3cdfd; /* Your unpopulated inputs */
+  --border: #e5e8f7; /* Very light purple border */
+  --input: #ffffff; /* White inputs with purple borders */
   --ring: #0127f0; /* Focus rings using your primary */
 
   /* Chart colors using variations of your blue */
@@ -59,24 +59,24 @@
   --chart-4: #4f5bd1; /* Slightly lighter variant */
   --chart-5: #8b91e6; /* Mid-tone variant */
 
-  --sidebar: #d8dcf2; /* Your background */
+  --sidebar: #ffffff; /* White sidebar */
   --sidebar-foreground: #152478;
   --sidebar-primary: #0127f0;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #c3cdfd;
+  --sidebar-accent: #f8f9fe; /* Very light purple accent */
   --sidebar-accent-foreground: #152478;
-  --sidebar-border: #0127f0;
+  --sidebar-border: #e5e8f7; /* Light purple border */
   --sidebar-ring: #0127f0;
 }
 
-/* Dark mode - creating complementary dark versions */
+/* Dark mode - keeping complementary dark versions */
 .dark {
   --background: #0f0f1a; /* Dark version of your palette */
-  --foreground: #d8dcf2; /* Your light background as text */
+  --foreground: #ffffff; /* White text on dark */
   --card: #1a1d2e;
-  --card-foreground: #d8dcf2;
+  --card-foreground: #ffffff;
   --popover: #1a1d2e;
-  --popover-foreground: #d8dcf2;
+  --popover-foreground: #ffffff;
 
   --primary: #4f7cff; /* Brighter version of your blue for dark mode */
   --primary-foreground: #ffffff;
@@ -103,7 +103,7 @@
   --chart-5: #9ca3c4;
 
   --sidebar: #1a1d2e;
-  --sidebar-foreground: #d8dcf2;
+  --sidebar-foreground: #ffffff;
   --sidebar-primary: #4f7cff;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #6b8aff;

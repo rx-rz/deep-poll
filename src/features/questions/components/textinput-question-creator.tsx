@@ -15,6 +15,7 @@ import { QuestionOptionLabel } from "./question-option-label";
 import { OptionsButton } from "./options-button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ResetButton } from "./reset-button";
+import { defaultQuestionOptions } from "@/lib/default-question-options";
 
 type Props = {
   question: Question<"text">;
@@ -23,6 +24,8 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
   const { form, onSubmit } = useTextQuestionCreationForm({
     question,
   });
+
+  const options = defaultQuestionOptions.text;
 
   const { control, formState, reset } = form;
   const { isDirty } = formState;
@@ -61,11 +64,7 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
                       disabled={isDirty === false}
                       onClick={() => {
                         reset({
-                          ...form.getValues(),
-                          options: {
-                            ...form.getValues("options"),
-                            minAnswerLength: undefined,
-                          },
+                          options: { minAnswerLength: options.minAnswerLength },
                         });
                       }}
                     />
@@ -81,7 +80,7 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
             name="options.maxAnswerLength"
             render={({ field }) => (
               <FormItem>
-                <QuestionOptionLabel text="Minimum Answer Length" />
+                <QuestionOptionLabel text="Maximum Answer Length" />
                 <FormControl>
                   <div className="flex">
                     <Input {...field} inputMode="decimal" type="number" />
@@ -89,11 +88,7 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
                       disabled={isDirty === false}
                       onClick={() => {
                         reset({
-                          ...form.getValues(),
-                          options: {
-                            ...form.getValues("options"),
-                            maxAnswerLength: undefined,
-                          },
+                          options: { maxAnswerLength: options.maxAnswerLength },
                         });
                       }}
                     />

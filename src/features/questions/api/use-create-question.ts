@@ -20,7 +20,9 @@ export const useCreateQuestion = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: createQuestions,
+    
     onSuccess: () => {
+    
       resetApiQueuedQuestions();
       toast.success("Survey successfully updated");
     },

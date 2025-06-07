@@ -62,7 +62,9 @@ export const useTimeQuestionCreationForm = ({
   question: Question<"time">;
 }) => {
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const { mutate } = useCreateQuestion();
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
+  );
   const form = useForm<TimeQuestionDto>({
     resolver: zodResolver(timeQuestionSchema),
     defaultValues: {
@@ -72,29 +74,8 @@ export const useTimeQuestionCreationForm = ({
   });
 
   const onSubmit = (values: TimeQuestionDto) => {
-    const loadingToast = toast.loading("Saving changes");
-    mutate(
-      {
-        ...question,
-        options: values.options,
-        questionText: values.questionText,
-      },
-      {
-        onSuccess: () => {
-          toast.success("Survey updated successfully");
-          updateQuestion(question.id, {
-            questionText: values.questionText,
-            options: values.options,
-          });
-        },
-        onError: (error) => {
-          handleAPIErrors(error);
-        },
-        onSettled: () => {
-          toast.dismiss(loadingToast);
-        },
-      }
-    );
+    updateQuestion(question.id, { ...question, ...values });
+    addApiQueuedQuestion(question.id, { ...question, ...values });
     form.reset(values);
   };
 

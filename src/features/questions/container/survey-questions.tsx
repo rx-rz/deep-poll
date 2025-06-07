@@ -25,11 +25,11 @@ export const SurveyQuestions = () => {
 
   useEffect(() => {
     if (debouncedApiQueuedQuestions && debouncedApiQueuedQuestions.length > 0) {
-      toast.loading("Updating survey...")
+      const loadingToast = toast.loading("Saving changes...");
       mutate(debouncedApiQueuedQuestions, {
         onSuccess: () => {
           resetApiQueuedQuestions();
-          
+          toast.dismiss(loadingToast);
         },
       });
     }
@@ -41,11 +41,7 @@ export const SurveyQuestions = () => {
         {questions &&
           questions.map((question, i) => (
             <div className="my-2">
-              <QuestionCreator
-                question={question}
-                key={i}
-                index={i}
-              />
+              <QuestionCreator question={question} key={i} index={i} />
             </div>
           ))}
       </div>

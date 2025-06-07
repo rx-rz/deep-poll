@@ -28,10 +28,8 @@ type Props = {
 };
 
 export const DateInputQuestionCreator = memo(({ question }: Props) => {
-
-
   const { form, onSubmit } = useDateQuestionCreationForm({
-question
+    question,
   });
 
   const { control, formState, reset } = form;
@@ -92,20 +90,21 @@ question
                 <FormItem>
                   <QuestionOptionLabel text="Minimum Date" />
                   <FormControl className="border">
-                    <div className="relative border">
-                      <Input type="date" {...field} />
-                      <ResetButton
-                        onClick={() => {
-                          reset({
-                            ...form.getValues(),
-                            options: {
-                              ...form.getValues().options,
-                              minDate: "",
-                            },
-                          });
-                        }}
-                      />
-                    </div>
+                 <div className="flex">
+                    <Input {...field} type="date" />
+                    <ResetButton
+                      disabled={isDirty === false}
+                      onClick={() => {
+                        reset({
+                          ...form.getValues(),
+                          options: {
+                            ...form.getValues("options"),
+                            minDate: undefined,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -121,20 +120,21 @@ question
                 <FormItem>
                   <QuestionOptionLabel text="Maximum Date" />
                   <FormControl>
-                    <div className="relative border">
-                      <Input type="date" {...field} />
-                      <ResetButton
-                        onClick={() => {
-                          reset({
-                            ...form.getValues(),
-                            options: {
-                              ...form.getValues().options,
-                              maxDate: "",
-                            },
-                          });
-                        }}
-                      />
-                    </div>
+                 <div className="flex">
+                    <Input {...field}  type="date" />
+                    <ResetButton
+                      disabled={isDirty === false}
+                      onClick={() => {
+                        reset({
+                          ...form.getValues(),
+                          options: {
+                            ...form.getValues("options"),
+                            maxDate: undefined,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

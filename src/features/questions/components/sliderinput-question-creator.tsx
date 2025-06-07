@@ -19,7 +19,6 @@ type Props = {
 };
 
 export const SliderInputQuestionCreator = memo(({ question }: Props) => {
-
   const { form, onSubmit } = useSliderQuestionCreationForm({
     question,
   });
@@ -51,11 +50,7 @@ export const SliderInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Value" />
                 <FormControl>
-                  <Input
-                    type="number"
-                    {...field}
-inputMode="decimal"
-                  />
+                  <Input type="number" {...field} inputMode="decimal" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -68,11 +63,7 @@ inputMode="decimal"
               <FormItem>
                 <QuestionOptionLabel text="Maximum Value" />
                 <FormControl>
-                  <Input
-                    type="number"
-                    {...field}
-inputMode="decimal"
-                  />
+                  <Input type="number" {...field} inputMode="decimal" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

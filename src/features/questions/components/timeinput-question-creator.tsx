@@ -28,7 +28,6 @@ type Props = {
 };
 
 export const TimeInputQuestionCreator = memo(({ question }: Props) => {
-
   const { form, onSubmit } = useTimeQuestionCreationForm({
     question,
   });
@@ -91,20 +90,21 @@ export const TimeInputQuestionCreator = memo(({ question }: Props) => {
                 <FormItem>
                   <QuestionOptionLabel text="Minimum Time" />
                   <FormControl>
-                    <div className="relative border">
-                      <Input type="time" {...field} />
-                      <ResetButton
-                        onClick={() => {
-                          reset({
-                            ...form.getValues(),
-                            options: {
-                              ...form.getValues().options,
-                              minTime: "",
-                            },
-                          });
-                        }}
-                      />
-                    </div>
+                 <div className="flex">
+                    <Input {...field} type="date" />
+                    <ResetButton
+                      disabled={isDirty === false}
+                      onClick={() => {
+                        reset({
+                          ...form.getValues(),
+                          options: {
+                            ...form.getValues("options"),
+                            minTime: undefined,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -119,15 +119,16 @@ export const TimeInputQuestionCreator = memo(({ question }: Props) => {
                 <FormItem>
                   <QuestionOptionLabel text="Maximum Time" />
                   <FormControl>
-                    <div className="relative border">
-                      <Input type="time" {...field} />
+                    <div className="flex">
+                      <Input {...field} type="date" />
                       <ResetButton
+                        disabled={isDirty === false}
                         onClick={() => {
                           reset({
                             ...form.getValues(),
                             options: {
-                              ...form.getValues().options,
-                              maxTime: "",
+                              ...form.getValues("options"),
+                              maxTime: undefined,
                             },
                           });
                         }}

@@ -43,7 +43,7 @@ export const QuestionCreationCard = ({
   const [open, setOpen] = useState(false);
   return (
     <>
-      <div className="border  backdrop-saturate-150 md:min-w-lg max-w-lg  border-blue-500  rounded-lg shadow-xs shadow-blue-500  py-4 px-5">
+      <div className="border-2  backdrop-saturate-150 md:min-w-lg max-w-lg    rounded-none shadow-xs   py-4 px-5">
         <div className="flex justify-between mb-4 text-sm font-medium">
           <div className="flex items-center gap-1">
             {icon}
@@ -58,7 +58,7 @@ export const QuestionCreationCard = ({
             />
             <AlertDialog open={open} onOpenChange={setOpen}>
               <AlertDialogTrigger className="hover:cursor-pointer">
-                <TrashIcon size={19} strokeWidth={1.5} stroke="red"/>
+                <TrashIcon size={19} strokeWidth={1.5} stroke="red" />
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <RemoveQuestionAlertCard id={id} setOpen={setOpen} />

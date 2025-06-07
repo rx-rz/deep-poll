@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useGetQuestions } from "../api/use-get-questions";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useCreateQuestion } from "../api/use-create-question";
+import { toast } from "sonner";
 
 export const SurveyQuestions = () => {
   const {
@@ -16,7 +17,7 @@ export const SurveyQuestions = () => {
   const { questions: apiQuestions } = useGetQuestions();
 
   const { mutate } = useCreateQuestion();
-  const debouncedApiQueuedQuestions = useDebounce(apiQueuedQuestions, 3000);
+  const debouncedApiQueuedQuestions = useDebounce(apiQueuedQuestions, 500);
 
   useEffect(() => {
     setQuestions(apiQuestions ?? []);
@@ -24,9 +25,11 @@ export const SurveyQuestions = () => {
 
   useEffect(() => {
     if (debouncedApiQueuedQuestions && debouncedApiQueuedQuestions.length > 0) {
+      toast.loading("Updating survey...")
       mutate(debouncedApiQueuedQuestions, {
         onSuccess: () => {
           resetApiQueuedQuestions();
+          
         },
       });
     }

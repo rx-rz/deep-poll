@@ -54,7 +54,7 @@ export const SliderInputQuestionCreator = memo(({ question }: Props) => {
                   <Input
                     type="number"
                     {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
+inputMode="decimal"
                   />
                 </FormControl>
                 <FormMessage />
@@ -71,7 +71,7 @@ export const SliderInputQuestionCreator = memo(({ question }: Props) => {
                   <Input
                     type="number"
                     {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
+inputMode="decimal"
                   />
                 </FormControl>
                 <FormMessage />

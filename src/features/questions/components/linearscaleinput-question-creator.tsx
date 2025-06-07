@@ -17,7 +17,6 @@ type Props = {
 };
 
 export const LinearScaleInputQuestionCreator = memo(({ question }: Props) => {
- 
   const { form, onSubmit } = useLinearScaleQuestionCreationForm({
     question,
   });
@@ -48,11 +47,7 @@ export const LinearScaleInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Value" />
                 <FormControl>
-                  <Input
-                    type="number"
-                    {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
+                  <Input type="number" inputMode="decimal" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -65,11 +60,7 @@ export const LinearScaleInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Maximum Value" />
                 <FormControl>
-                  <Input
-                    type="number"
-                    {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                  />
+                  <Input type="number" {...field} inputMode="decimal" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

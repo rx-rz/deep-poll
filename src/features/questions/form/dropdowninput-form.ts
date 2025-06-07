@@ -4,9 +4,6 @@ import { Question } from "@/types/questions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useCreateQuestion } from "../api/use-create-question";
-import { toast } from "sonner";
-import { handleAPIErrors } from "@/lib/errors";
 
 const dropdownOptions = defaultQuestionOptions.dropdown;
 
@@ -31,7 +28,9 @@ export const useDropdownQuestionCreationForm = ({
   question: Question<"dropdown">;
 }) => {
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const { mutate } = useCreateQuestion();
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
+  );
   const form = useForm<DropdownQuestionDto>({
     resolver: zodResolver(dropdownQuestionSchema),
     defaultValues: {
@@ -41,29 +40,8 @@ export const useDropdownQuestionCreationForm = ({
   });
 
   const onSubmit = (values: DropdownQuestionDto) => {
-    const loadingToast = toast.loading("Saving changes");
-    mutate(
-      {
-        ...question,
-        options: values.options,
-        questionText: values.questionText,
-      },
-      {
-        onSuccess: () => {
-          toast.success("Survey updated successfully");
-          updateQuestion(question.id, {
-            questionText: values.questionText,
-            options: values.options,
-          });
-        },
-        onError: (error) => {
-          handleAPIErrors(error);
-        },
-        onSettled: () => {
-          toast.dismiss(loadingToast);
-        },
-      }
-    );
+    updateQuestion(question.id, { ...question, ...values });
+    addApiQueuedQuestion(question.id, { ...question, ...values });
     form.reset(values);
   };
 

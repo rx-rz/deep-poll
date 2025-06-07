@@ -48,12 +48,12 @@ export const CheckboxInputQuestionCreator = memo(({ question }: Props) => {
             )}
           />
 
-          <div className="border p-4 shadow-xs mt-4">
+          <div className="border four-border mb-4 mx-1 p-4 shadow-xs mt-4">
             <div className="flex justify-between mb-2">
               <Label className="text-xs">Choices</Label>
               <Button
                 size={"sm"}
-                className="text-xs border-none mt-1 w-fit bg-gradient-to-br from-blue-500 to-blue-700 rounded-md overflow-hidden shadow-lg"
+                className="text-xs border-none mt-1 w-fit bg-primary rounded-md overflow-hidden"
                 onClick={() => {
                   setValue("options.choices", [...choices, ""], {
                     shouldDirty: true,

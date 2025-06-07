@@ -47,11 +47,11 @@ export const DropdownInputQuestionCreator = memo(({ question }: Props) => {
             )}
           />
 
-          <div className="p-4 border">
+          <div className="p-4 four-border mx-1 my-3">
             <div className="flex justify-between items-center mb-4">
               <Label className="text-xs"> Choices</Label>
               <Button
-                className="text-xs border-none mt-1 w-fit bg-gradient-to-br from-blue-500 to-blue-700 rounded-md overflow-hidden shadow-lg"
+                className="text-xs border-none mt-1 w-fit bg-primary  rounded-md overflow-hidden shadow-lg"
                 onClick={() => {
                   setValue("options.choices", [...choices, ""], {
                     shouldDirty: true,
@@ -105,7 +105,7 @@ export const DropdownInputQuestionCreator = memo(({ question }: Props) => {
             control={control}
             name="options.allowSearch"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-2 border p-4 justify-between">
+              <FormItem className="flex items-center bg-muted gap-2 border p-4 justify-between">
                 <Label className="text-xs">Allow Search</Label>
                 <FormControl>
                   <Checkbox

@@ -7,6 +7,7 @@ export const CreateQuestionsPage = () => {
     <QuestionsLayout>
       <QuestionTypeTrigger />
       <SurveyQuestions />
+      <QuestionTypeTrigger />
     </QuestionsLayout>
   );
 };

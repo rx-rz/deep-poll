@@ -3,10 +3,7 @@ import { useQuestionStore } from "@/store/questions.store";
 import { Question } from "@/types/questions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
-import { useCreateQuestion } from "../api/use-create-question";
-import { handleAPIErrors } from "@/lib/errors";
 
 const sliderOptions = defaultQuestionOptions.slider;
 
@@ -43,7 +40,9 @@ export const useSliderQuestionCreationForm = ({
   question: Question<"slider">;
 }) => {
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
-  const { mutate } = useCreateQuestion();
+  const addApiQueuedQuestion = useQuestionStore(
+    (state) => state.addApiQueuedQuestion
+  );
   const form = useForm<SliderQuestionDto>({
     resolver: zodResolver(sliderQuestionSchema),
     defaultValues: {
@@ -51,32 +50,10 @@ export const useSliderQuestionCreationForm = ({
       questionText: question.questionText,
     },
   });
-  console.log(form.formState.errors);
 
   const onSubmit = (values: SliderQuestionDto) => {
-    const loadingToast = toast.loading("Saving changes");
-    mutate(
-      {
-        ...question,
-        options: values.options,
-        questionText: values.questionText,
-      },
-      {
-        onSuccess: () => {
-          toast.success("Survey updated successfully");
-          updateQuestion(question.id, {
-            questionText: values.questionText,
-            options: values.options,
-          });
-        },
-        onError: (error) => {
-          handleAPIErrors(error);
-        },
-        onSettled: () => {
-          toast.dismiss(loadingToast);
-        },
-      }
-    );
+    updateQuestion(question.id, { ...question, ...values });
+    addApiQueuedQuestion(question.id, { ...question, ...values });
     form.reset(values);
   };
 

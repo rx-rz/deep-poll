@@ -1,6 +1,5 @@
 import { Question } from "@/types/questions";
 import { useTextQuestionCreationForm } from "../form/textinput-form";
-import { defaultQuestionOptions } from "@/lib/default-question-options";
 
 import { memo } from "react";
 import { Label } from "@/components/ui/label";
@@ -38,7 +37,11 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Question Text" />
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input
+                    type="text"
+                    className="bg-muted focus:bg-transparent"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -51,7 +54,7 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
               <FormItem>
                 <QuestionOptionLabel text="Minimum Answer Length" />
                 <FormControl>
-                  <Input type="number" {...field} />
+                  <Input type="number" min={1} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -95,7 +98,7 @@ export const TextInputQuestionCreator = memo(({ question }: Props) => {
             name="options.isMultiline"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center border-2 rounded-md p-4 justify-between gap-2 mt-5 mb-4">
+                <div className="flex items-center border bg-muted rounded-md p-4 justify-between gap-2 mt-5 mb-4">
                   <Label className="text-xs">Accept Multiline Answers</Label>
                   <Checkbox
                     checked={field.value}

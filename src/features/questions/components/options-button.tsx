@@ -6,7 +6,7 @@ export const OptionsButton = ({
 }: React.ComponentProps<"button">) => {
   return (
     <Button
-      className="px-6 py-3 font-semibold w-full text-white bg-gradient-to-br from-blue-500 to-blue-700 rounded-md overflow-hidden shadow-lg"
+      className="px-6 py-3 font-semibold w-full text-white bg-primary rounded-md overflow-hidden shadow-lg"
       {...props}
     >
       {children}

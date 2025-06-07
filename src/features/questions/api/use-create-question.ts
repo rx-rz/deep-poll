@@ -13,15 +13,14 @@ type Response = {
 export const useCreateQuestion = () => {
   const { surveyId } = useParams();
   const { resetApiQueuedQuestions } = useQuestionStore();
-  const createQuestions = async (dto: Question): Promise<Response> => {
+  const createQuestions = async (dto: Question[]): Promise<Response> => {
     const response = await api.post(`/surveys/${surveyId}/questions`, dto);
     return response.data;
   };
 
   const { mutate, isPending } = useMutation({
     mutationFn: createQuestions,
-    onSuccess: (data) => {
-      console.log({ data });
+    onSuccess: () => {
       resetApiQueuedQuestions();
       toast.success("Survey successfully updated");
     },

@@ -18,6 +18,10 @@ type QuestionStore = {
     id: string,
     updates: Partial<Question<T>>
   ) => void;
+  updateApiQueuedQuestion: <T extends QuestionType>(
+    id: string,
+    updates: Partial<Question<T>>
+  ) => void;
   removeQuestion: (id: string) => void;
   getQuestion: (id: string) => Question | undefined;
 };
@@ -44,19 +48,21 @@ export const useQuestionStore = create<QuestionStore>()(
           ],
         })),
       addApiQueuedQuestion: (id, data) => {
-        const existingUpdatedQuestion = get().apiQueuedQuestions.find(
-          (question) => question.id === id
-        );
-        set((state) => ({
-          apiQueuedQuestions: existingUpdatedQuestion
-            ? [
-                ...state.apiQueuedQuestions.filter(
-                  (question) => question.id === existingUpdatedQuestion.id
-                ),
-                { ...data },
-              ]
-            : [...state.apiQueuedQuestions, { ...data }],
-        }));
+        set((state) => {
+          const existingIndex = state.apiQueuedQuestions.findIndex(
+            (question) => question.id === id
+          );
+
+          if (existingIndex !== -1) {
+            const updatedQuestions = [...state.apiQueuedQuestions];
+            updatedQuestions[existingIndex] = { ...data };
+            return { apiQueuedQuestions: updatedQuestions };
+          } else {
+            return {
+              apiQueuedQuestions: [...state.apiQueuedQuestions, { ...data }],
+            };
+          }
+        });
       },
       resetApiQueuedQuestions: () =>
         set(() => ({
@@ -74,6 +80,12 @@ export const useQuestionStore = create<QuestionStore>()(
             q.id === id ? { ...q, ...updates } : q
           ),
         })),
+      updateApiQueuedQuestion: (id, updates) =>
+        set((state) => ({
+          apiQueuedQuestions: state.apiQueuedQuestions.map((q) =>
+            q.id === id ? { ...q, ...updates } : q
+          ),
+        })),
 
       /** Remove a question */
       removeQuestion: (id) =>
@@ -82,7 +94,9 @@ export const useQuestionStore = create<QuestionStore>()(
         })),
       removeApiQueuedQuestion: (id) => {
         set((state) => ({
-          apiQueuedQuestions: state.apiQueuedQuestions.filter((q) => q.id !== id),
+          apiQueuedQuestions: state.apiQueuedQuestions.filter(
+            (q) => q.id !== id
+          ),
         }));
       },
       /** Get a question by ID */

@@ -1,5 +1,4 @@
-import { defaultQuestionOptions } from "@/lib/default-question-options";
-import { Question } from "@/types/questions";
+  import { Question } from "@/types/questions";
 import { memo } from "react";
 import { useEmailQuestionCreationForm } from "../form/emailinput-form";
 import { Label } from "@/components/ui/label";
@@ -20,13 +19,8 @@ type Props = {
 };
 
 export const EmailInputQuestionCreator = memo(({ question }: Props) => {
-  const questionSettings = {
-    questionText: question.questionText ?? "",
-    options: question.options ?? defaultQuestionOptions.email,
-  };
   const { form, onSubmit } = useEmailQuestionCreationForm({
-    id: question.id,
-    question: questionSettings,
+    question,
   });
 
   const { control, formState, watch } = form;

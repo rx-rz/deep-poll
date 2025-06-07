@@ -25,15 +25,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {
-  ClipboardList,
-  Edit3,
-  Eye,
-  ListPlus,
-  Pen,
-  Settings,
-  Trash2Icon,
-} from "lucide-react";
+import { ClipboardList, Eye, Settings, Trash2Icon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
@@ -110,12 +102,7 @@ export const SurveyOptions = () => {
             title="Survey Settings"
             className="hover:cursor-pointer focus:cursor-pointer"
           >
-            <Tooltip>
-              <TooltipTrigger>
-                <Settings strokeWidth={1.3} />
-              </TooltipTrigger>
-              <TooltipContent>Survey Settings</TooltipContent>
-            </Tooltip>{" "}
+            <Settings strokeWidth={1.3} />
           </DialogTrigger>
           <DialogContent>
             <SurveyOptionsForm />

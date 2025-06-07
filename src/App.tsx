@@ -45,7 +45,7 @@ function App() {
           <DesignSystem />
         </Route> */}
         </Switch>
-        <Toaster richColors visibleToasts={1} />
+        <Toaster visibleToasts={1} />
       </>
     </QueryClientProvider>
   );

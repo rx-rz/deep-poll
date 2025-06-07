@@ -106,10 +106,8 @@ export const QuestionCreator = ({ question, index }: Props) => {
   return (
     <QuestionCreationCard
       icon={QuestionIcon[question.questionType]}
-      orderNumber={index + 1}
-      id={question.id}
-      questionText={question.questionText ?? ""}
-      questionType={question.questionType}
+      question={question}
+    
     >
       <div className="mt-8">{questionInputSettings}</div>
     </QuestionCreationCard>

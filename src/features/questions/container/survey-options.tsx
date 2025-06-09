@@ -90,7 +90,11 @@ export const SurveyOptions = () => {
         >
           <Tooltip>
             <TooltipTrigger>
-              <ScanEyeIcon strokeWidth={1.5} size={22} className="text-primary" />
+              <ScanEyeIcon
+                strokeWidth={1.5}
+                size={22}
+                className="text-primary"
+              />
             </TooltipTrigger>
             <TooltipContent>Preview Survey</TooltipContent>
           </Tooltip>
@@ -102,7 +106,11 @@ export const SurveyOptions = () => {
         >
           <Tooltip>
             <TooltipTrigger>
-              <ClipboardList strokeWidth={1.3} className="text-primary" size={22} />
+              <ClipboardList
+                strokeWidth={1.3}
+                className="text-primary"
+                size={22}
+              />
             </TooltipTrigger>
             <TooltipContent>Survey Responses</TooltipContent>
           </Tooltip>
@@ -114,7 +122,11 @@ export const SurveyOptions = () => {
                 title="Survey Settings"
                 className="hover:cursor-pointer focus:cursor-pointer"
               >
-                <Settings strokeWidth={1.3} className="text-primary" size={22} />
+                <Settings
+                  strokeWidth={1.3}
+                  className="text-primary"
+                  size={22}
+                />
               </DialogTrigger>
             </TooltipTrigger>
             <TooltipContent>Survey Settings</TooltipContent>
@@ -130,7 +142,12 @@ export const SurveyOptions = () => {
           >
             <Tooltip>
               <TooltipTrigger asChild>
-                <Trash2Icon strokeWidth={1.3} className="text-primary" stroke="red" size={22} />
+                <Trash2Icon
+                  strokeWidth={1.3}
+                  className="text-primary"
+                  stroke="red"
+                  size={22}
+                />
               </TooltipTrigger>
               <TooltipContent className="bg-red-500">
                 Delete Survey
@@ -184,20 +201,15 @@ const PublishSurveyForm = ({ isPublished }: { isPublished: boolean }) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="flex flex-col gap-6 mt-12 border" 
+          className="flex flex-col gap-6 mt-12 border"
         >
           <FormField
             control={form.control}
             name="isPublished"
-            render={({ field }) => (
+            render={({}) => (
               <FormItem>
                 <FormLabel className="text-xs">Title</FormLabel>
-                <FormControl>
-                  {/* <Switch
-
-                    {...field}
-                  /> */}
-                </FormControl>
+                <FormControl></FormControl>
                 <FormMessage />
               </FormItem>
             )}

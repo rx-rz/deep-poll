@@ -45,7 +45,7 @@ export const QuestionCreationCard = ({ icon, question, children }: Props) => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <div className="border border-muted shadow-sm bg-background      rounded-md    p-4">
+      <div className="border-2 border-muted  bg-background      rounded-md    p-4">
         <div className="flex justify-between mb-4 text-sm font-medium">
           <div className="flex items-center text-primary gap-1">
             <div className="text-primary"> {icon}</div>

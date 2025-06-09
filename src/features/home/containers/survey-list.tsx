@@ -23,7 +23,7 @@ export const SurveyList = () => {
         surveys.map((survey) => (
           <li
             key={survey.id}
-            className="hover:bg-primary hover:text-white bg-input border  h-fit  rounded-md items-center shadow-md "
+            className="hover:bg-primary hover:text-white bg-input border-2  h-fit  rounded-md items-center border-muted "
           >
             <Link
               onClick={() => {

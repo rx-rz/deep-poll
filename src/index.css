@@ -4,113 +4,107 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* #ffffff white backgrounds */
-/* #0127f0 borders */
-/* #c3cdfd unpopulated inputs*/
-/* #0127f0 primary buttons*/
-/* #152478 dark shade text*/
+/* Two-tone palette: #0D1821 (rich black) and #256EFF (brandeis blue) */
 
 ::selection {
-    background-color: rgba(
-        195,
-        205,
-        253,
-        0.6
-    ) !important; /* Your light blue with transparency */
-    color: #152478 !important;
+    background-color: rgba(37, 110, 255, 0.3) !important; /* Brandeis blue with transparency */
+    color: #ffffff !important;
 }
 
 ::-moz-selection {
-    background-color: rgba(195, 205, 253, 0.6) !important;
-    color: #152478 !important;
+    background-color: rgba(37, 110, 255, 0.3) !important;
+    color: #ffffff !important;
 }
+
 :root {
     --radius: 0rem;
 
-    --background: #ffffff; /* Pure white background */
-    --foreground: #152478; /* Your dark shade text */
+    --background: #ffffff; /* Clean white background */
+    --foreground: #0D1821; /* Rich black text */
     --card: #ffffff; /* White cards */
-    --card-foreground: #152478;
+    --card-foreground: #0D1821;
     --popover: #ffffff; /* White popovers */
-    --popover-foreground: #152478;
+    --popover-foreground: #0D1821;
 
-    --primary: #0127f0; /* Your primary buttons/borders */
+    --primary: #256EFF; /* Brandeis blue for primary elements */
     --primary-foreground: #ffffff;
 
-    --secondary: #f8f9fe; /* Very light purple tint */
-    --secondary-foreground: #152478;
+    --secondary: #f8faff; /* Very light blue tint */
+    --secondary-foreground: #0D1821;
 
-    --muted: #f1f3fc; /* Lightest purple tint */
-    --muted-foreground: #152478;
+    --muted: #f0f4ff; /* Light blue tint for muted elements */
+    --muted-foreground: #0D1821;
 
-    --accent: #0127f0; /* Your primary blue */
+    --accent: #256EFF; /* Brandeis blue accent */
     --accent-foreground: #ffffff;
 
-    --destructive: #dc2626; /* Keep existing red for errors */
+    --destructive: #dc2626; /* Keep red for errors */
 
-    --border: #e5e8f7; /* Very light purple border */
-    --input: #ffffff; /* White inputs with purple borders */
-    --ring: #0127f0; /* Focus rings using your primary */
+    --border: #e6f0ff; /* Very light blue border */
+    --input: #ffffff; /* White inputs */
+    --ring: #256EFF; /* Blue focus rings */
 
-    /* Chart colors using variations of your blue */
-    --chart-1: #0127f0;
-    --chart-2: #c3cdfd;
-    --chart-3: #152478;
-    --chart-4: #4f5bd1; /* Slightly lighter variant */
-    --chart-5: #8b91e6; /* Mid-tone variant */
+    /* Chart colors using variations of the two-tone palette */
+    --chart-1: #256EFF;
+    --chart-2: #0D1821;
+    --chart-3: #4d82ff; /* Lighter blue variant */
+    --chart-4: #1a4fff; /* Darker blue variant */
+    --chart-5: #80b3ff; /* Light blue variant */
 
     --sidebar: #ffffff; /* White sidebar */
-    --sidebar-foreground: #152478;
-    --sidebar-primary: #0127f0;
+    --sidebar-foreground: #0D1821;
+    --sidebar-primary: #256EFF;
     --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #f8f9fe; /* Very light purple accent */
-    --sidebar-accent-foreground: #152478;
-    --sidebar-border: #e5e8f7; /* Light purple border */
-    --sidebar-ring: #0127f0;
+    --sidebar-accent: #f8faff; /* Very light blue accent */
+    --sidebar-accent-foreground: #0D1821;
+    --sidebar-border: #e6f0ff; /* Light blue border */
+    --sidebar-ring: #256EFF;
 }
 
-/* Dark mode - keeping complementary dark versions */
+/* Dark mode - inverted two-tone approach */
 .dark {
-    --background: #0f0f1a; /* Dark version of your palette */
-    --foreground: #ffffff; /* White text on dark */
-    --card: #1a1d2e;
+    --background: #0D1821; /* Rich black background */
+    --foreground: #ffffff; /* White text */
+    --card: #1a2631; /* Slightly lighter black */
     --card-foreground: #ffffff;
-    --popover: #1a1d2e;
+    --popover: #1a2631;
     --popover-foreground: #ffffff;
 
-    --primary: #4f7cff; /* Brighter version of your blue for dark mode */
+    --primary: #256EFF; /* Keep brandeis blue for primary */
     --primary-foreground: #ffffff;
 
-    --secondary: #2a2f4a;
-    --secondary-foreground: #c3cdfd;
+    --secondary: #1e3040; /* Dark blue-black mix */
+    --secondary-foreground: #ffffff;
 
-    --muted: #252a3d;
-    --muted-foreground: #9ca3c4;
+    --muted: #243242; /* Muted dark variant */
+    --muted-foreground: #b3c7d9;
 
-    --accent: #6b8aff;
-    --accent-foreground: #0f0f1a;
+    --accent: #4d82ff; /* Lighter blue for dark mode accent */
+    --accent-foreground: #0D1821;
 
-    --destructive: #ef4444;
+    --destructive: #ef4444; /* Slightly brighter red for dark mode */
 
-    --border: #2a2f4a;
-    --input: #252a3d;
-    --ring: #4f7cff;
+    --border: #2d3e4f; /* Dark border */
+    --input: #1a2631; /* Dark input background */
+    --ring: #256EFF; /* Blue focus rings */
 
-    --chart-1: #4f7cff;
-    --chart-2: #6b8aff;
-    --chart-3: #8ba0ff;
-    --chart-4: #2a2f4a;
-    --chart-5: #9ca3c4;
+    /* Dark mode chart colors */
+    --chart-1: #256EFF;
+    --chart-2: #4d82ff;
+    --chart-3: #80b3ff;
+    --chart-4: #1a4fff;
+    --chart-5: #b3c7d9;
 
-    --sidebar: #1a1d2e;
+    --sidebar: #0D1821; /* Rich black sidebar */
     --sidebar-foreground: #ffffff;
-    --sidebar-primary: #4f7cff;
+    --sidebar-primary: #256EFF;
     --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #6b8aff;
-    --sidebar-accent-foreground: #0f0f1a;
-    --sidebar-border: #2a2f4a;
-    --sidebar-ring: #4f7cff;
+    --sidebar-accent: #1e3040;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #2d3e4f;
+    --sidebar-ring: #256EFF;
 }
+
 @theme inline {
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
@@ -170,14 +164,14 @@
 @layer components {
     .eight-border {
         @apply border-dotted;
-        box-shadow: 0 0 0 8px var(--color-input); /* Uses your CSS custom property */
+        box-shadow: 0 0 0 8px var(--color-input);
     }
     .four-border {
         @apply border-dotted;
-        box-shadow: 0 0 0 4px var(--color-input); /* Uses your CSS custom property */
+        box-shadow: 0 0 0 4px var(--color-input);
     }
     .two-border {
         @apply border-dotted;
-        box-shadow: 0 0 0 2px var(--color-input); /* Uses your CSS custom property */
+        box-shadow: 0 0 0 2px var(--color-input);
     }
 }

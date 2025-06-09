@@ -1,9 +1,12 @@
 import {
   ChevronDownCircle,
   ChevronUpCircle,
+  Orbit,
+  Sparkle,
+  Sparkles,
+  Star,
   Stars,
   Trash2Icon,
-  TrashIcon,
 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import {
@@ -52,11 +55,10 @@ export const QuestionCreationCard = ({ icon, question, children }: Props) => {
             <p className="text-xs font-medium">{questionType}</p>
           </div>
           <div className="flex gap-2 items-center">
-            <Stars
+            <Sparkles
               size={19}
               strokeWidth={1.5}
-              stroke="#0127f0"
-              fill="#0127f0"
+className="text-primary"
             />
             <AlertDialog open={open} onOpenChange={setOpen}>
               <AlertDialogTrigger className="hover:cursor-pointer">

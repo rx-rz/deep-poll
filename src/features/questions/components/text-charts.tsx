@@ -50,21 +50,24 @@ const chartConfig = {
     label: "Answer",
     color: "var(--chart-2)",
   },
-
 } satisfies ChartConfig;
+
 export const TextCharts = ({ answers, id, questionText }: Props) => {
   const [chartType, setChartType] = useState<
     "table" | "bar-horizontal" | "bar-vertical"
   >("table");
 
   const processTextAnswerData = (data: typeof answers) => {
-    const counts = data.reduce((acc, item) => {
-      if (item.answerText !== null) {
-        const answer = item.answerText;
-        acc[answer] = (acc[answer] || 0) + 1;
-      }
-      return acc;
-    }, {} as Record<string, number>);
+    const counts = data.reduce(
+      (acc, item) => {
+        if (item.answerText !== null) {
+          const answer = item.answerText;
+          acc[answer] = (acc[answer] || 0) + 1;
+        }
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
 
     return Object.entries(counts).map(([answer, count]) => ({
       answer,
@@ -182,14 +185,11 @@ export const TextCharts = ({ answers, id, questionText }: Props) => {
                 cursor={false}
                 content={<ChartTooltipContent indicator="line" />}
               />
-              <Bar
-                dataKey="count"
-                radius={[4, 4, 0, 0]}
-              >
+              <Bar dataKey="count" radius={[4, 4, 0, 0]}>
                 <LabelList
                   dataKey="answer"
                   position="inside"
-                  className="text-red-400 font-medium  text-sm [writing-mode:vertical-lr]" 
+                  className="text-red-400 font-medium  text-sm [writing-mode:vertical-lr]"
                   fontSize={16}
                   offset={10}
                 />

@@ -47,7 +47,7 @@ export const DropdownInputQuestionCreator = memo(({ question }: Props) => {
             )}
           />
 
-          <div className="p-4 four-border mx-1 my-3">
+          <div className="p-4 border my-3">
             <div className="flex justify-between items-center mb-4">
               <Label className="text-xs"> Choices</Label>
               <Button

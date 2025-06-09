@@ -52,7 +52,7 @@ export const MultipleChoiceInputQuestionCreator = memo(
               control={control}
               name="options.choices"
               render={() => (
-                <FormItem className=" mt-4 border four-border p-4 mx-1 rounded-sm">
+                <FormItem className=" mt-4 border-2 p-4 rounded-sm">
                   <div className="flex justify-between mb-2">
                     <Label className="text-xs">Choices</Label>
                     <Button

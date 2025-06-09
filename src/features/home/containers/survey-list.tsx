@@ -23,7 +23,7 @@ export const SurveyList = () => {
         surveys.map((survey) => (
           <li
             key={survey.id}
-            className="hover:bg-primary hover:text-white bg-input border  h-fit  rounded-md items-center"
+            className="hover:bg-primary hover:text-white bg-input border  h-fit  rounded-md items-center shadow-md "
           >
             <Link
               onClick={() => {
@@ -31,15 +31,15 @@ export const SurveyList = () => {
                 resetApiQueuedQuestions();
               }}
               href={protectedRoutes.CREATE_SURVEY(survey.id)}
-              className="inline-block  relative w-full px-4 py-4  h-48 focus:outline-none  transition duration-150 ease-in-out"
+              className="inline-block  relative w-full p-10  h-72 focus:outline-none  transition duration-150 ease-in-out"
             >
               <div>
-                <h2 className="text-xl font-medium ">{survey.title}</h2>
-                <p className="text-sm ">{survey.description}</p>
-                <p className="text-xs absolute opacity-90 bottom-3 right-3 font-medium">
+                <h2 className="text-xl mb-2 font-medium ">{survey.title}</h2>
+                <p className="text-sm opacity-80">{survey.description}</p>
+                <p className="text-xs absolute opacity-90 bottom-10 right-10 font-medium">
                   Created {new Date(survey.createdAt ?? "").toDateString()}
                 </p>
-                <p className="absolute bottom-3">
+                <p className="absolute bottom-10">
                   {survey.isPublished ? (
                     <Badge variant={"outline"}>Published</Badge>
                   ) : (

@@ -39,12 +39,12 @@ export const QuestionCreationCard = ({ icon, question, children }: Props) => {
   const [questionOptionsIsOpen, setQuestionOptionsIsOpen] = useState(false);
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
   const addApiQueuedQuestion = useQuestionStore(
-    (state) => state.addApiQueuedQuestion
+    (state) => state.addApiQueuedQuestion,
   );
   const [open, setOpen] = useState(false);
   return (
     <>
-      <div className="four-border border bg-background    md:min-w-lg max-w-lg    rounded-none    p-4">
+      <div className="border border-muted shadow-sm bg-background      rounded-md    p-4">
         <div className="flex justify-between mb-4 text-sm font-medium">
           <div className="flex items-center text-primary gap-1">
             <div className="text-primary"> {icon}</div>
@@ -67,9 +67,9 @@ export const QuestionCreationCard = ({ icon, question, children }: Props) => {
             </AlertDialog>
           </div>
         </div>
-        <div className="md:text-lg font-medium gap-3 flex mb-1">
-          <p>{orderNumber}</p>
-          <p>{questionText}</p>
+        <div className="md:text-lg font-medium gap-3 items- flex mb-1">
+          <p className=" opacity-60 text-accent">{orderNumber}.</p>
+          <p className="">{questionText}</p>
         </div>
         <div className="my-4">{questionOptionsIsOpen ? children : <></>}</div>
         <div className="w-full flex justify-between items-center mt-4">

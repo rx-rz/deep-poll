@@ -7,7 +7,7 @@ export const CreateSurveyButton = () => {
   return (
     <button
       disabled={loading}
-      className="border hover:bg-secondary/20 transition-colors duration-150 border-dashed p-4 h-48 shadow-sm  hover:cursor-pointer "
+      className="border hover:bg-secondary/20 transition-colors duration-150 border-dashed p-4 h-72 shadow-sm  hover:cursor-pointer "
       onClick={handleSubmit}
     >
       <div className="flex flex-col gap-3  w-fit mx-auto">
@@ -15,7 +15,6 @@ export const CreateSurveyButton = () => {
           className="mx-auto text-primary"
           size={100}
           strokeWidth={1}
-    
         />
         <p className=""> Create Survey</p>
       </div>

@@ -116,9 +116,9 @@ export const SliderInputQuestionCreator = memo(({ question }: Props) => {
             control={control}
             name="options.range"
             render={({ field }) => (
-              <FormItem className="flex flex-row my-4  items-center justify-between rounded-lg border p-4">
+              <FormItem className="flex flex-row my-4 bg-muted items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
-                  <Label htmlFor="range">Range</Label>
+                  <Label htmlFor="range" className="text-xs">Range</Label>
                 </div>
                 <FormControl>
                   <Checkbox

@@ -18,10 +18,10 @@ import { FileUploadInputQuestionCreator } from "../components/fileuploadinput-qu
 
 type Props = {
   question: Question;
-  index: number
+  index: number;
 };
 
-export const QuestionCreator = ({ question }: Props) => {
+export const QuestionCreator = ({ question, index }: Props) => {
   let questionInputSettings: ReactNode;
   switch (question.questionType) {
     case "text":
@@ -106,10 +106,9 @@ export const QuestionCreator = ({ question }: Props) => {
   return (
     <QuestionCreationCard
       icon={QuestionIcon[question.questionType]}
-      question={question}
-    
+      question={{ ...question, orderNumber: index + 1}}
     >
-      <div className="mt-8">{questionInputSettings}</div>
+      <div className="mt-8 animate-in">{questionInputSettings}</div>
     </QuestionCreationCard>
   );
 };

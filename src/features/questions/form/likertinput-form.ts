@@ -45,8 +45,8 @@ export const useLikertQuestionCreationForm = ({
   });
 
   const onSubmit = (values: LikertQuestionDto) => {
-    // updateQuestion(question.id, { ...question, ...values });
-    // addApiQueuedQuestion(question.id, { ...question, ...values });
+    updateQuestion(question.id, { ...question, ...values });
+    addApiQueuedQuestion(question.id, { ...question, ...values });
     form.reset(values);
   };
 

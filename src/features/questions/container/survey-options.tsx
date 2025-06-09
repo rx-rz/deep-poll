@@ -184,7 +184,7 @@ const PublishSurveyForm = ({ isPublished }: { isPublished: boolean }) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="flex flex-col gap-6 mt-12"
+          className="flex flex-col gap-6 mt-12 border" 
         >
           <FormField
             control={form.control}

@@ -48,7 +48,7 @@ export const CheckboxInputQuestionCreator = memo(({ question }: Props) => {
             )}
           />
 
-          <div className="border four-border mb-4 mx-1 p-4 shadow-xs mt-4">
+          <div className="border  mb-4 p-4 shadow-xs mt-4">
             <div className="flex justify-between mb-2">
               <Label className="text-xs">Choices</Label>
               <Button
@@ -145,7 +145,7 @@ export const CheckboxInputQuestionCreator = memo(({ question }: Props) => {
             control={control}
             name="options.randomizeOrder"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-2 border p-4 my-4 justify-between">
+              <FormItem className="flex items-center bg-muted gap-2 border p-4 my-4 justify-between">
                 <Label className="text-xs">Randomize Order of Choices</Label>
                 <FormControl>
                   <Checkbox

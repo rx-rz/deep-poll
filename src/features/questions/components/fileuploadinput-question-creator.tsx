@@ -55,12 +55,6 @@ export const FileUploadInputQuestionCreator = memo(({ question }: Props) => {
                 <FormControl>
                   <Input
                     {...field}
-                    value={(field.value as string[])?.join(", ") || ""}
-                    onChange={(e) =>
-                      field.onChange(
-                        e.target.value.split(",").map((item) => item.trim())
-                      )
-                    }
                     placeholder="e.g., pdf, docx, jpg, png"
                   />
                 </FormControl>
@@ -98,9 +92,9 @@ export const FileUploadInputQuestionCreator = memo(({ question }: Props) => {
             control={control}
             name="options.allowMultiple"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+              <FormItem className="flex flex-row  bg-muted items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
-                  <Label htmlFor="allowMultiple">Allow Multiple Files</Label>
+                  <Label htmlFor="allowMultiple" className="text-xs mt-3">Allow Multiple Files</Label>
                 </div>
                 <FormControl>
                   <Checkbox

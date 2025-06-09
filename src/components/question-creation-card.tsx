@@ -2,6 +2,7 @@ import {
   ChevronDownCircle,
   ChevronUpCircle,
   Stars,
+  Trash2Icon,
   TrashIcon,
 } from "lucide-react";
 import { ReactNode, useState } from "react";
@@ -59,7 +60,7 @@ export const QuestionCreationCard = ({ icon, question, children }: Props) => {
             />
             <AlertDialog open={open} onOpenChange={setOpen}>
               <AlertDialogTrigger className="hover:cursor-pointer">
-                <TrashIcon size={19} strokeWidth={1.5} stroke="#0127f0" />
+                <Trash2Icon size={19} strokeWidth={1.5} className="text-primary" />
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <RemoveQuestionAlertCard id={id} setOpen={setOpen} />

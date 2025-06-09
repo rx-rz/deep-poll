@@ -23,9 +23,29 @@ import {
 } from "@/components/ui/select";
 import { ResetButton } from "./reset-button";
 import { defaultQuestionOptions } from "@/lib/default-question-options";
+import { format } from "date-fns";
 
 type Props = {
   question: Question<"time">;
+};
+
+const formatTimePreview = (timeString: string, formatKey: string): string => {
+  if (!timeString) return "";
+  
+  try {
+    // Parse the time string (assuming it's in HH:mm format from the date input)
+    const [hours, minutes] = timeString.split(':');
+    const date = new Date();
+    date.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+    
+    // Get the format string from timeFormats
+    const formatString = timeFormats[formatKey as keyof typeof timeFormats];
+    
+    // Format using date-fns
+    return format(date, formatString);
+  } catch (error) {
+    return timeString; // fallback to original string if parsing fails
+  }
 };
 
 export const TimeInputQuestionCreator = memo(({ question }: Props) => {
@@ -33,9 +53,12 @@ export const TimeInputQuestionCreator = memo(({ question }: Props) => {
     question,
   });
 
-  const { control, formState, reset } = form;
+  const { control, formState, reset, watch } = form;
   const { isDirty } = formState;
   const options = defaultQuestionOptions.time;
+  
+  const selectedFormat = watch("options.format");
+
 
   return (
     <Form {...form}>
@@ -92,8 +115,13 @@ export const TimeInputQuestionCreator = memo(({ question }: Props) => {
                 <FormItem>
                   <QuestionOptionLabel text="Minimum Time" />
                   <FormControl>
-                    <div className="flex">
-                      <Input {...field} type="date" />
+                    <div className="flex relative">
+                      <Input {...field} type="time" />
+                      {field.value && (
+                        <div className="absolute right-10 top-1/2 transform -translate-y-1/2 text-xs text-gray-500 bg-white p-2 pointer-events-none">
+                          Displayed as <strong>{formatTimePreview(field.value, selectedFormat)}</strong>
+                        </div>
+                      )}
                       <ResetButton
                         disabled={isDirty === false}
                         onClick={() => {
@@ -117,8 +145,13 @@ export const TimeInputQuestionCreator = memo(({ question }: Props) => {
                 <FormItem>
                   <QuestionOptionLabel text="Maximum Time" />
                   <FormControl>
-                    <div className="flex">
-                      <Input {...field} type="date" />
+                    <div className="flex relative">
+                      <Input {...field} type="time" />
+                      {field.value && (
+                        <div className="absolute right-10 top-1/2 transform -translate-y-1/2 text-xs text-gray-500 bg-white p-2 pointer-events-none">
+                          Displayed as <strong>{formatTimePreview(field.value, selectedFormat)}</strong>
+                        </div>
+                      )}
                       <ResetButton
                         disabled={isDirty === false}
                         onClick={() => {

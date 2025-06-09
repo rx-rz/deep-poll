@@ -11,7 +11,7 @@ export const QuestionsLayout = ({ children }: Props) => {
         <div className="bg-input w-full border-b four-border">
           <SurveyOptions />
         </div>
-        <div className="max-w-2xl mx-auto w-[96%] mb-16">{children}</div>
+        <div className="max-w-2xl mx-auto w-[96%] pb-20">{children}</div>
       </div>
     </div>
   );

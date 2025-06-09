@@ -22,9 +22,41 @@ import {
 import { QuestionOptionLabel } from "./question-option-label";
 import { OptionsButton } from "./options-button";
 import { ResetButton } from "./reset-button";
+import { format, parse } from "date-fns";
 
 type Props = {
   question: Question<"datetime">;
+};
+
+const formatDateTimePreview = (
+  datetimeString: string,
+  formatKey: string
+): string => {
+  if (!datetimeString) return "";
+
+  try {
+    const date = parse(datetimeString, "yyyy-MM-dd'T'HH:mm", new Date());
+
+    const dayjsFormat =
+      dateTimeFormats[formatKey as keyof typeof dateTimeFormats];
+    const dateFnsFormat = dayjsFormat
+      .replace(/YYYY/g, "yyyy")
+      .replace(/MM/g, "MM")
+      .replace(/DD/g, "dd")
+      .replace(/MMMM/g, "MMMM")
+      .replace(/MMM/g, "MMM")
+      .replace(/D/g, "d")
+      .replace(/HH/g, "HH")
+      .replace(/mm/g, "mm")
+      .replace(/ss/g, "ss")
+      .replace(/h/g, "h")
+      .replace(/A/g, "a")
+      .replace(/<ctrl3348>/g, ""); // Remove the special character
+
+    return format(date, dateFnsFormat);
+  } catch (error) {
+    return datetimeString; // fallback to original string if parsing fails
+  }
 };
 
 export const DateTimeInputQuestionCreator = memo(({ question }: Props) => {
@@ -32,8 +64,10 @@ export const DateTimeInputQuestionCreator = memo(({ question }: Props) => {
     question,
   });
 
-  const { control, formState, reset } = form;
+  const { control, formState, reset, watch } = form;
   const { isDirty } = formState;
+
+  const selectedFormat = watch("options.format");
 
   return (
     <Form {...form}>
@@ -90,8 +124,14 @@ export const DateTimeInputQuestionCreator = memo(({ question }: Props) => {
                 <FormItem>
                   <QuestionOptionLabel text="Minimum Datetime" />
                   <FormControl>
-                    <div className="flex">
+                    <div className="flex relative">
                       <Input {...field} type="datetime-local" />
+                      {field.value && (
+                        <div className="absolute right-10 top-1/2 transform -translate-y-1/2 text-xs text-gray-500 bg-white p-2 pointer-events-none">
+                          Displayed as{" "}
+                          {formatDateTimePreview(field.value, selectedFormat)}
+                        </div>
+                      )}
                       <ResetButton
                         disabled={isDirty === false}
                         onClick={() => {
@@ -119,8 +159,14 @@ export const DateTimeInputQuestionCreator = memo(({ question }: Props) => {
                 <FormItem>
                   <QuestionOptionLabel text="Maximum Datetime" />
                   <FormControl>
-                    <div className="flex">
+                    <div className="flex relative">
                       <Input {...field} type="datetime-local" />
+                      {field.value && (
+                        <div className="absolute right-10 top-1/2 transform -translate-y-1/2 text-xs text-gray-500 bg-white p-2 pointer-events-none">
+                          Displayed as{" "}
+                          {formatDateTimePreview(field.value, selectedFormat)}
+                        </div>
+                      )}
                       <ResetButton
                         disabled={isDirty === false}
                         onClick={() => {

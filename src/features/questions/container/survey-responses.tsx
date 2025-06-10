@@ -22,7 +22,7 @@ export const SurveyResponses = () => {
               <div>{QuestionIcon[question.questionType]}</div>
               <p className="text-xs mb-1">{question.questionType}</p>
             </div>
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-12">
               <p className="opacity-60">{index + 1}</p>
               <p className="text-lg font-medium">{question.questionText}</p>
             </div>

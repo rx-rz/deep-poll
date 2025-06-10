@@ -36,7 +36,7 @@ type Props = {
   }[];
 };
 
-export const TextCharts = ({ answers, id, questionText }: Props) => {
+export const TextCharts = ({ answers, id }: Props) => {
   const [chartType, setChartType] = useState<
     "table" | "bar-horizontal" | "bar-vertical"
   >("table");
@@ -147,7 +147,7 @@ export const TextCharts = ({ answers, id, questionText }: Props) => {
             setChartType(value as "table" | "bar-horizontal" | "bar-vertical")
           }
         >
-          <SelectTrigger className="w-[180px] mb-4 mt-6">
+          <SelectTrigger className="w-[180px] mb-4">
             <SelectValue placeholder="Chart Type" />
           </SelectTrigger>
           <SelectContent>
@@ -181,18 +181,16 @@ export const TextCharts = ({ answers, id, questionText }: Props) => {
 
         {chartType === "bar-horizontal" && (
           <div>
-            <p>{questionText}</p>
             <BarChartHorizontal processedAnswers={processedAnswers} />
           </div>
         )}
         {chartType === "bar-vertical" && (
           <div>
-            <p>{questionText}</p>
             <BarChartVertical processedAnswers={processedAnswers} />
           </div>
         )}
       </TabsContent>
-      <TabsContent value="stats" className="grid-cols-3 grid gap-12 mt-6">
+      <TabsContent value="stats" className="grid-cols-3 grid gap-12">
         <Stat title="Total Responses" value={stats.totalResponses} />
         <Stat title="Unique Answers" value={stats.uniqueAnswers} />
         <Stat title="Diversity Index" value={stats.diversityIndex} />

@@ -1,11 +1,8 @@
 import {
   ChevronDownCircle,
   ChevronUpCircle,
-  Orbit,
-  Sparkle,
   Sparkles,
-  Star,
-  Stars,
+
   Trash2Icon,
 } from "lucide-react";
 import { ReactNode, useState } from "react";
@@ -43,7 +40,7 @@ export const QuestionCreationCard = ({ icon, question, children }: Props) => {
   const [questionOptionsIsOpen, setQuestionOptionsIsOpen] = useState(false);
   const updateQuestion = useQuestionStore((state) => state.updateQuestion);
   const addApiQueuedQuestion = useQuestionStore(
-    (state) => state.addApiQueuedQuestion,
+    (state) => state.addApiQueuedQuestion
   );
   const [open, setOpen] = useState(false);
   return (
@@ -55,14 +52,14 @@ export const QuestionCreationCard = ({ icon, question, children }: Props) => {
             <p className="text-xs font-medium">{questionType}</p>
           </div>
           <div className="flex gap-2 items-center">
-            <Sparkles
-              size={19}
-              strokeWidth={1.5}
-className="text-primary"
-            />
+            <Sparkles size={19} strokeWidth={1.9} className="text-primary" />
             <AlertDialog open={open} onOpenChange={setOpen}>
               <AlertDialogTrigger className="hover:cursor-pointer">
-                <Trash2Icon size={19} strokeWidth={1.5} className="text-primary" />
+                <Trash2Icon
+                  size={19}
+                  strokeWidth={1.9}
+                  className="text-primary"
+                />
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <RemoveQuestionAlertCard id={id} setOpen={setOpen} />
@@ -96,9 +93,9 @@ className="text-primary"
             onClick={() => setQuestionOptionsIsOpen(!questionOptionsIsOpen)}
           >
             {questionOptionsIsOpen ? (
-              <ChevronUpCircle size={19} strokeWidth={1.5} />
+              <ChevronUpCircle size={19} strokeWidth={1.9} />
             ) : (
-              <ChevronDownCircle size={19} strokeWidth={1.5} />
+              <ChevronDownCircle size={19} strokeWidth={1.9} />
             )}
           </button>
         </div>

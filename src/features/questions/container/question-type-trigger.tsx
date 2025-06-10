@@ -40,7 +40,7 @@ export const QuestionTypeTrigger = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="h-fit bg-primary text-white four-border  border-secondary  transition-colors duration-150 border-dashed p-4 mt-6 shadow-sm  hover:cursor-pointer ">
-          <Plus className="mx-auto text-white" strokeWidth={1.3} />
+          <Plus className="mx-auto text-white" strokeWidth={1.9} />
       </DialogTrigger>
       <DialogContent className="max-h-[800px]  py-5 overflow-y-scroll   border-black rounded-none">
         <p className="font-medium">Input Choices</p>
@@ -50,7 +50,7 @@ export const QuestionTypeTrigger = () => {
           </DialogHeader>
           <div className="grid grid-cols-3 gap-2">
             <Button
-              className="hover:cursor-pointer text-center flex flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer text-center flex flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -70,7 +70,7 @@ export const QuestionTypeTrigger = () => {
               <p className="text-xs">Text</p>
             </Button>
             <Button
-              className="hover:cursor-pointer  text-center flex flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer  text-center flex flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -90,7 +90,7 @@ export const QuestionTypeTrigger = () => {
               <p className="text-xs">Email</p>
             </Button>
             <Button
-              className="hover:cursor-pointer  text-center flex flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer  text-center flex flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -117,7 +117,7 @@ export const QuestionTypeTrigger = () => {
           </DialogHeader>
           <div className="grid grid-cols-3 gap-2">
             <Button
-              className="hover:cursor-pointer  text-center text-xs flex flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer  text-center text-xs flex flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -137,7 +137,7 @@ export const QuestionTypeTrigger = () => {
               Multiple choice
             </Button>
             <Button
-              className="hover:cursor-pointer text-xs  text-center flex flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer text-xs  text-center flex flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -160,7 +160,7 @@ export const QuestionTypeTrigger = () => {
               Checkboxes
             </Button>
             <Button
-              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -187,7 +187,7 @@ export const QuestionTypeTrigger = () => {
           </DialogHeader>
           <div className="grid grid-cols-3 gap-2">
             <Button
-              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -207,7 +207,7 @@ export const QuestionTypeTrigger = () => {
               <p> Linear scale</p>
             </Button>
             <Button
-              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -227,7 +227,7 @@ export const QuestionTypeTrigger = () => {
               Slider
             </Button>
             <Button
-              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -254,7 +254,7 @@ export const QuestionTypeTrigger = () => {
           </DialogHeader>
           <div className="grid grid-cols-3 gap-2">
             <Button
-              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -274,7 +274,7 @@ export const QuestionTypeTrigger = () => {
               Date picker
             </Button>
             <Button
-              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -294,7 +294,7 @@ export const QuestionTypeTrigger = () => {
               Time picker
             </Button>
             <Button
-              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border"
+              className="hover:cursor-pointer  text-center flex text-xs flex-col h-full bg-secondary  border dark:text-white text-black hover:text-white"
               variant={"default"}
               onClick={() => {
                 setOpen(false);
@@ -320,7 +320,7 @@ export const QuestionTypeTrigger = () => {
             File uploads
           </DialogHeader>
           <Button
-            className="hover:cursor-pointer w-full  text-center flex text-xs flex-col py-8 bg-secondary  border"
+            className="hover:cursor-pointer w-full  text-center flex text-xs flex-col py-8 bg-secondary  border dark:text-white text-black hover:text-white"
             variant={"default"}
             onClick={() => {
               setOpen(false);

@@ -74,7 +74,7 @@ export const SurveyOptions = () => {
           >
             <Tooltip>
               <TooltipTrigger asChild>
-                <Globe strokeWidth={1.3} className="text-primary" size={22} />
+                <Globe strokeWidth={1.9} className="text-primary" size={22} />
               </TooltipTrigger>
               <TooltipContent>Publish Survey</TooltipContent>
             </Tooltip>
@@ -91,7 +91,7 @@ export const SurveyOptions = () => {
           <Tooltip>
             <TooltipTrigger>
               <ScanEyeIcon
-                strokeWidth={1.5}
+                strokeWidth={1.9}
                 size={22}
                 className="text-primary"
               />
@@ -107,7 +107,7 @@ export const SurveyOptions = () => {
           <Tooltip>
             <TooltipTrigger>
               <ClipboardList
-                strokeWidth={1.3}
+                strokeWidth={1.9}
                 className="text-primary"
                 size={22}
               />
@@ -123,7 +123,7 @@ export const SurveyOptions = () => {
                 className="hover:cursor-pointer focus:cursor-pointer"
               >
                 <Settings
-                  strokeWidth={1.3}
+                  strokeWidth={1.9}
                   className="text-primary"
                   size={22}
                 />
@@ -143,7 +143,7 @@ export const SurveyOptions = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Trash2Icon
-                  strokeWidth={1.3}
+                  strokeWidth={1.9}
                   className="text-primary"
                   stroke="red"
                   size={22}
@@ -244,7 +244,7 @@ const PublishSurveyForm = ({ isPublished }: { isPublished: boolean }) => {
                 to={protectedRoutes.ANSWER_SURVEY(surveyId ?? "")}
                 className="text-white bg-primary w-9 text-center items-center justify-center flex h-9"
               >
-                <Eye strokeWidth={1.3} className="text-primary" />
+                <Eye strokeWidth={1.9} className="text-primary" />
               </Link>
             </div>
           </div>

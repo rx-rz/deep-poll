@@ -1,91 +1,73 @@
-"use client";
-import { Bar, BarChart, XAxis, YAxis } from "recharts";
-
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { QuestionType } from "@/types/questions";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 
-type AnswerData = {
-  id: string;
-  questionId: string | null;
-  createdAt: Date;
-  answerText: string | null;
-  answerNumber: number | null;
-  answerJson: any;
-};
-
-export const description = "A horizontal bar chart";
-
-type Props = {
-  title: string;
-  dataKeyOne: string;
-  dataKeyTwo?: string;
-  data?: AnswerData[];
-  questionType: QuestionType;
-};
-
-const processAnswerData = (data: AnswerData[]) => {
-  const counts = data.reduce((acc, item) => {
-    const answer = item.answerText ?? item.answerNumber?.toString();
-    acc[answer!] = (acc[answer!] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
-
-  return Object.entries(counts).map(([answer, count]) => ({
-    answer,
-    count,
-  }));
+type Prop = {
+  processedAnswers: {
+    answer: string;
+    count: number;
+  }[];
 };
 
 const chartConfig = {
-  count: {
-    label: "Count",
-    color: "var(--chart-10)",
+  answer: {
+    label: "Answer",
+    color: "var(--chart-1)",
   },
 } satisfies ChartConfig;
 
-export function BarChartHorizontal({
-  title,
-  dataKeyOne,
-  questionType,
-  dataKeyTwo,
-  data,
-}: Props) {
-  const chartData = processAnswerData(data ?? []);
+export const BarChartHorizontal = ({ processedAnswers }: Prop) => {
+  return (
+    <ChartContainer config={chartConfig}>
+      <BarChart
+        data={processedAnswers}
+        layout="vertical"
+        margin={{ top: 16, right: 16, bottom: 16, left: 80 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" horizontal={false} />
 
-    return (
-      <div>
-        <p>{title}</p>
-      <ChartContainer config={chartConfig}>
+        <YAxis
+          dataKey="answer"
+          type="category"
+          tickLine={false}
+          axisLine={false}
+          tickMargin={10}
+          width={80}
+        />
 
-        <BarChart
-          accessibilityLayer
-          data={chartData}
-          layout="vertical"
-          margin={{
-            left: 80,
-          }}
-        >
-          <XAxis type="number" dataKey="count" hide />
-          <YAxis
+        <XAxis
+          type="number"
+          axisLine={false}
+          tickLine={false}
+          tick={{ fontSize: 12 }}
+        />
+
+        <ChartTooltip
+          cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}
+          content={<ChartTooltipContent indicator="line" />}
+        />
+
+        <Bar dataKey="count" fill="#256EFF" radius={[4, 4, 4, 4]}>
+          <LabelList
             dataKey="answer"
-            type="category"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            className="text-lg"
+            position="insideLeft"
+            fill="#fff"
+            fontSize={14}
+            offset={10}
           />
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent hideLabel />}
-          />
-          <Bar dataKey="count" fill="var(--color-count)" radius={5} />
-        </BarChart>
-      </ChartContainer>
-      </div>
-    );
-}
+        </Bar>
+      </BarChart>
+    </ChartContainer>
+  );
+};

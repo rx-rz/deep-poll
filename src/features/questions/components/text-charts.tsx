@@ -1,10 +1,4 @@
 import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import {
   Table,
   TableBody,
   TableCell,
@@ -14,14 +8,7 @@ import {
 } from "@/components/ui/table";
 import { QuestionType } from "@/types/questions";
 import { useState } from "react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  XAxis,
-  YAxis,
-} from "recharts";
+
 import {
   Select,
   SelectContent,
@@ -33,6 +20,7 @@ import { NoResponsesFallback } from "./no-responses-fallback";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Stat } from "./stat";
 import { BarChartHorizontal } from "./bar-chart-horizontal";
+import { BarChartVertical } from "./bar-chart-vertical";
 
 type Props = {
   questionType: QuestionType;
@@ -47,13 +35,6 @@ type Props = {
     answerJson: any;
   }[];
 };
-
-const chartConfig = {
-  answer: {
-    label: "Answer",
-    color: "var(--chart-1)",
-  },
-} satisfies ChartConfig;
 
 export const TextCharts = ({ answers, id, questionText }: Props) => {
   const [chartType, setChartType] = useState<
@@ -207,37 +188,7 @@ export const TextCharts = ({ answers, id, questionText }: Props) => {
         {chartType === "bar-vertical" && (
           <div>
             <p>{questionText}</p>
-            <ChartContainer config={chartConfig}>
-              <BarChart
-                accessibilityLayer
-                data={processedAnswers}
-                margin={{ bottom: 16 }}
-              >
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="answer"
-                  type="category"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                  tickFormatter={(value) => value.slice(0, 3)}
-                />
-                <YAxis dataKey="count" type="number" />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="line" />}
-                />
-                <Bar dataKey="count" radius={[4, 4, 0, 0]} color="">
-                  <LabelList
-                    dataKey="answer"
-                    position="inside"
-                    className="text-red-400 font-medium  text-sm [writing-mode:vertical-lr]"
-                    fontSize={16}
-                    offset={10}
-                  />
-                </Bar>
-              </BarChart>
-            </ChartContainer>
+            <BarChartVertical processedAnswers={processedAnswers} />
           </div>
         )}
       </TabsContent>

@@ -9,7 +9,6 @@ import {
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -175,7 +174,7 @@ export const EmailCharts = ({ answers, id, questionText }: Props) => {
         <TabsTrigger value="stats">Stats</TabsTrigger>
       </TabsList>
       <TabsContent value="charts">
-        <div className="flex">
+        <div className="flex gap-2">
           <Select
             onValueChange={(value) =>
               setChartType(
@@ -207,7 +206,6 @@ export const EmailCharts = ({ answers, id, questionText }: Props) => {
         </div>
         {chartType === "table" && (
           <Table className="border">
-            <TableCaption>{questionText}</TableCaption>
             <TableHeader className="bg-primary">
               <TableRow>
                 <TableHead className="text-white">Answer</TableHead>

@@ -6,6 +6,7 @@ import { EmailCharts } from "@/features/questions/components/email-charts";
 import { LikertCharts } from "@/features/questions/components/likert-charts";
 import { LinearScaleCharts } from "@/features/questions/components/linear-scale-charts";
 import { MultipleChoiceCharts } from "@/features/questions/components/multiple-choice-charts";
+import { NumberCharts } from "@/features/questions/components/number-charts";
 import { SliderCharts } from "@/features/questions/components/slider-charts";
 import { TextCharts } from "@/features/questions/components/text-charts";
 import { TimeCharts } from "@/features/questions/components/time-charts";

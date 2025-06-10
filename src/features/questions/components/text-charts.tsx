@@ -21,6 +21,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Stat } from "./stat";
 import { BarChartHorizontal } from "./bar-chart-horizontal";
 import { BarChartVertical } from "./bar-chart-vertical";
+import { PieChartComponent } from "./pie-chart";
 
 type Props = {
   questionType: QuestionType;
@@ -38,7 +39,7 @@ type Props = {
 
 export const TextCharts = ({ answers, id }: Props) => {
   const [chartType, setChartType] = useState<
-    "table" | "bar-horizontal" | "bar-vertical"
+    "table" | "bar-horizontal" | "bar-vertical" | "pie"
   >("table");
 
   const processTextAnswerData = (data: typeof answers) => {
@@ -144,7 +145,7 @@ export const TextCharts = ({ answers, id }: Props) => {
       <TabsContent value="charts">
         <Select
           onValueChange={(value) =>
-            setChartType(value as "table" | "bar-horizontal" | "bar-vertical")
+            setChartType(value as "table" | "bar-horizontal" | "bar-vertical" | "pie")
           }
         >
           <SelectTrigger className="w-[180px] mb-4">
@@ -154,6 +155,7 @@ export const TextCharts = ({ answers, id }: Props) => {
             <SelectItem value="table">Table</SelectItem>
             <SelectItem value="bar-horizontal">Bar (Horizontal)</SelectItem>
             <SelectItem value="bar-vertical">Bar (Vertical)</SelectItem>
+            <SelectItem value="pie">Pie</SelectItem>
           </SelectContent>
         </Select>
         {chartType === "table" && (
@@ -187,6 +189,11 @@ export const TextCharts = ({ answers, id }: Props) => {
         {chartType === "bar-vertical" && (
           <div>
             <BarChartVertical processedAnswers={processedAnswers} />
+          </div>
+        )}
+        {chartType === "pie" && (
+          <div>
+            <PieChartComponent processedAnswers={processedAnswers} />
           </div>
         )}
       </TabsContent>

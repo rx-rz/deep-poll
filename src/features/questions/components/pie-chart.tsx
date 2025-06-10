@@ -85,7 +85,7 @@ export const PieChartComponent = ({ processedAnswers }: Props) => {
           cx="50%"
           cy="50%"
           outerRadius={160}
-          paddingAngle={1}
+
           startAngle={90}
           endAngle={450}
           stroke="var(--chart-background)"

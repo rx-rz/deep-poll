@@ -41,15 +41,12 @@ export const BarChartHorizontal = ({ processedAnswers }: Prop) => {
           dataKey="answer"
           type="category"
           tickLine={false}
-          axisLine={false}
           tickMargin={10}
           width={80}
         />
-
         <XAxis
           type="number"
-          axisLine={false}
-          tickLine={false}
+          label={"Count"} 
           tick={{ fontSize: 12 }}
         />
 

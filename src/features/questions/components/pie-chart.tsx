@@ -7,7 +7,7 @@ import {
 import { Cell, Pie, PieChart } from "recharts";
 
 type ProcessedAnswer = {
-  answer: string;
+  answer: string | number;
   count: number;
 };
 

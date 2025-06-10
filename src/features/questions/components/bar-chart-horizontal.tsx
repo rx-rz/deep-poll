@@ -15,7 +15,7 @@ import {
 
 type Prop = {
   processedAnswers: {
-    answer: string;
+    answer: string | number;
     count: number;
   }[];
 };
@@ -35,7 +35,7 @@ export const BarChartHorizontal = ({ processedAnswers }: Prop) => {
         layout="vertical"
         margin={{ top: 16, right: 16, bottom: 16, left: 80 }}
       >
-        <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+        <CartesianGrid strokeDasharray="3 3" />
 
         <YAxis
           dataKey="answer"
@@ -44,11 +44,7 @@ export const BarChartHorizontal = ({ processedAnswers }: Prop) => {
           tickMargin={10}
           width={80}
         />
-        <XAxis
-          type="number"
-          label={"Count"} 
-          tick={{ fontSize: 12 }}
-        />
+        <XAxis type="number" label={"Count"} tick={{ fontSize: 12 }} />
 
         <ChartTooltip
           cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}

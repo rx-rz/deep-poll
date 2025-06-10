@@ -1,28 +1,4 @@
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  LabelList,
-  Pie,
-  PieChart,
-  XAxis,
-  YAxis,
-} from "recharts";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Table,
   TableBody,
   TableCell,
@@ -31,6 +7,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { NoResponsesFallback } from "./no-responses-fallback"; // Ensure this component exists
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; // Ensure this component exists
+import { Stat } from "./stat"; // Ensure this component exists
+import { BarChartHorizontal } from "./bar-chart-horizontal";
+import { BarChartVertical } from "./bar-chart-vertical";
+import { PieChartComponent } from "./pie-chart";
 
 type Props = {
   questionText: string;
@@ -45,35 +35,12 @@ type Props = {
   }[];
 };
 
-const PIE_CHART_COLORS = [
-  "hsl(var(--chart-1))",
-  "hsl(var(--chart-2))",
-  "hsl(var(--chart-3))",
-  "hsl(var(--chart-4))",
-  "hsl(var(--chart-5))",
-  "hsl(var(--chart-6))",
-  // Add more colors if you expect many segments
-];
-
-// Chart configuration
-const chartConfig = {
-  answer: { // This key should match the 'nameKey' or 'dataKey' for categorical data
-    label: "Count",
-  },
-  count: { // This key should match the 'dataKey' for numerical/value data
-    label: "Count",
-    color: "hsl(var(--chart-1))", // Default color for bars if not overridden
-  },
-} satisfies ChartConfig;
-
-
 export const DropdownCharts = ({ answers, id, questionText }: Props) => {
   const [chartType, setChartType] = useState<
     "table" | "bar-horizontal" | "bar-vertical" | "pie"
   >("table");
 
-  // Process answers for dropdown questions
-  // This is very similar to multiple choice
+  // Process answers for dropdown questions - this logic remains largely the same
   const processDropdownAnswerData = (data: typeof answers) => {
     const counts = data.reduce((acc, item) => {
       // For dropdown, the selected value is typically in answerText
@@ -84,30 +51,114 @@ export const DropdownCharts = ({ answers, id, questionText }: Props) => {
       return acc;
     }, {} as Record<string, number>);
 
-    return Object.entries(counts).map(([answer, count]) => ({
-      answer, // The selected dropdown option
-      count,  // The frequency of this option
-    }));
+    // Sort by count (descending) for better visualization and statistics
+    return Object.entries(counts)
+      .map(([answer, count]) => ({
+        answer, // The selected dropdown option
+        count, // The frequency of this option
+      }))
+      .sort((a, b) => b.count - a.count); // Sort by count descending
   };
 
   const processedAnswers = processDropdownAnswerData(answers);
+
+  // --- Statistics Logic (copied from TextCharts) ---
+  const processedAnswersStatistics = (
+    processedAnswers: Array<{ answer: string; count: number }>
+  ) => {
+    if (processedAnswers.length === 0) {
+      return {
+        totalResponses: 0,
+        uniqueAnswers: 0,
+        mostPopularAnswer: null,
+        responseDistribution: [],
+        diversityIndex: 0,
+        topAnswersPercentage: 0,
+        singleResponseAnswers: 0,
+        multipleResponseAnswers: 0,
+        averageResponsesPerAnswer: 0,
+      };
+    }
+
+    const totalResponses = processedAnswers.reduce(
+      (sum, item) => sum + item.count,
+      0
+    );
+    const uniqueAnswers = processedAnswers.length;
+
+    const sortedAnswers = [...processedAnswers];
+    const mostPopularAnswer = {
+      answer: sortedAnswers[0].answer,
+      count: sortedAnswers[0].count,
+      percentage:
+        Math.round((sortedAnswers[0].count / totalResponses) * 100 * 100) / 100,
+    };
+
+    const responseDistribution = sortedAnswers.map((item) => ({
+      answer: item.answer,
+      count: item.count,
+      percentage: Math.round((item.count / totalResponses) * 100 * 100) / 100,
+    }));
+
+
+    const diversityIndex = -responseDistribution.reduce((sum, item) => {
+      const proportion = item.count / totalResponses;
+      return sum + (proportion > 0 ? proportion * Math.log(proportion) : 0);
+    }, 0);
+
+    const top3Count = sortedAnswers
+      .slice(0, 3)
+      .reduce((sum, item) => sum + item.count, 0);
+    const topAnswersPercentage =
+      Math.round((top3Count / totalResponses) * 100 * 100) / 100;
+
+    // Response rate categories
+    const singleResponseAnswers = sortedAnswers.filter(
+      (item) => item.count === 1
+    ).length;
+    const multipleResponseAnswers = uniqueAnswers - singleResponseAnswers;
+
+    return {
+      totalResponses,
+      uniqueAnswers,
+      mostPopularAnswer,
+      responseDistribution,
+      diversityIndex: Math.round(diversityIndex * 100) / 100,
+      topAnswersPercentage,
+      singleResponseAnswers, 
+      multipleResponseAnswers,
+      averageResponsesPerAnswer:
+        uniqueAnswers > 0 ? Math.round((totalResponses / uniqueAnswers) * 100) / 100 : 0,
+    };
+  };
+  const stats = processedAnswersStatistics(processedAnswers);
+
+
+  if (processedAnswers.length === 0) {
+    return <NoResponsesFallback />;
+  }
+
   const totalCount = processedAnswers.reduce(
     (sum, entry) => sum + entry.count,
     0
   );
 
+
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
+    <Tabs defaultValue="charts" defaultChecked>
+      <TabsList className="absolute right-8 top-8 ">
+        <TabsTrigger value="charts">Charts</TabsTrigger>
+        <TabsTrigger value="stats">Stats</TabsTrigger>
+      </TabsList>
+      <TabsContent value="charts">
         <Select
-          value={chartType}
           onValueChange={(value) =>
             setChartType(
               value as "table" | "bar-horizontal" | "bar-vertical" | "pie"
             )
           }
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] mb-4">
             <SelectValue placeholder="Chart Type" />
           </SelectTrigger>
           <SelectContent>
@@ -117,16 +168,14 @@ export const DropdownCharts = ({ answers, id, questionText }: Props) => {
             <SelectItem value="pie">Pie Chart</SelectItem>
           </SelectContent>
         </Select>
-      </div>
 
-      {chartType === "table" && (
-
-          <Table>
-            <TableHeader>
+        {chartType === "table" && (
+          <Table className="border">
+            <TableHeader className="bg-primary">
               <TableRow>
-                <TableHead >Selected Option</TableHead>
-                <TableHead >Count</TableHead>
-                <TableHead >Percentage</TableHead>
+                <TableHead className="text-white">Selected Option</TableHead>
+                <TableHead className="text-white">Count</TableHead>
+                <TableHead className="text-white">Percentage</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -136,8 +185,8 @@ export const DropdownCharts = ({ answers, id, questionText }: Props) => {
                     <TableCell className="font-medium">
                       {item.answer}
                     </TableCell>
-                    <TableCell >{item.count}</TableCell>
-                    <TableCell >
+                    <TableCell>{item.count}</TableCell>
+                    <TableCell>
                       {totalCount > 0
                         ? ((item.count / totalCount) * 100).toFixed(1)
                         : 0}
@@ -154,148 +203,44 @@ export const DropdownCharts = ({ answers, id, questionText }: Props) => {
               )}
             </TableBody>
           </Table>
-      )}
+        )}
 
-      {chartType === "bar-horizontal" && processedAnswers.length > 0 && (
-        <ChartContainer config={chartConfig} className="min-h-[250px] w-full">
-          <BarChart
-            accessibilityLayer
-            data={processedAnswers}
-            layout="vertical"
-            margin={{
-              left: 10, // Adjusted for potentially longer labels
-              right: 30, // Space for count labels
-              top: 10,
-              bottom: 10,
-            }}
-          >
-            <CartesianGrid horizontal={false} />
-            <YAxis
-              dataKey="answer"
-              type="category"
-              tickLine={false}
-              tickMargin={5}
-              axisLine={false}
-              width={120} // Give more space for Y-axis labels
-              tickFormatter={(value) =>
-                value.length > 15 ? `${value.slice(0, 15)}...` : value
-              }
-            />
-            <XAxis dataKey="count" type="number" hide />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <Bar dataKey="count" fill="var(--color-count)" radius={4}>
-              <LabelList
-                dataKey="count" // Show the count on the bar
-                position="right"
-                offset={8}
-                className="fill-foreground"
-                fontSize={12}
-              />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
-      )}
-      {chartType === "bar-horizontal" && processedAnswers.length === 0 && (
-         <div className="text-center py-10">No data to display for Bar (Horizontal) chart.</div>
-      )}
+        {chartType === "bar-horizontal" && (
+          <BarChartHorizontal processedAnswers={processedAnswers} />
+        )}
+        {chartType === "bar-vertical" && (
+          <BarChartVertical processedAnswers={processedAnswers} />
+        )}
+        {chartType === "pie" && (
+          <PieChartComponent processedAnswers={processedAnswers} />
+        )}
+      </TabsContent>
 
-
-      {chartType === "bar-vertical" && processedAnswers.length > 0 && (
-        <ChartContainer config={chartConfig} className="min-h-[250px] w-full">
-          <BarChart
-            accessibilityLayer
-            data={processedAnswers}
-            margin={{
-                top: 10,
-                right: 10,
-                left: 10,
-                bottom: 60, // Increased bottom margin for rotated labels
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="answer"
-              type="category"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              angle={-45} // Rotate labels
-              textAnchor="end" // Anchor rotated labels correctly
-              interval={0} // Show all labels
-              tickFormatter={(value) =>
-                value.length > 10 ? `${value.slice(0,10)}...` : value
-              }
-            />
-            <YAxis dataKey="count" type="number" />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <Bar dataKey="count" fill="var(--color-count)" radius={[4, 4, 0, 0]}>
-              <LabelList
-                dataKey="count"
-                position="top"
-                offset={8}
-                className="fill-foreground"
-                fontSize={12}
-              />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
-      )}
-      {chartType === "bar-vertical" && processedAnswers.length === 0 && (
-         <div className="text-center py-10">No data to display for Bar (Vertical) chart.</div>
-      )}
-
-
-      {chartType === "pie" && processedAnswers.length > 0 && (
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[300px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent nameKey="answer" hideLabel />}
-            />
-            <Pie
-              data={processedAnswers}
-              dataKey="count"
-              nameKey="answer"
-              cx="50%"
-              cy="50%"
-              outerRadius={80}
-              strokeWidth={2}
-              paddingAngle={2}
-            >
-              {processedAnswers.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={PIE_CHART_COLORS[index % PIE_CHART_COLORS.length]}
-                />
-              ))}
-              <LabelList
-                dataKey="answer"
-                className="fill-background text-xs"
-                stroke="none"
-
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      )}
-       {chartType === "pie" && processedAnswers.length === 0 && (
-         <div className="text-center py-10">No data to display for Pie chart.</div>
-      )}
-
-      {processedAnswers.length === 0 && chartType !== "table" && (
-        <div className="text-center py-10 text-gray-500">
-          No data available to render the selected chart.
-        </div>
-      )}
-    </div>
+      <TabsContent value="stats" className="grid-cols-3 grid gap-12">
+        <Stat title="Total Responses" value={stats.totalResponses} />
+        <Stat title="Unique Answers" value={stats.uniqueAnswers} />
+        <Stat title="Diversity Index" value={stats.diversityIndex} />
+        <Stat
+          title="Most Popular Answer"
+          value={stats.mostPopularAnswer?.answer}
+        />
+        <Stat
+          title="Multiple Response Answers "
+          value={stats.multipleResponseAnswers}
+        />
+        <Stat
+          title="Single Response Answers "
+          value={stats.singleResponseAnswers}
+        />
+        <Stat
+          title="Top Answers Percentage "
+          value={`${stats.topAnswersPercentage}%`}
+        />
+        <Stat
+          title="Average Responses Per Answer "
+          value={stats.averageResponsesPerAnswer}
+        />
+      </TabsContent>
+    </Tabs>
   );
 };

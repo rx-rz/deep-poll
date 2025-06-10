@@ -49,11 +49,11 @@ export const getResponseChartUI = (questionAnswersData: Question) => {
         <EmailCharts answers={answers} id={id} questionText={questionText} />
       );
       break;
-    // case "number":
-    //   chartComponent = (
-    //     <NumberCharts answers={answers} id={id} questionText={questionText} />
-    //   );
-    //   break;
+    case "number":
+      chartComponent = (
+        <NumberCharts answers={answers} id={id} questionText={questionText} />
+      );
+      break;
     case "multiple_choice":
       chartComponent = (
         <MultipleChoiceCharts

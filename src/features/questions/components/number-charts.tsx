@@ -11,7 +11,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"; // Removed TableCaption as it's not in the TextCharts pattern
+} from "@/components/ui/table";
 import { useState } from "react";
 import {
   Bar,
@@ -23,7 +23,7 @@ import {
   ScatterChart,
   XAxis,
   YAxis,
-} from "recharts"; // Removed LabelList and ResponsiveContainer as they are not used directly here
+} from "recharts";
 import {
   Select,
   SelectContent,
@@ -31,9 +31,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { NoResponsesFallback } from "./no-responses-fallback"; // Assuming this path is correct
+import { NoResponsesFallback } from "./no-responses-fallback";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Stat } from "./stat"; // Assuming this path is correct
+import { Stat } from "./stat";
 
 type Props = {
   questionText: string;
@@ -41,9 +41,9 @@ type Props = {
   answers: {
     id: string;
     questionId: string | null;
-    createdAt: Date;
+    createdAt: Date | string; // Allow string for createdAt to reflect real-world data
     answerText: string | null;
-    answerNumber: number | null;
+    answerNumber: number | string | null; // Allow string for answerNumber
     answerJson: any;
   }[];
 };
@@ -51,27 +51,54 @@ type Props = {
 const chartConfig = {
   value: {
     label: "Value",
-    color: "hsl(var(--chart-1))", // Using hsl for consistency with other charts
+    color: "#256EFF",
+  },
+  count: {
+    label: "Count",
+    color: "#256EFF",
   },
 } satisfies ChartConfig;
 
 export const NumberCharts = ({ answers, id, questionText }: Props) => {
   const [chartType, setChartType] = useState<
     "table" | "histogram" | "scatter" | "line"
-  >("table"); // Removed bar chart options from here
+  >("table");
 
-  const processNumberAnswerData = (data: typeof answers) => {
-    const numbers = data
-      .filter((item) => item.answerNumber !== null)
-      .map((item) => ({
-        value: item.answerNumber!,
-        createdAt: item.createdAt,
-        id: item.id,
-      }))
-      .sort((a, b) => a.value - b.value); // Sort for median calculation
+  // Corrected processNumberAnswerData function
+  const processNumberAnswerData = (
+    inputAnswers: Props['answers']
+  ): { value: number; createdAt: Date; id: string }[] => {
+    const processed = inputAnswers
+      .filter(item => item.answerNumber !== null && item.answerNumber !== undefined)
+      .map((item) => {
+        let numericValue: number | null = null;
+        if (typeof item.answerNumber === 'string') {
+          numericValue = parseFloat(item.answerNumber);
+        } else if (typeof item.answerNumber === 'number') {
+          numericValue = item.answerNumber;
+        }
 
-    return numbers;
+        const dateValue = item.createdAt instanceof Date
+          ? item.createdAt
+          : new Date(item.createdAt); // Works for ISO strings
+
+        return {
+          id: item.id,
+          value: numericValue,
+          createdAt: dateValue,
+        };
+      })
+      .filter(item =>
+        item.value !== null &&
+        !isNaN(item.value) &&
+        item.createdAt instanceof Date &&
+        !isNaN(item.createdAt.getTime())
+      )
+      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+
+    return processed as { value: number; createdAt: Date; id: string }[];
   };
+
 
   const createHistogramData = (
     numbers: { value: number }[],
@@ -83,40 +110,45 @@ export const NumberCharts = ({ answers, id, questionText }: Props) => {
     const min = Math.min(...values);
     const max = Math.max(...values);
 
-    // Ensure binWidth is not zero if min === max
-    const binWidth = (max - min) === 0 ? 1 : (max - min) / bins;
+    if (min === max) {
+      return [{
+        binStart: min,
+        binEnd: min,
+        count: values.length,
+        label: min.toString(),
+      }];
+    }
 
-    const histogram = Array.from({ length: bins }, (_, i) => ({
-      binStart: min + i * binWidth,
-      binEnd: min + (i + 1) * binWidth,
-      count: 0,
-      label: `${(min + i * binWidth).toFixed(1)}-${(
-        min +
-        (i + 1) * binWidth
-      ).toFixed(1)}`,
-    }));
+    const binWidth = (max - min) / bins;
+    const histogram = Array.from({ length: bins }, (_, i) => {
+      const binStart = min + i * binWidth;
+      const binEnd = min + (i + 1) * binWidth;
+      return {
+        binStart,
+        binEnd,
+        count: 0,
+        label: `${binStart.toFixed(1)}-${binEnd.toFixed(1)}`,
+      };
+    });
 
     values.forEach((value) => {
-      // Correctly place values into bins, handling edge cases for max value
-      const binIndex = value === max && max > min
-        ? bins - 1
-        : Math.min(Math.floor((value - min) / binWidth), bins - 1);
-      histogram[binIndex].count++;
+      const binIndex = value === max ? bins - 1 : Math.floor((value - min) / binWidth);
+      const safeIndex = Math.max(0, Math.min(binIndex, bins - 1));
+      histogram[safeIndex].count++;
     });
 
     return histogram;
   };
 
-  const createScatterData = (
+  const createTimeSeriesData = (
     numbers: { value: number; createdAt: Date; id: string }[]
   ) => {
-    // For scatter plot, we often want the x-axis to represent time or order of response
-    // Using index + 1 for simple sequential order if no specific time scale is desired yet
     return numbers.map((item, index) => ({
-      x: index + 1, // Order of response
-      y: item.value,
+      index: index + 1,
+      value: item.value,
       createdAt: item.createdAt,
       id: item.id,
+      dateLabel: item.createdAt.toLocaleDateString(),
     }));
   };
 
@@ -141,25 +173,36 @@ export const NumberCharts = ({ answers, id, questionText }: Props) => {
     const max = Math.max(...values);
     const range = max - min;
 
-    // Quartiles are not typically displayed in single Stat components,
-    // but useful for box plots or more detailed summary statistics.
-    // const q1 = values[Math.floor(values.length * 0.25)];
-    // const q3 = values[Math.floor(values.length * 0.75)];
+    const q1Index = Math.floor(values.length * 0.25);
+    const q3Index = Math.floor(values.length * 0.75);
+    const q1 = values[q1Index];
+    const q3 = values[q3Index];
+    const iqr = q3 - q1;
+
+    const coefficientOfVariation = mean !== 0 ? (stdDev / Math.abs(mean)) * 100 : 0;
+
+    const skewness = stdDev !== 0 ? 
+      values.reduce((acc, val) => acc + Math.pow((val - mean) / stdDev, 3), 0) / values.length : 0;
 
     return {
-      totalResponses: values.length, // Renamed count to totalResponses for consistency
+      totalResponses: values.length,
       mean: parseFloat(mean.toFixed(2)),
-      median: parseFloat(median.toFixed(2)), // Fix median calculation logic, ensure fixed to 2 decimal places
+      median: parseFloat(median.toFixed(2)),
       stdDev: parseFloat(stdDev.toFixed(2)),
       min: parseFloat(min.toFixed(2)),
       max: parseFloat(max.toFixed(2)),
       range: parseFloat(range.toFixed(2)),
+      q1: parseFloat(q1.toFixed(2)),
+      q3: parseFloat(q3.toFixed(2)),
+      iqr: parseFloat(iqr.toFixed(2)),
+      coefficientOfVariation: parseFloat(coefficientOfVariation.toFixed(2)),
+      skewness: parseFloat(skewness.toFixed(2)),
     };
   };
 
   const processedNumbers = processNumberAnswerData(answers);
   const histogramData = createHistogramData(processedNumbers);
-  const scatterData = createScatterData(processedNumbers);
+  const timeSeriesData = createTimeSeriesData(processedNumbers);
   const stats = calculateStats(processedNumbers);
 
   if (processedNumbers.length === 0) {
@@ -167,17 +210,17 @@ export const NumberCharts = ({ answers, id, questionText }: Props) => {
   }
 
   return (
-    <Tabs defaultValue="charts">
-      <TabsList className="absolute right-8 top-8 ">
+    <Tabs defaultValue="charts" defaultChecked>
+      <TabsList className="absolute right-8 top-8">
         <TabsTrigger value="charts">Charts</TabsTrigger>
         <TabsTrigger value="stats">Stats</TabsTrigger>
       </TabsList>
+      
       <TabsContent value="charts">
         <Select
+          value={chartType}
           onValueChange={(value) =>
-            setChartType(
-              value as "table" | "histogram" | "scatter" | "line"
-            )
+            setChartType(value as "table" | "histogram" | "scatter" | "line")
           }
         >
           <SelectTrigger className="w-[180px] mb-4">
@@ -195,17 +238,17 @@ export const NumberCharts = ({ answers, id, questionText }: Props) => {
           <Table className="border">
             <TableHeader className="bg-primary">
               <TableRow>
-                <TableHead className="text-white">N/O</TableHead>
+                <TableHead className="text-white">Response #</TableHead>
                 <TableHead className="text-white">Value</TableHead>
-                <TableHead className="text-white">Created At</TableHead>
+                <TableHead className="text-white">Date</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {processedNumbers.map((item, i) => (
+              {processedNumbers.map((item, index) => (
                 <TableRow key={item.id}>
-                  <TableCell>{i + 1}</TableCell>
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell>{item.value}</TableCell>
-                  <TableCell>{new Date(item.createdAt).toDateString()}</TableCell>
+                  <TableCell>{item.createdAt.toLocaleDateString()}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -214,12 +257,12 @@ export const NumberCharts = ({ answers, id, questionText }: Props) => {
 
         {chartType === "histogram" && (
           <div>
-            <p className="mb-4 text-sm font-semibold">{questionText}</p>
             <ChartContainer config={chartConfig}>
               <BarChart
                 data={histogramData}
-                className="border"
-                margin={{ bottom: 16, right: 16 }}
+                margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+                width={600}
+                height={400}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
@@ -228,15 +271,24 @@ export const NumberCharts = ({ answers, id, questionText }: Props) => {
                   textAnchor="end"
                   height={80}
                   fontSize={12}
-                  interval={0} // Ensure all labels are shown if space allows
+                  interval={0}
                 />
-                <YAxis dataKey="count" /> {/* YAxis should be for count */}
+                <YAxis 
+                  allowDecimals={false}
+                  label={{ value: 'Frequency', angle: -90, position: 'insideLeft' }}
+                />
                 <ChartTooltip
                   content={<ChartTooltipContent />}
-                  formatter={(value) => [value, "Count"]} // Show count in tooltip
+                  formatter={(value) => [value, "Count"]}
                   labelFormatter={(label) => `Range: ${label}`}
                 />
-                <Bar dataKey="count" fill="hsl(var(--chart-1))" radius={[2, 2, 0, 0]} />
+                <Bar 
+                  dataKey="count" 
+                  fill="#256EFF" 
+                  radius={[4, 4, 0, 0]}
+                  stroke="#0D1821"
+                  strokeWidth={1}
+                />
               </BarChart>
             </ChartContainer>
           </div>
@@ -244,34 +296,48 @@ export const NumberCharts = ({ answers, id, questionText }: Props) => {
 
         {chartType === "scatter" && (
           <div>
-            <p className="mb-4 text-sm font-semibold">{questionText}</p>
             <ChartContainer config={chartConfig}>
               <ScatterChart
-                data={scatterData}
-                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                data={timeSeriesData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                width={600}
+                height={400}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
                   type="number"
-                  dataKey="x"
+                  dataKey="index"
                   name="Response Order"
                   domain={["dataMin", "dataMax"]}
+                  label={{ value: 'Response Order', position: 'insideBottom', offset: -10 }}
                 />
                 <YAxis
                   type="number"
-                  dataKey="y"
+                  dataKey="value"
                   name="Value"
-                  domain={["dataMin", "dataMax"]}
+                  domain={["dataMin - 1", "dataMax + 1"]}
+                  label={{ value: 'Value', angle: -90, position: 'insideLeft' }}
                 />
                 <ChartTooltip
                   cursor={{ strokeDasharray: "3 3" }}
                   content={<ChartTooltipContent />}
                   formatter={(value, name) => [
                     value,
-                    name === "y" ? "Value" : "Order", // Clean up tooltip names
+                    name === "value" ? "Value" : "Response Order",
                   ]}
+                  labelFormatter={(label, payload) => {
+                    if (payload && payload[0]) {
+                      return `Date: ${payload[0].payload.dateLabel}`;
+                    }
+                    return `Response: ${label}`;
+                  }}
                 />
-                <Scatter dataKey="y" fill="hsl(var(--chart-1))" />
+                <Scatter 
+                  dataKey="value" 
+                  fill="#256EFF"
+                  stroke="#0D1821"
+                  strokeWidth={1}
+                />
               </ScatterChart>
             </ChartContainer>
           </div>
@@ -279,25 +345,49 @@ export const NumberCharts = ({ answers, id, questionText }: Props) => {
 
         {chartType === "line" && (
           <div>
-            <p className="mb-4 text-sm font-semibold">{questionText}</p>
             <ChartContainer config={chartConfig}>
               <LineChart
-                data={scatterData} // Line chart also uses sequential data like scatter
-                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                data={timeSeriesData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                width={600}
+                height={400}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="x" name="Response Order" />
-                <YAxis dataKey="y" name="Value" /> {/* Specify dataKey for YAxis */}
+                <XAxis 
+                  dataKey="index" 
+                  label={{ value: 'Response Order', position: 'insideBottom', offset: -10 }}
+                />
+                <YAxis 
+                  dataKey="value"
+                  label={{ value: 'Value', angle: -90, position: 'insideLeft' }}
+                />
                 <ChartTooltip
                   content={<ChartTooltipContent />}
-                  formatter={(value, name) => [value, name === "y" ? "Value" : "Order"]} // Clean up tooltip names
+                  formatter={(value) => [value, "Value"]}
+                  labelFormatter={(label, payload) => {
+                    if (payload && payload[0]) {
+                      return `Date: ${payload[0].payload.dateLabel}`;
+                    }
+                    return `Response: ${label}`;
+                  }}
                 />
                 <Line
                   type="monotone"
-                  dataKey="y"
-                  stroke="hsl(var(--chart-1))" // Consistent color
+                  dataKey="value"
+                  stroke="#256EFF"
                   strokeWidth={2}
-                  dot={{ fill: "hsl(var(--chart-1))", strokeWidth: 2, r: 4 }}
+                  dot={{ 
+                    fill: "#256EFF", 
+                    strokeWidth: 2, 
+                    r: 4,
+                    stroke: "#0D1821"
+                  }}
+                  activeDot={{ 
+                    r: 6, 
+                    fill: "#4d82ff",
+                    stroke: "#0D1821",
+                    strokeWidth: 2
+                  }}
                 />
               </LineChart>
             </ChartContainer>
@@ -315,6 +405,11 @@ export const NumberCharts = ({ answers, id, questionText }: Props) => {
             <Stat title="Minimum Value" value={stats.min} />
             <Stat title="Maximum Value" value={stats.max} />
             <Stat title="Range" value={stats.range} />
+            <Stat title="Q1 (25th Percentile)" value={stats.q1} />
+            <Stat title="Q3 (75th Percentile)" value={stats.q3} />
+            <Stat title="Interquartile Range" value={stats.iqr} />
+            <Stat title="Coefficient of Variation" value={`${stats.coefficientOfVariation}%`} />
+            <Stat title="Skewness" value={stats.skewness} />
           </>
         )}
       </TabsContent>

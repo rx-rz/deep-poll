@@ -61,7 +61,7 @@ export const CheckboxAnswer = ({ id, control, options }: Props) => {
                         }}
                       />
                     </FormControl>
-                    <FormLabel className="text-sm font-normal">
+                    <FormLabel className="text-sm font-medium">
                       {choice}
                     </FormLabel>
                   </FormItem>

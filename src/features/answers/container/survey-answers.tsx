@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import {  useLocation, useParams } from "wouter";
+import { useLocation, useParams } from "wouter";
 import { generateQuestionSchemas } from "@/lib/generate-question-schema";
 import { useSurveyListStore } from "@/store/surveys.store";
 import { useCreateResponse } from "../api/use-create-response";
@@ -77,8 +77,8 @@ export const SurveyAnswers = () => {
   };
 
   return (
-    <div className=" mx-auto md:w-full">
-      <div className="sticky bg-white z-10 top-0">
+    <div className=" mx-auto md:w-full pb-48">
+      <div className="sticky bg-white rounded-none z-10 top-0">
         <Progress value={progress} />
       </div>
       <div className=" bg-primary">
@@ -97,26 +97,27 @@ export const SurveyAnswers = () => {
               questions.map((question, index) => (
                 <div
                   key={question.id}
-                  className="my-4    pb-4 border-dotted px-4 rounded-md"
+                  className="my-4  flex gap-4  pb-4 border-dotted px-4 rounded-md"
                 >
-                  <div className="mb-4">
-                    <div className="flex gap-3 ">
-                      <p className="opacity-50 font-medium text-primary">
-                        {index + 1}.
-                      </p>
-                      <div>
-                        <div className="relative flex gap-1">
-                          <p className="font-medium text-base">
-                            {question.questionText}
-                          </p>
-                          <Asterisk className="text-red-500 mt-1" size={10} />
+                  <p className="opacity-50 font-medium text-primary">
+                    {index + 1}.
+                  </p>
+                  <div className="w-full">
+                    <div className="mb-4">
+                      <div className="flex gap-3 ">
+                        <div>
+                          <div className="relative flex gap-1">
+                            <p className="font-medium text-base">
+                              {question.questionText}
+                            </p>
+                            <Asterisk className="text-red-500 mt-1" size={10} />
+                          </div>
+                          <QuestionDetailsGenerator question={question} />
                         </div>
-                        <QuestionDetailsGenerator question={question} />
                       </div>
                     </div>
+                    {getAnswersUI({ control: form.control, question })}
                   </div>
-
-                  {getAnswersUI({ control: form.control, question })}
                 </div>
               ))}
           </div>

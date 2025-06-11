@@ -45,8 +45,8 @@ export const LinearScaleAnswer = ({
             >
               <div>
                 <div className="flex justify-between pb-10 relative">
-                  <p className="absolute bottom-0 text-sm font-medium">{labels?.start || min}</p>
-                  <p className="absolute bottom-0 right-0 text-sm font-medium">{labels?.end || max}</p>
+                  <p className="absolute bottom-4 text-xs font-medium">{labels?.start || min}</p>
+                  <p className="absolute bottom-4 right-0 text-xs font-medium">{labels?.end || max}</p>
                   {values.map((value) => (
                     <FormItem
                       key={value}

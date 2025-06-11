@@ -44,7 +44,7 @@ export const MultipleChoiceAnswer = ({
         const isOtherValue = field.value && !choices.includes(field.value);
 
         return (
-          <FormItem className="space-y-3">
+          <FormItem className="space-y-3 ">
             <FormControl>
               <RadioGroup
                 onValueChange={(value) => {
@@ -64,7 +64,7 @@ export const MultipleChoiceAnswer = ({
                     </FormControl>
                     <FormLabel
                       htmlFor={`${id}-${choice}`}
-                      className="font-normal cursor-pointer"
+                      className="font-medium cursor-pointer"
                     >
                       {choice}
                     </FormLabel>

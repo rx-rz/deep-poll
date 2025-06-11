@@ -15,7 +15,7 @@ export const ResponseDetails = () => {
   const form = useForm<z.infer<typeof surveyAnswersSchema>>({
     resolver: zodResolver(surveyAnswersSchema),
     mode: "all",
-    disabled: true
+    disabled: true,
   });
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export const ResponseDetails = () => {
       form.reset(defaultValues);
     }
   }, [response]);
-
+  console.log(form.getValues());
   return (
     <div>
       <p>Hello!</p>

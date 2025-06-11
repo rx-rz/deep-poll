@@ -62,9 +62,12 @@ export const SurveyOptions = () => {
   return (
     <div className="bg-black py-3   px-2 sticky top-0 z-50 justify-between flex mx-auto   backdrop-blur supports-[backdrop-filter]:bg-input w-10/12">
       <div className="flex items-center gap-3">
-        <p className="font-medium text-lg">
+        <Link
+          to={protectedRoutes.CREATE_SURVEY(surveyId ?? "")}
+          className="font-medium text-lg hover:text-primary"
+        >
           {survey?.title ?? "Untitled Survey"}
-        </p>
+        </Link>
       </div>
       <div className="flex gap-x-5">
         <Dialog>

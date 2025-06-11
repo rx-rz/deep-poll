@@ -90,7 +90,7 @@ export const RegisterForm = () => {
             )}
           />
 
-          <Button type="submit" className="w-full p-6 mt-2  drop-shadow-xl">
+          <Button type="submit" className="w-full p-6 mt-2  -xl">
             {loading ? <LoadingStateText text="Loading" /> : "Get Started"}
           </Button>
         </form>

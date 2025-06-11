@@ -13,7 +13,7 @@ export const AuthLayout = ({ children }: Props) => {
               <source src="/cosmos.mp4" type="video/mp4" />
             </video>
             <div className="absolute z-10 top-6 left-6 max-w-xl text-left text-white">
-              <p className="font-extrabold mb-4 ml-1">Qore.</p>
+              <p className="font-extrabold mb-4 ml-1">Dosatsu.</p>
               <p className="text-6xl font-medium">
                 Create surveys that people <i>want</i> to answer.
               </p>

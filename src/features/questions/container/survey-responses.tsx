@@ -14,17 +14,34 @@ export const SurveyResponses = () => {
 
   return (
     <div>
-
       <Tabs className="mt-10">
         <TabsList
           defaultChecked
-          defaultValue="response-stats"
-          className="self-end "
+          defaultValue="stats"
+          className="self-end mb-12"
         >
-          <TabsTrigger value="response-stats">Response Statistics</TabsTrigger>
-          <TabsTrigger value="response-deets">Response Details</TabsTrigger>
+          <TabsTrigger value="stats">Response Statistics</TabsTrigger>
+          <TabsTrigger value="deets">Response Details</TabsTrigger>
         </TabsList>
-        <TabsContent value="response-deets">
+
+        <TabsContent value="stats">
+          <div className="">
+            {questionAnswers?.questions.map((question, index) => (
+              <div className="p-8 border-2 relative mb-8" key={question.id}>
+                <div className="flex items-center gap-1 text-primary">
+                  <div>{QuestionIcon[question.questionType]}</div>
+                  <p className="text-xs mb-1">{question.questionType}</p>
+                </div>
+                <div className="flex items-center gap-3 mb-12">
+                  <p className="opacity-60 text-xl">{index + 1}</p>
+                  <p className="text-xl font-medium">{question.questionText}</p>
+                </div>
+                {getResponseChartUI(question)}
+              </div>
+            ))}
+          </div>
+        </TabsContent>
+        <TabsContent value="deets">
           {responses?.map((response, i) => (
             <Link
               key={response.id}
@@ -42,27 +59,10 @@ export const SurveyResponses = () => {
                     {new Date(response.submittedAt ?? "").toDateString()}{" "}
                   </p>
                 </div>
-                <Eye />
+                <Eye strokeWidth={1.9} className="text-primary" />
               </div>
             </Link>
           ))}
-        </TabsContent>
-        <TabsContent value="response-stats">
-          <div className="">
-            {questionAnswers?.questions.map((question, index) => (
-              <div className="p-8 border-2 mt-12 relative" key={question.id}>
-                <div className="flex items-center gap-1 text-primary">
-                  <div>{QuestionIcon[question.questionType]}</div>
-                  <p className="text-xs mb-1">{question.questionType}</p>
-                </div>
-                <div className="flex items-center gap-3 mb-12">
-                  <p className="opacity-60 text-xl">{index + 1}</p>
-                  <p className="text-xl font-medium">{question.questionText}</p>
-                </div>
-                {getResponseChartUI(question)}
-              </div>
-            ))}
-          </div>
         </TabsContent>
       </Tabs>
     </div>

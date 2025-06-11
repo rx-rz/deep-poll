@@ -11,11 +11,7 @@ type NumberAnswerProps = {
   required: boolean;
   control: Control<any>;
 };
-export const NumberAnswer = ({
-  id,
-  options,
-  control,
-}: NumberAnswerProps) => {
+export const NumberAnswer = ({ id, options, control }: NumberAnswerProps) => {
   const { max, min, placeholder } = options;
 
   return (
@@ -24,16 +20,18 @@ export const NumberAnswer = ({
       name={id}
       render={({ field }) => (
         <FormItem className="relative">
-          <Input
-            {...field}
-            type="number"
-            max={max ?? defaultQuestionOptions.number.max}
-            min={min ?? defaultQuestionOptions.number.min}
-            placeholder={placeholder}
-            onChange={(e) => {
-              field.onChange(e);
-            }}
-          />
+          <div>
+            <Input
+              {...field}
+              type="number"
+              max={max ?? defaultQuestionOptions.number.max}
+              min={min ?? defaultQuestionOptions.number.min}
+              placeholder={placeholder}
+              onChange={(e) => {
+                field.onChange(e);
+              }}
+            />
+          </div>
           <FormMessage className="text-xs -mt-1" />
         </FormItem>
       )}
